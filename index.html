@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Card test</title>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-firestore.js"></script>
+    <script src="scripts.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="logonScreen">
+        <h2>Create new user</h2>
+        <div class="form">
+            <form action="javascript:void(0)" method="post" onsubmit="createUser()">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="Enter username" required>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter password" minlength="6"
+                    required>
+                <input type="submit" value="Create user">
+                <label>
+                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                  </label>
+            </form>
+        </div>
+    </div>
+
+    <form action="javascript:void(0)" method="post" onsubmit="login()">
+        <fieldset>
+            <legend>Login</legend>
+            <input type="text" name="username" id="username2" placeholder="Username" minlength="4" required>
+            <input type="password" name="password" id="password2" placeholder="Password" minlength="6" required>
+            <input type="submit" value="Login">
+        </fieldset>
+    </form>
+
+    <button onclick="getDeck(1)">Get deck</button>
+    <button onclick="drawCard(5)">Draw 5</button>
+    <p id="deckId"></p>
+    <div id="playerCards"></div>
+</body>
+
+</html>

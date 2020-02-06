@@ -1,0 +1,60 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: auto;
+    background-color: lightblue;
+    font-family: Helvetica, sans-serif;
+}
+
+h2 {
+    padding: 0;
+    margin: auto;
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.logonScreen {
+    display: table;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: aquamarine;
+    width: 500px;
+    height: 500px;
+    padding: 5pt;
+}
+
+.form {
+    height: 100%;
+}
+
+.logonScreen h2 {
+    width: 100%;
+    display: table-row;
+    text-align: center;
+}
+
+.card {
+    width: 200px;
+}
