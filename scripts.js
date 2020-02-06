@@ -12,8 +12,13 @@ let firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 let db = firebase.firestore();
 
-
 let deck_id;
+
+window.onclick = (event) => {
+    if (event.target === document.getElementById("logonBackground")) {
+        document.getElementById("logonBackground").style.display = "none";
+    }
+};
 
 function getDeck(amount) {
     let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + amount;
@@ -53,11 +58,11 @@ function addToHand(json) {
 
     fetch(url)
         .then((response) => response.json())
-        .then(listhand())
+        .then(listHand())
         .catch((error) => console.log(error));
 }
 
-function listhand() {
+function listHand() {
     let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/pile/" + "player1" + "/list/";
 
     fetch(url)
@@ -77,25 +82,32 @@ function listhand() {
 }
 
 function createUser() {
-    let email = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let username = document.getElementById("username");
+    let password = document.getElementById("password");
+    let confirmPassword = document.getElementById("confirmPassword");
+    console.log(username.value);
+    console.log(password.value);
+    console.log(confirmPassword.value);
 
-    let key = firebase.auth
-
-    email += "@randomemail.com";
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(() =>{
-            console.log("UserId: " + firebase.auth().currentUser.uid);
-            db.collection("users").doc(firebase.auth().currentUser.uid).set({
-                money: 500
-            });
-        }).catch(function (error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-        alert(errorMessage);
-    });
+    if(password.value !== confirmPassword.value){
+        document.getElementById("confirmPassword").setCustomValidity("Passwords don't match");
+    } else {
+        document.getElementById("confirmPassword").setCustomValidity("");
+        let email = username.value + "@randomemail.com";
+        firebase.auth().createUserWithEmailAndPassword(email, password.value)
+            .then(() => {
+                console.log("UserId: " + firebase.auth().currentUser.uid);
+                db.collection("users").doc(firebase.auth().currentUser.uid).set({
+                    money: 500
+                });
+            }).catch(function (error) {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log(errorCode);
+            console.log(errorMessage);
+            alert(errorMessage);
+        });
+    }
 }
 
 function login() {
@@ -104,8 +116,8 @@ function login() {
 
     email += "@randomemail.com";
     firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        let errorCode = error.code;
+        let errorMessage = error.message;
         console.log(errorCode);
         console.log(errorMessage);
     });

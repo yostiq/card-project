@@ -17,20 +17,32 @@
 </head>
 
 <body>
-    <div class="logonScreen">
-        <h2>Create new user</h2>
-        <div class="form">
-            <form action="javascript:void(0)" method="post" onsubmit="createUser()">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" placeholder="Enter username" required>
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Enter password" minlength="6"
-                    required>
-                <input type="submit" value="Create user">
-                <label>
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
-                  </label>
-            </form>
+    <button onclick="document.getElementById('logonBackground').style.display='table'">Sign up</button>
+
+    <div id="logonBackground">
+        <div id="logonScreen" class="logonScreen">
+            <span onclick="document.getElementById('logonBackground').style.display='none'" class="close"
+                  title="Close sign up screen">&times;</span>
+            <h2>Create new user</h2>
+            <div class="form">
+                <form action="javascript:void(0)" method="post" onsubmit="createUser()">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Enter username" required>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Enter password" minlength="6"
+                        required>
+                    <label for="confirmPassword">Confirm password</label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm password" minlength="6"
+                           required>
+                    <div class="logonButtons">
+                        <button class="buttonCancel">Cancel</button>
+                        <button type="submit">Create user</button>
+                    </div>
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                </form>
+            </div>
         </div>
     </div>
 
