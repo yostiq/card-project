@@ -22,6 +22,29 @@ window.onclick = (event) => {
     }
 };
 
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        document.getElementById("loginLinks").style.display = "none";
+        document.getElementById("userPanel").style.display = "flex";
+
+        db.collection("users").doc(firebase.auth().currentUser.uid).get()
+            .then((doc) => {
+                console.log(doc.data());
+                let username = doc.data().displayName;
+                document.getElementById("textUsername").innerHTML = username[0].toUpperCase() + username.slice(1);
+            })
+            .catch((error) => console.log(error));
+
+        db.collection("users").doc(firebase.auth().currentUser.uid)
+            .onSnapshot(function (doc) {
+                document.getElementById("textMoneyLeft").innerHTML = doc.data().money;
+            });
+    } else {
+        document.getElementById("loginLinks").style.display = "flex";
+        document.getElementById("userPanel").style.display = "none";
+    }
+});
+
 async function getDeck(amount) {
     let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + amount;
     if (deck_id === null || deck_id === "") {
@@ -38,7 +61,6 @@ async function getDeck(amount) {
 async function drawCard(amount, player) {
     console.log(deck_id);
     let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/draw/?count=" + amount;
-
 
     await fetch(url)
         .then((response) => response.json())
@@ -58,7 +80,7 @@ function addToHand(json, player) {
             url += json.cards[i].code + ",";
         }
     }
-    console.log(url);
+
     fetch(url)
         .catch((error) => console.log(error));
 }
@@ -71,7 +93,7 @@ function createUser() {
     console.log(password.value);
     console.log(confirmPassword.value);
 
-    if(password.value !== confirmPassword.value){
+    if (password.value !== confirmPassword.value) {
         document.getElementById("createConfirmPassword").setCustomValidity("Passwords don't match");
     } else {
         document.getElementById("createConfirmPassword").setCustomValidity("");
@@ -80,9 +102,12 @@ function createUser() {
             .then(() => {
                 console.log("UserId: " + firebase.auth().currentUser.uid);
                 db.collection("users").doc(firebase.auth().currentUser.uid).set({
+                    displayName: username.value,
                     money: 500
                 });
-            }).catch(function (error) {
+            }).then(() => {
+            document.getElementById("logonBackground").style.display = "none";
+        }).catch(function (error) {
             let errorCode = error.code;
             let errorMessage = error.message;
             console.log(errorCode);
@@ -97,12 +122,19 @@ function login() {
     let password = document.getElementById("loginPassword").value;
 
     email += "@randomemail.com";
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => {
+            document.getElementById("loginBackground").style.display = "none";
+        }).catch(function (error) {
         let errorCode = error.code;
         let errorMessage = error.message;
         console.log(errorCode);
         console.log(errorMessage);
     });
+}
+
+function logOut() {
+    firebase.auth().signOut().catch((error) => console.log(error));
 }
 
 function cancelButton() {
