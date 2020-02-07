@@ -35,7 +35,10 @@
     </div>
 
     <div id="mainContent">
-
+        <button onclick="getDeck(1)">Get deck</button>
+        <button onclick="drawCard(5)">Draw 5</button>
+        <p id="deckId"></p>
+        <div id="playerCards"></div>
     </div>
 
     <div id="logonBackground" class="logonBackground">
@@ -64,7 +67,6 @@
             </div>
         </div>
     </div>
-
     <div id="loginBackground" class="logonBackground">
         <div id="loginScreen" class="logonScreen">
             <span onclick="document.getElementById('loginBackground').style.display='none'" class="close"
@@ -89,10 +91,7 @@
         </div>
     </div>
 
-    <button onclick="getDeck(1)">Get deck</button>
-    <button onclick="drawCard(5)">Draw 5</button>
-    <p id="deckId"></p>
-    <div id="playerCards"></div>
+
 </body>
 
 </html>
