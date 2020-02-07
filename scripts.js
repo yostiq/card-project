@@ -25,14 +25,10 @@ window.onclick = (event) => {
 function getDeck(amount) {
     let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + amount;
 
-    let playerCards = document.getElementById("playerCards");
-    playerCards.innerHTML = "";
-
     fetch(url)
         .then((response) => response.json())
         .then((json) => {
             deck_id = json.deck_id;
-            document.getElementById("deckId").innerHTML = deck_id;
         })
         .catch((error) => console.log(error));
 }
