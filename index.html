@@ -17,8 +17,26 @@
 </head>
 
 <body>
-    <button onclick="document.getElementById('logonBackground').style.display='table'">Sign up</button>
-    <button onclick="document.getElementById('loginBackground').style.display='table'">Login</button>
+    <div id="header">
+        <h1>Metropokeri</h1>
+    </div>
+    <div id="navBar">
+        <div id="navBarContent">
+            <div id="mainLinks">
+                <a href="#">Etusivu</a>
+                <a href="#">Ohjeet</a>
+                <a href="#">Pelit</a>
+            </div>
+            <div id="loginLinks">
+                <a href="javascript:void(0)" onclick="document.getElementById('logonBackground').style.display='table'" id="signInButton">Sign in</a>
+                <a href="javascript:void(0)" onclick="document.getElementById('loginBackground').style.display='table'" id="loginButton">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="mainContent">
+
+    </div>
 
     <div id="logonBackground" class="logonBackground">
         <div id="logonScreen" class="logonScreen">
