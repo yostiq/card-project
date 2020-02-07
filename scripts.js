@@ -13,30 +13,28 @@ firebase.initializeApp(firebaseConfig);
 let db = firebase.firestore();
 
 let deck_id = "";
+let hasStorage = false;
 
 window.onclick = (event) => {
     if (event.target === document.getElementById("logonBackground")) {
+        document.getElementById("logonForm").reset();
         document.getElementById("logonBackground").style.display = "none";
     } else if (event.target === document.getElementById("loginBackground")) {
+        document.getElementById("loginForm").reset();
         document.getElementById("loginBackground").style.display = "none";
     }
 };
+
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         document.getElementById("loginLinks").style.display = "none";
         document.getElementById("userPanel").style.display = "flex";
 
-        db.collection("users").doc(firebase.auth().currentUser.uid).get()
-            .then((doc) => {
-                console.log(doc.data());
-                let username = doc.data().displayName;
-                document.getElementById("textUsername").innerHTML = username[0].toUpperCase() + username.slice(1);
-            })
-            .catch((error) => console.log(error));
-
         db.collection("users").doc(firebase.auth().currentUser.uid)
             .onSnapshot(function (doc) {
+                let username = doc.data().displayName;
+                document.getElementById("textUsername").innerHTML = username[0].toUpperCase() + username.slice(1);
                 document.getElementById("textMoneyLeft").innerHTML = doc.data().money;
             });
     } else {
@@ -86,17 +84,11 @@ function addToHand(json, player) {
 }
 
 function createUser() {
-    let username = document.getElementById("createUsername");
-    let password = document.getElementById("createPassword");
-    let confirmPassword = document.getElementById("createConfirmPassword");
-    console.log(username.value);
-    console.log(password.value);
-    console.log(confirmPassword.value);
-
     if (password.value !== confirmPassword.value) {
         document.getElementById("createConfirmPassword").setCustomValidity("Passwords don't match");
     } else {
         document.getElementById("createConfirmPassword").setCustomValidity("");
+        document.getElementById("createUsername").setCustomValidity("");
         let email = username.value + "@randomemail.com";
         firebase.auth().createUserWithEmailAndPassword(email, password.value)
             .then(() => {
@@ -106,15 +98,20 @@ function createUser() {
                     money: 500
                 });
             }).then(() => {
-            document.getElementById("logonBackground").style.display = "none";
-        }).catch(function (error) {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
-            alert(errorMessage);
-        });
+            document.getElementById("logonForm").reset();
+        }).then(() => document.getElementById("logonBackground").style.display = "none")
+            .catch(function (error) {
+                let errorCode = error.code;
+                let errorMessage = error.message;
+                console.log(errorCode);
+                console.log(errorMessage);
+                document.getElementById("createUsername").setCustomValidity("Username is already in use");
+            });
     }
+}
+
+function showLogScreen(id) {
+    document.getElementById(id).style.display = "table";
 }
 
 function login() {
@@ -124,17 +121,20 @@ function login() {
     email += "@randomemail.com";
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
-            document.getElementById("loginBackground").style.display = "none";
+            document.getElementById("loginForm").reset();
+            location.reload();
+            console.log("vmp");
         }).catch(function (error) {
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-    });
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log(errorCode);
+            console.log(errorMessage);
+        });
 }
 
 function logOut() {
     firebase.auth().signOut().catch((error) => console.log(error));
+    location.reload();
 }
 
 function cancelButton() {
