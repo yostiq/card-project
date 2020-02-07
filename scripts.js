@@ -12,7 +12,7 @@ let firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 let db = firebase.firestore();
 
-let deck_id;
+let deck_id = "";
 
 window.onclick = (event) => {
     if (event.target === document.getElementById("logonBackground")) {
@@ -22,27 +22,32 @@ window.onclick = (event) => {
     }
 };
 
-function getDeck(amount) {
+async function getDeck(amount) {
     let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + amount;
-
-    fetch(url)
-        .then((response) => response.json())
-        .then((json) => {
-            deck_id = json.deck_id;
-        })
-        .catch((error) => console.log(error));
+    if (deck_id === null || deck_id === "") {
+        await fetch(url)
+            .then((response) => response.json())
+            .then((json) => {
+                deck_id = json.deck_id;
+            })
+            .catch((error) => console.log(error));
+    }
+    return deck_id;
 }
 
-function drawCard(amount) {
+async function drawCard(amount) {
+    console.log(deck_id);
     let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/draw/?count=" + amount;
 
-    fetch(url)
+
+    await fetch(url)
         .then((response) => response.json())
         .then((json) => addToHand(json))
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error))
 }
 
 function addToHand(json) {
+    console.log("addToHand: ");
     console.log(json);
     let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/pile/" + "player1" + "/add/?cards=";
 
@@ -53,29 +58,8 @@ function addToHand(json) {
             url += json.cards[i].code + ",";
         }
     }
-
+    console.log(url);
     fetch(url)
-        .then((response) => response.json())
-        .then(listHand())
-        .catch((error) => console.log(error));
-}
-
-function listHand() {
-    let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/pile/" + "player1" + "/list/";
-
-    fetch(url)
-        .then((response) => response.json())
-        .then((json) => {
-            let playerCards = document.getElementById("playerCards");
-            playerCards.innerHTML = "";
-            for (let i = 0; i < json.piles.player1.cards.length; i++) {
-                let img = document.createElement("img");
-                img.className = "card";
-                img.src = "cards/" + json.piles.player1.cards[i].code + ".png";
-                playerCards.appendChild(img);
-            }
-
-        })
         .catch((error) => console.log(error));
 }
 
@@ -125,3 +109,6 @@ function cancelButton() {
     document.getElementById("loginBackground").style.display = "none";
     document.getElementById("logonBackground").style.display = "none";
 }
+
+getDeck(1)
+.then(() => drawCard(5));
