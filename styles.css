@@ -63,8 +63,13 @@ h2 {
     text-decoration: none;
 }
 
-#mainLinks a:hover {
+#mainLinks a:hover:not(#active) {
     background-color: #af0008;
+}
+
+#active {
+    background-color: #52afac;
+    cursor: pointer;
 }
 
 #loginLinks a, #userPanel a {

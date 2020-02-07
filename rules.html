@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Metropoker &vert; Home</title>
+    <title>Metropoker &vert; Rules</title>
 
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -17,13 +17,13 @@
     <div id="navBar">
         <div id="navBarContent">
             <div id="mainLinks">
-                <a id="active">Home</a>
+                <a href="index.html">Home</a>
                 <a href="games.html">Games</a>
-                <a href="rules.html">Rules</a>
+                <a id="active">Rules</a>
             </div>
             <div id="loginLinks">
-                <a href="javascript:void(0)" onclick="showLogScreen('logonBackground')" id="signInButton">Sign up</a>
-                <a href="javascript:void(0)" onclick="showLogScreen('loginBackground')" id="loginButton">Login</a>
+                <a href="javascript:void(0)" onclick="document.getElementById('logonBackground').style.display='table'" id="signInButton">Sign up</a>
+                <a href="javascript:void(0)" onclick="document.getElementById('loginBackground').style.display='table'" id="loginButton">Login</a>
             </div>
             <div id="userPanel">
                 <p>Hello,&#160;</p><p id="textUsername"></p>
@@ -48,7 +48,7 @@
                     <input type="text" name="createUsername" id="createUsername" placeholder="Enter username" required>
                     <label for="createPassword">Password</label>
                     <input type="password" name="createPassword" id="createPassword" placeholder="Enter password" minlength="6"
-                        required>
+                           required>
                     <label for="createConfirmPassword">Confirm password</label>
                     <input type="password" name="createConfirmPassword" id="createConfirmPassword" placeholder="Confirm password" minlength="6"
                            required>
