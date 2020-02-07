@@ -35,21 +35,21 @@ async function getDeck(amount) {
     return deck_id;
 }
 
-async function drawCard(amount) {
+async function drawCard(amount, player) {
     console.log(deck_id);
     let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/draw/?count=" + amount;
 
 
     await fetch(url)
         .then((response) => response.json())
-        .then((json) => addToHand(json))
+        .then((json) => addToHand(json, player))
         .catch((error) => console.log(error))
 }
 
-function addToHand(json) {
+function addToHand(json, player) {
     console.log("addToHand: ");
     console.log(json);
-    let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/pile/" + "player1" + "/add/?cards=";
+    let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/pile/" + player + "/add/?cards=";
 
     for (let i = 0; i < json.cards.length; i++) {
         if (i === json.cards.length - 1) {
@@ -110,5 +110,8 @@ function cancelButton() {
     document.getElementById("logonBackground").style.display = "none";
 }
 
-getDeck(1)
-.then(() => drawCard(5));
+document.getElementById("drawCard").addEventListener("click", function () {
+    getDeck(1)
+        .then(() => drawCard(5, "amin"));
+});
+
