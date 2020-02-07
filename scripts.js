@@ -80,7 +80,7 @@ function createUser() {
     let email = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
-    let key = firebase.auth
+    let key = firebase.auth;
 
     email += "@randomemail.com";
     firebase.auth().createUserWithEmailAndPassword(email, password)
