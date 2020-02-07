@@ -17,6 +17,8 @@ let deck_id;
 window.onclick = (event) => {
     if (event.target === document.getElementById("logonBackground")) {
         document.getElementById("logonBackground").style.display = "none";
+    } else if (event.target === document.getElementById("loginBackground")) {
+        document.getElementById("loginBackground").style.display = "none";
     }
 };
 
@@ -82,17 +84,17 @@ function listHand() {
 }
 
 function createUser() {
-    let username = document.getElementById("username");
-    let password = document.getElementById("password");
-    let confirmPassword = document.getElementById("confirmPassword");
+    let username = document.getElementById("createUsername");
+    let password = document.getElementById("createPassword");
+    let confirmPassword = document.getElementById("createConfirmPassword");
     console.log(username.value);
     console.log(password.value);
     console.log(confirmPassword.value);
 
     if(password.value !== confirmPassword.value){
-        document.getElementById("confirmPassword").setCustomValidity("Passwords don't match");
+        document.getElementById("createConfirmPassword").setCustomValidity("Passwords don't match");
     } else {
-        document.getElementById("confirmPassword").setCustomValidity("");
+        document.getElementById("createConfirmPassword").setCustomValidity("");
         let email = username.value + "@randomemail.com";
         firebase.auth().createUserWithEmailAndPassword(email, password.value)
             .then(() => {
@@ -111,8 +113,8 @@ function createUser() {
 }
 
 function login() {
-    let email = document.getElementById("username2").value;
-    let password = document.getElementById("password2").value;
+    let email = document.getElementById("loginUsername").value;
+    let password = document.getElementById("loginPassword").value;
 
     email += "@randomemail.com";
     firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
@@ -121,4 +123,9 @@ function login() {
         console.log(errorCode);
         console.log(errorMessage);
     });
+}
+
+function cancelButton() {
+    document.getElementById("loginBackground").style.display = "none";
+    document.getElementById("logonBackground").style.display = "none";
 }

@@ -15,24 +15,26 @@ h2 {
 }
 
 .logonButtons  {
-    background-color: #4CAF50;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.buttonCancel, .buttonSubmit {
+    background-color: #af0008;
     color: white;
     padding: 14px 20px;
-    margin: 8px 0;
+    margin: 0;
     border: none;
     cursor: pointer;
     width: 50%;
 }
 
-input[type=button] {
-    background-color: #af0008;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 50%;
+.buttonSubmit {
+    background-color: green;
 }
+
 
 input[type=text], input[type=password] {
     width: 100%;
@@ -43,7 +45,7 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 
-#logonBackground {
+.logonBackground {
     display: none;
     position: fixed;
     z-index: 100;
