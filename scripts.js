@@ -1,19 +1,4 @@
-let firebaseConfig = {
-    apiKey: "AIzaSyCshPRphIpHeg5sj1i6O0K8iHcWxr5JVFQ",
-    authDomain: "cardgame-project.firebaseapp.com",
-    databaseURL: "https://cardgame-project.firebaseio.com",
-    projectId: "cardgame-project",
-    storageBucket: "cardgame-project.appspot.com",
-    messagingSenderId: "576386674320",
-    appId: "1:576386674320:web:0f8db7c2c8550a0cfbb215",
-    measurementId: "G-45VCDFQGH3"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-let db = firebase.firestore();
-
 let deck_id = "";
-let hasStorage = false;
 
 window.onclick = (event) => {
     if (event.target === document.getElementById("logonBackground")) {
@@ -24,24 +9,6 @@ window.onclick = (event) => {
         document.getElementById("loginBackground").style.display = "none";
     }
 };
-
-
-firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-        document.getElementById("loginLinks").style.display = "none";
-        document.getElementById("userPanel").style.display = "flex";
-
-        db.collection("users").doc(firebase.auth().currentUser.uid)
-            .onSnapshot(function (doc) {
-                let username = doc.data().displayName;
-                document.getElementById("textUsername").innerHTML = username[0].toUpperCase() + username.slice(1);
-                document.getElementById("textMoneyLeft").innerHTML = doc.data().money;
-            });
-    } else {
-        document.getElementById("loginLinks").style.display = "flex";
-        document.getElementById("userPanel").style.display = "none";
-    }
-});
 
 async function getDeck(amount) {
     let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + amount;
@@ -83,58 +50,8 @@ function addToHand(json, player) {
         .catch((error) => console.log(error));
 }
 
-function createUser() {
-    if (password.value !== confirmPassword.value) {
-        document.getElementById("createConfirmPassword").setCustomValidity("Passwords don't match");
-    } else {
-        document.getElementById("createConfirmPassword").setCustomValidity("");
-        document.getElementById("createUsername").setCustomValidity("");
-        let email = username.value + "@randomemail.com";
-        firebase.auth().createUserWithEmailAndPassword(email, password.value)
-            .then(() => {
-                console.log("UserId: " + firebase.auth().currentUser.uid);
-                db.collection("users").doc(firebase.auth().currentUser.uid).set({
-                    displayName: username.value,
-                    money: 500
-                });
-            }).then(() => {
-            document.getElementById("logonForm").reset();
-        }).then(() => document.getElementById("logonBackground").style.display = "none")
-            .catch(function (error) {
-                let errorCode = error.code;
-                let errorMessage = error.message;
-                console.log(errorCode);
-                console.log(errorMessage);
-                document.getElementById("createUsername").setCustomValidity("Username is already in use");
-            });
-    }
-}
-
 function showLogScreen(id) {
     document.getElementById(id).style.display = "table";
-}
-
-function login() {
-    let email = document.getElementById("loginUsername").value;
-    let password = document.getElementById("loginPassword").value;
-
-    email += "@randomemail.com";
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(() => {
-            document.getElementById("loginForm").reset();
-            location.reload();
-            console.log("vmp");
-        }).catch(function (error) {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
-        });
-}
-
-function logOut() {
-    firebase.auth().signOut().catch((error) => console.log(error));
-    location.reload();
 }
 
 function cancelButton() {
@@ -146,4 +63,3 @@ document.getElementById("drawCard").addEventListener("click", function () {
     getDeck(1)
         .then(() => drawCard(5, "amin"));
 });
-

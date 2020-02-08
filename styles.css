@@ -48,7 +48,7 @@ h2 {
     flex-wrap: nowrap;
 }
 
-#userPanel {
+#userPanel, #loginLinks {
     display: none;
 }
 
