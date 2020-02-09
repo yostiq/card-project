@@ -28,14 +28,20 @@
                 <a href="#">Pelit</a>
             </div>
             <div id="loginLinks">
-                <a href="javascript:void(0)" onclick="document.getElementById('logonBackground').style.display='table'" id="signInButton">Sign in</a>
+                <a href="javascript:void(0)" onclick="document.getElementById('logonBackground').style.display='table'" id="signInButton">Sign Up</a>
                 <a href="javascript:void(0)" onclick="document.getElementById('loginBackground').style.display='table'" id="loginButton">Login</a>
             </div>
         </div>
     </div>
 
     <div id="mainContent">
-        <button id="drawCard">Draw 5 cards</button>
+        <button id="play-blackjack">Play blackjack</button>
+        <div id="house-hand">
+
+        </div>
+        <div id="player-hand">
+
+        </div>
     </div>
 
     <div id="logonBackground" class="logonBackground">
@@ -89,5 +95,6 @@
     </div>
 
     <script src="scripts.js"></script>
+    <script src="blackjack.js"></script>
 </body>
 </html>
