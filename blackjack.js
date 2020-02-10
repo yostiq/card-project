@@ -116,14 +116,14 @@ async function getHand(player) {
 }
 
 function startUI() {
-    let pH = document.createElement("p");
+    /*let pH = document.createElement("p");
     pH.id = "pH";
     pH.append(document.createTextNode("House " + house.points));
-    document.querySelector("#house-hand").appendChild(pH);
+    document.querySelector("#house").appendChild(pH);
     let pP = document.createElement("p");
     pP.id = "pP";
     pP.append(document.createTextNode("Player " + player.points));
-    document.querySelector("#player-hand").appendChild(pP);
+    document.querySelector("#player").appendChild(pP);*/
 
     let hitButton = document.createElement("button");
     hitButton.innerText = "HIT";

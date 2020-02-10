@@ -221,9 +221,17 @@ input[type=text], input[type=password] {
     margin: auto;
 }
 
+#player, #house {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
 #player-hand, #house-hand{
     position: relative;
     width: min-content;
+    height: fit-content;
 }
 #house-hand .card:last-child, #player-hand .card:last-child{
     transform: translateX(150px);
@@ -239,7 +247,6 @@ input[type=text], input[type=password] {
     top: 0;
     left: 0;
     width: 200px;
-
 }
 
 .hidden {
