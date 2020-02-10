@@ -65,6 +65,9 @@ function login() {
         let errorMessage = error.message;
         console.log(errorCode);
         console.log(errorMessage);
+        if(errorCode === "auth/user-not-found"){
+            document.getElementById("loginUsername").setCustomValidity("Username or password is incorrect");
+        }
     });
 }
 
@@ -101,7 +104,9 @@ function createUser() {
             let errorMessage = error.message;
             console.log(errorCode);
             console.log(errorMessage);
-            document.getElementById("createUsername").setCustomValidity("Username is already in use");
+            if(errorCode === "auth/email-already-in-use"){
+                document.getElementById("createUsername").setCustomValidity("Username is already in use");
+            }
         });
     }
 }
