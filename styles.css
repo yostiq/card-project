@@ -195,3 +195,7 @@ input[type=text], input[type=password] {
 .card {
     width: 200px;
 }
+
+.hidden {
+    display: none;
+}
