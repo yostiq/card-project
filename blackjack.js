@@ -68,7 +68,7 @@ async function addToHand(json, player, isHouseTurn) {
             } else {
                 player.points += parseInt(json.cards[i].value);
                 player.real_points += parseInt(json.cards[i].value);
-        }
+            }
         }
 
         if (i === json.cards.length - 1) {
@@ -137,7 +137,7 @@ function startUI() {
 async function updatePlayer() {
     document.querySelector("#player-points").innerText = player.points;
     if (player.points > 21) {
-        window.alert("HÄVISIT")
+        document.querySelector("#blackjack-buttons").append(document.createTextNode("HÄVISIT"));
     }
 }
 
@@ -154,7 +154,7 @@ async function hit() {
 
 async function stay() {
     await getHand(house, true);
-    while (house.real_points < 17) {
+    while (house.real_points < 17 && house.real_points < player.points) {
         await drawCard(1, house);
         await getHand(house, true);
         await updateHouse();
@@ -162,14 +162,15 @@ async function stay() {
     await updateHouse();
 
     if (house.real_points > 21) {
-        window.alert("VOITIT")
+        document.querySelector("#blackjack-buttons").append(document.createTextNode("VOITIT"));
     } else if (house.real_points === player.points) {
-        window.alert("TASAPELITIT")
+        document.querySelector("#blackjack-buttons").append(document.createTextNode("TASAPELITIT"));
     } else if (player.points > house.real_points) {
-        window.alert("VOITIT");
+        document.querySelector("#blackjack-buttons").append(document.createTextNode("VOITIT"));
     } else {
-        window.alert("HÄVISIT");
+        document.querySelector("#blackjack-buttons").append(document.createTextNode("HÄVISIT"));
     }
+    blackjack();
 }
 
 
