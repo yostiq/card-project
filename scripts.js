@@ -22,3 +22,7 @@ document.querySelector("#play-blackjack").addEventListener("click", function () 
     blackjack();
     document.getElementById("gameBackground").style.display = "flex";
 });
+
+function stopButton() {
+    document.getElementById("gameBackground").style.display = "none";
+}

@@ -108,8 +108,9 @@ h2 {
 
 #mainContent {
     height: auto;
-    max-width: available;
-    padding: 0;
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px 0;
 }
 
 .logonButtons {
@@ -267,8 +268,19 @@ input[type=text], input[type=password] {
     border: 3px solid #ada8b6;
 }
 
-#blackjack-buttons button:hover {
+#blackjack-buttons button:hover, #stop:hover {
     transform: scale(1.2);
+}
+
+#stop {
+    background: none;
+    color: #b80c09;
+    border: 2px solid #b80c09;
+    font-family: "Arial Black", serif ;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 8px;
+    width: 50px;
 }
 
 .card {
@@ -280,4 +292,22 @@ input[type=text], input[type=password] {
 
 .hidden {
     display: none;
+}
+
+#games {
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#games img {
+    max-width: 300px;
+    max-height: 300px;
+
+}
+
+#games img:hover {
+    transform: scale(1.2);
 }
