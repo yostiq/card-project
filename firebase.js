@@ -65,6 +65,9 @@ function login() {
         let errorMessage = error.message;
         console.log(errorCode);
         console.log(errorMessage);
+        if(errorCode === "auth/user-not-found"){
+            document.getElementById("loginUsername").setCustomValidity("Username or password is incorrect");
+        }
     });
 }
 
