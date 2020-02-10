@@ -2,10 +2,12 @@ let deck_id = "";
 let player = {
     name: "player",
     points: 0,
+    real_points: 0,
     cards: []
 };
 let house = {
     name: "house",
+    real_points : 0,
     points: 0,
     cards: []
 };
@@ -25,42 +27,48 @@ async function blackjack() {
 
     startUI();
 
-    await getHand(player);
-    await getHand(house);
+    await getHand(player, false);
+    await getHand(house, false);
 
 }
 
-async function drawCard(amount, player) {
+async function drawCard(amount, player, isHouseTurn) {
     let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/draw/?count=" + amount;
 
     await fetch(url)
         .then((response) => response.json())
-        .then((json) => addToHand(json, player))
+        .then((json) => addToHand(json, player, isHouseTurn))
         .catch((error) => console.log(error))
 }
 
-async function addToHand(json, player) {
+async function addToHand(json, player, isHouseTurn) {
     let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/pile/" + player.name + "/add/?cards=";
     for (let i = 0; i < json.cards.length; i++) {
         player.cards.push(json.cards[i]);
         if (json.cards[i].value === "JACK" || json.cards[i].value === "QUEEN" || json.cards[i].value === "KING") {
-            if (player.name === "house" && i === 0) {
+            if (player.name === "house" && i === 0 && isHouseTurn !== true) {
                 player.points += 0;
+                player.real_points += 10;
             } else {
                 player.points += 10;
+                player.real_points += 10;
             }
         } else if (json.cards[i].value === "ACE") {
             if (player.name === "house" && i === 0) {
                 player.points += 0;
+                player.real_points += 1;
             } else {
                 player.points += 1;
+                player.real_points += 1;
             }
         } else {
             if (player.name === "house" && i === 0) {
                 player.points += 0;
+                player.real_points += parseInt(json.cards[i].value);
             } else {
                 player.points += parseInt(json.cards[i].value);
-            }
+                player.real_points += parseInt(json.cards[i].value);
+        }
         }
 
         if (i === json.cards.length - 1) {
@@ -77,7 +85,7 @@ async function addToHand(json, player) {
         }).catch((error) => console.log(error))
 }
 
-async function getHand(player) {
+async function getHand(player, isHouseTurn) {
     let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/pile/" + player.name + "/list/";
     await fetch(url)
         .then(function (response) {
@@ -93,7 +101,7 @@ async function getHand(player) {
                         element = document.querySelector("#house-hand");
                     }
                     for (let i = 0; i < cards.length; i++) {
-                        if (i === 0 && player.name === "house") {
+                        if (i === 0 && player.name === "house" && isHouseTurn !== true) {
                             let img = document.createElement("img");
                             img.src = "cards/purple_back.png";
                             img.className = "card";
@@ -111,8 +119,8 @@ async function getHand(player) {
 }
 
 function startUI() {
-    let points = document.querySelector("#player-points");
-    points.innerText = player.points;
+    document.querySelector("#player-points").innerText = player.points;
+    document.querySelector("#house-points").innerText = house.points;
 
     let hitButton = document.createElement("button");
     hitButton.innerText = "HIT";
@@ -126,19 +134,42 @@ function startUI() {
     document.querySelector("#blackjack-buttons").appendChild(stayButton);
 }
 
-async function updateUI() {
+async function updatePlayer() {
     document.querySelector("#player-points").innerText = player.points;
+    if (player.points > 21) {
+        window.alert("HÄVISIT")
+    }
+}
+
+async function updateHouse() {
+    document.querySelector("#house-points").innerText = house.real_points;
 }
 
 async function hit() {
     document.querySelector("#player-hand").innerText = "";
     await drawCard(1, player);
-    await getHand(player);
-    await updateUI();
+    await getHand(player, false);
+    await updatePlayer();
 }
 
-function stay() {
+async function stay() {
+    await getHand(house, true);
+    while (house.real_points < 17) {
+        await drawCard(1, house);
+        await getHand(house, true);
+        await updateHouse();
+    }
+    await updateHouse();
 
+    if (house.real_points > 21) {
+        window.alert("VOITIT")
+    } else if (house.real_points === player.points) {
+        window.alert("TASAPELITIT")
+    } else if (player.points > house.real_points) {
+        window.alert("VOITIT");
+    } else {
+        window.alert("HÄVISIT");
+    }
 }
 
 
