@@ -144,10 +144,10 @@ async function updateUI() {
 
 async function hit() {
     await drawCard(1, player);
-    let p = document.getElementById("pP");
-    p.innerText = "Player " + player.points;
+    let p = document.getElementById("player");
+    p.innerText = "Player: " + player.points;
     document.querySelector("#player-hand").innerHTML = "";
-    document.querySelector("#player-hand").appendChild(p);
+    document.querySelector("#player").appendChild(p);
     await getHand(player);
     await updateUI();
 }

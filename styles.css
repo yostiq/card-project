@@ -231,8 +231,10 @@ input[type=text], input[type=password] {
 #player-hand, #house-hand{
     position: relative;
     width: min-content;
-    height: fit-content;
+    height: 300px;
+    margin-bottom: 20px;
 }
+
 #house-hand .card:last-child, #player-hand .card:last-child{
     transform: translateX(150px);
     z-index: 2;
@@ -240,6 +242,10 @@ input[type=text], input[type=password] {
 
 #house-hand .card, #player-hand .card{
     z-index: 3;
+}
+
+#blackjack-buttons {
+
 }
 
 .card {
