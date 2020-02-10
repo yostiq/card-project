@@ -20,4 +20,5 @@ function cancelButton() {
 document.querySelector("#play-blackjack").addEventListener("click", function () {
     document.querySelector("#play-blackjack").remove();
     blackjack();
+    document.getElementById("gameBackground").style.display = "flex";
 });

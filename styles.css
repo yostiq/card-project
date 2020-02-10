@@ -4,7 +4,6 @@
 
 body {
     padding: 0;
-    margin: auto;
     background-color: #E5E5E5;
     font-family: Helvetica, sans-serif;
 }
@@ -108,10 +107,9 @@ h2 {
 }
 
 #mainContent {
-    height: fit-content;
-    max-width: 1200px;
+    height: auto;
+    max-width: available;
     padding: 0;
-    margin: auto;
 }
 
 .logonButtons {
@@ -192,7 +190,54 @@ input[type=text], input[type=password] {
     font-size: 42px;
 }
 
+#gameBackground {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 50pt;
+}
+
+#bjTable {
+    border: 3px solid black;
+    position: relative;
+    width: 1200px;
+    height: 600px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 15px;
+    align-self: center;
+    background-color: #1a281f;
+    color: #cccccc;
+    font-size: 24px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    margin: auto;
+}
+
+#player-hand, #house-hand{
+    position: relative;
+    width: min-content;
+}
+#house-hand .card:last-child, #player-hand .card:last-child{
+    transform: translateX(150px);
+    z-index: 2;
+}
+
+#house-hand .card, #player-hand .card{
+    z-index: 3;
+}
+
 .card {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 200px;
 
 }
