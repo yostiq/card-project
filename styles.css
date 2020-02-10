@@ -5,7 +5,7 @@
 body {
     padding: 0;
     margin: auto;
-    background-color: lightblue;
+    background-color: #E5E5E5;
     font-family: Helvetica, sans-serif;
 }
 
@@ -17,7 +17,15 @@ h2 {
 #header {
     max-width: 1200px;
     margin: auto;
-    padding: 0;
+    padding: 10px;
+    font-size: 36px;
+    font-family: Rockwell, sans-serif;
+}
+
+#header img {
+    max-width: 150px;
+    max-height: 150px;
+    float: left;
 }
 
 #navBar {
@@ -25,7 +33,10 @@ h2 {
     width: 100%;
     z-index: 100;
     margin: auto;
-    background-color: grey;
+    background-color: #555555;
+    position: sticky;
+    top: 0;
+    padding: 5px;
 }
 
 #navBarContent {
@@ -46,6 +57,15 @@ h2 {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    margin: 5px;
+}
+
+#mainLinks :hover {
+    transform: scale(1.2);
+}
+
+#loginLinks :hover {
+    transform: scale(1.2);
 }
 
 #userPanel, #loginLinks {
@@ -56,26 +76,25 @@ h2 {
     padding-right: 1em;
 }
 
-#mainLinks a {
+#mainLinks a{
     line-height: 3em;
     padding: 0 0.75em;
-    color: black;
+    color: #cccccc;
     text-decoration: none;
+    border-radius: 5px;
+    margin-right: 5px;
 }
 
-#mainLinks a:hover:not(#active) {
-    background-color: #af0008;
-}
-
-#active {
-    background-color: #52afac;
+#mainLinks #active {
+    background-color: #E5E5E5;
     cursor: pointer;
+    color: black;
 }
 
 #loginLinks a, #userPanel a {
     line-height: 3em;
     padding: 0 0.75em;
-    color: black;
+    color: #E5E5E5;
     text-decoration: none;
 }
 
@@ -84,12 +103,8 @@ h2 {
     margin: auto;
 }
 
-#signInButton {
-    background-color: green;
-}
-
-#loginButton, #logOutButton {
-    background-color: #af0008;
+#logOutButton {
+    background-color: #B80C09;
 }
 
 #mainContent {
@@ -100,20 +115,19 @@ h2 {
 }
 
 .logonButtons {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    width: 100%;
+    float: bottom;
+    margin: 10px;
 }
 
 .buttonCancel, .buttonSubmit {
-    background-color: #af0008;
+    background-color: #b80c09;
     color: white;
     padding: 14px 20px;
-    margin: 0;
     border: none;
     cursor: pointer;
-    width: 50%;
+    width: 200px;
+    border-radius: 8px;
+    font-size: 20px;
 }
 
 .buttonSubmit {
@@ -144,11 +158,12 @@ input[type=text], input[type=password] {
 }
 
 .logonScreen {
-    background-color: aquamarine;
+    background-color: #E5E5E5;
     width: 500px;
-    height: 500px;
-    padding: 5pt;
+    height: fit-content;
+    padding: 30px;
     margin: 5px auto;
+    border-radius: 8px;
 }
 
 .close {
@@ -171,8 +186,10 @@ input[type=text], input[type=password] {
 
 .logonScreen h2 {
     width: 100%;
-    display: table-row;
     text-align: center;
+    padding: 30px;
+    margin-bottom: 25px;
+    font-size: 42px;
 }
 
 .card {
