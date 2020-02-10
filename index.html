@@ -40,7 +40,8 @@
     <button id="play-blackjack">Play blackjack</button>
     <div id="gameBackground">
         <div id="bjTable">
-            <div id="player"><p>Player: </p>
+            <div id="player"><p>Player:&#160;</p>
+                <p id="player-points"></p>
                 <div id="player-hand">
 
                 </div>
@@ -102,15 +103,15 @@
             </div>
         </div>
     </div>
+</div>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-firestore.js"></script>
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-firestore.js"></script>
 
-
-    <script src="blackjack.js"></script>
-    <script src="scripts.js"></script>
-    <script src="firebase.js"></script>
+<script src="blackjack.js"></script>
+<script src="scripts.js"></script>
+<script src="firebase.js"></script>
 </body>
 </html>

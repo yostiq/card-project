@@ -11,7 +11,6 @@ let house = {
 };
 
 async function blackjack() {
-    const DECKAMOUNT = 1;
     //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT;
     let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/";
     await fetch(url)
@@ -28,8 +27,6 @@ async function blackjack() {
 
     await getHand(player);
     await getHand(house);
-
-    console.log(deck_id);
 
 }
 
@@ -102,10 +99,8 @@ async function getHand(player) {
                             img.className = "card";
                             element.appendChild(img);
                         } else {
-                            console.log(i);
                             let img = document.createElement("img");
-                            let imgCode = "cards/" + cards[i].code + ".png";
-                            img.src = imgCode;
+                            img.src = "cards/" + cards[i].code + ".png";
                             img.className = "card";
                             element.appendChild(img);
                         }
@@ -116,14 +111,8 @@ async function getHand(player) {
 }
 
 function startUI() {
-    /*let pH = document.createElement("p");
-    pH.id = "pH";
-    pH.append(document.createTextNode("House " + house.points));
-    document.querySelector("#house").appendChild(pH);
-    let pP = document.createElement("p");
-    pP.id = "pP";
-    pP.append(document.createTextNode("Player " + player.points));
-    document.querySelector("#player").appendChild(pP);*/
+    let points = document.querySelector("#player-points");
+    points.innerText = player.points;
 
     let hitButton = document.createElement("button");
     hitButton.innerText = "HIT";
@@ -138,16 +127,12 @@ function startUI() {
 }
 
 async function updateUI() {
-    // let p = document.getElementById("pP");
-    // p.innerText = "vittu";
+    document.querySelector("#player-points").innerText = player.points;
 }
 
 async function hit() {
+    document.querySelector("#player-hand").innerText = "";
     await drawCard(1, player);
-    let p = document.getElementById("player");
-    p.innerText = "Player: " + player.points;
-    document.querySelector("#player-hand").innerHTML = "";
-    document.querySelector("#player").appendChild(p);
     await getHand(player);
     await updateUI();
 }
