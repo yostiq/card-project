@@ -76,11 +76,16 @@ async function getHand(player) {
                     for (let i = 0; i < cards.length; i++) {
                         if (i === 0 && player === "house") {
                             let img = document.createElement("img");
-                            img.src = "https://www.hearthstonetopdecks.com/wp-content/uploads/2018/02/card-back-frostfire-200x300.png";
+                            // img.src = "https://www.hearthstonetopdecks.com/wp-content/uploads/2018/02/card-back-frostfire-200x300.png";
+                            img.src = "cards/purple_back.png";
+                            img.className = "card";
                             element.appendChild(img);
                         } else {
                             let img = document.createElement("img");
-                            img.src = cards[i].image;
+                            let imgCode = "cards/" + cards[i].code + ".png";
+                            // img.src = cards[i].image;
+                            img.src = imgCode;
+                            img.className = "card";
                             element.appendChild(img);
                         }
                     }
