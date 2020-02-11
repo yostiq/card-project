@@ -16,8 +16,8 @@ h2 {
 #header {
     max-width: 1200px;
     margin: auto;
-    padding: 10px;
-    font-size: 36px;
+    padding: 5px;
+    font-size: 42px;
     font-family: Rockwell, sans-serif;
 }
 
@@ -36,6 +36,8 @@ h2 {
     position: sticky;
     top: 0;
     padding: 5px;
+    border-radius: 4px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 #navBarContent {
@@ -108,8 +110,9 @@ h2 {
 
 #mainContent {
     height: auto;
-    max-width: available;
-    padding: 0;
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px 0;
 }
 
 .logonButtons {
@@ -207,18 +210,17 @@ input[type=text], input[type=password] {
     border: 3px solid black;
     position: relative;
     width: 1200px;
-    height: 600px;
+    height: fit-content;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: space-between;
-    padding: 15px;
-    align-self: center;
+    padding: 5px;
     background-color: #1a281f;
     color: #cccccc;
     font-size: 24px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     margin: auto;
+    border-radius: 15px;
 }
 
 #player, #house {
@@ -226,35 +228,102 @@ input[type=text], input[type=password] {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+    height: fit-content;
+    width: 100%;
+}
+
+.playInfo {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: fit-content;
+    height: fit-content;
+    padding: 2px;
+    margin: 2px;
 }
 
 #player-hand, #house-hand{
     position: relative;
-    width: min-content;
-    height: 300px;
-    margin-bottom: 20px;
+    height: 280px;
+    width: 100%;
+    padding: 2px;
+    margin: 2px;
 }
 
-#house-hand .card:last-child, #player-hand .card:last-child{
-    transform: translateX(150px);
-    z-index: 2;
+#house-hand .card:nth-child(2), #player-hand .card:nth-child(2){
+    transform: translateX(-123px);
+}
+#house-hand .card:nth-child(3), #player-hand .card:nth-child(3){
+    transform: translateX(-246px);
+}
+#house-hand .card:nth-child(4), #player-hand .card:nth-child(4){
+    transform: translateX(-369px);
+}
+#house-hand .card:nth-child(5), #player-hand .card:nth-child(5){
+    transform: translateX(-492px);
+}
+#house-hand .card:nth-child(6), #player-hand .card:nth-child(6){
+    transform: translateX(-615px);
+}
+#house-hand .card:nth-child(7), #player-hand .card:nth-child(7){
+    transform: translateX(-738px);
 }
 
-#house-hand .card, #player-hand .card{
-    z-index: 3;
+#blackjack-buttons button {
+    font-family: Rockwell sans-serif;
+    width: 150px;
+    font-size: 24px;
+    margin: 10px;
+    border-radius: 8px;
+    color: #ada8b6;
+    background: none;
+    border: 3px solid #ada8b6;
 }
 
-#blackjack-buttons {
+#blackjack-buttons button:hover, #stop:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
 
+#stop {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: none;
+    color: #b80c09;
+    border: 2px solid #b80c09;
+    font-family: "Arial Black", serif ;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 8px;
+    width: 50px;
 }
 
 .card {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 200px;
+    max-width: 164px;
+    max-height: 250px;
 }
 
 .hidden {
     display: none;
+}
+
+#games {
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#games img {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 250px;
+}
+
+#games img:hover {
+    transform: scale(1.2);
+    cursor: pointer;
 }

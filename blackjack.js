@@ -172,4 +172,11 @@ async function stay() {
     }
 }
 
+document.querySelector("#openBlackjack").addEventListener("click", function () {
+    blackjack();
+    document.getElementById("gameBackground").style.display = "flex";
+});
 
+function stopButton() {
+    document.getElementById("gameBackground").style.display = "none";
+}
