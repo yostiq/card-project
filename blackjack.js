@@ -1,15 +1,21 @@
 let deck_id = "";
 let player = {
     name: "player",
-    points: 0,
-    real_points: 0,
-    cards: []
+    cards: [],
+    points: {
+        ace1: 0,
+        ace10: 0
+    }
 };
 let house = {
     name: "house",
-    real_points : 0,
-    points: 0,
-    cards: []
+    cards: [],
+    points: {
+        ace1: 0,
+        ace10: 0,
+        hiddenAce1: 0,
+        hiddenAce10: 0
+    }
 };
 
 async function blackjack() {
@@ -47,27 +53,36 @@ async function addToHand(json, player, isHouseTurn) {
         player.cards.push(json.cards[i]);
         if (json.cards[i].value === "JACK" || json.cards[i].value === "QUEEN" || json.cards[i].value === "KING") {
             if (player.name === "house" && i === 0 && isHouseTurn !== true) {
-                player.points += 0;
-                player.real_points += 10;
+                player.points.ace1 += 10;
+                player.points.ace10 += 10;
             } else {
-                player.points += 10;
-                player.real_points += 10;
+                player.points.ace1 += 10;
+                player.points.ace10 += 10;
+
+                player.points.hiddenAce1 += 10;
+                player.points.hiddenAce10 += 10;
             }
         } else if (json.cards[i].value === "ACE") {
-            if (player.name === "house" && i === 0) {
-                player.points += 0;
-                player.real_points += 1;
+            if (player.name === "house" && i === 0 && isHouseTurn !== true) {
+                player.points.ace1 += 1;
+                player.points.ace10 += 10;
             } else {
-                player.points += 1;
-                player.real_points += 1;
+                player.points.ace1 += 1;
+                player.points.ace10 += 10;
+
+                player.points.hiddenAce1 += 1;
+                player.points.hiddenAce10 += 10;
             }
         } else {
-            if (player.name === "house" && i === 0) {
-                player.points += 0;
-                player.real_points += parseInt(json.cards[i].value);
+            if (player.name === "house" && i === 0 && isHouseTurn !== true) {
+                player.points.ace1 += parseInt(json.cards[i].value);
+                player.points.ace10 += parseInt(json.cards[i].value);
             } else {
-                player.points += parseInt(json.cards[i].value);
-                player.real_points += parseInt(json.cards[i].value);
+                player.points.ace1 += parseInt(json.cards[i].value);
+                player.points.ace10 += parseInt(json.cards[i].value);
+
+                player.points.hiddenAce1 += parseInt(json.cards[i].value);
+                player.points.hiddenAce10 += parseInt(json.cards[i].value);
             }
         }
 
@@ -119,8 +134,8 @@ async function getHand(player, isHouseTurn) {
 }
 
 function startUI() {
-    document.querySelector("#player-points").innerText = player.points;
-    document.querySelector("#house-points").innerText = house.points;
+    document.querySelector("#player-points").innerText = player.points.ace1 + " / " + player.points.ace10;
+    document.querySelector("#house-points").innerText = house.points.hiddenAce1 + " / " + house.points.hiddenAce10;
 
     let hitButton = document.createElement("button");
     hitButton.innerText = "HIT";
@@ -135,14 +150,11 @@ function startUI() {
 }
 
 async function updatePlayer() {
-    document.querySelector("#player-points").innerText = player.points;
-    if (player.points > 21) {
-        document.querySelector("#blackjack-buttons").append(document.createTextNode("HÄVISIT"));
-    }
+    document.querySelector("#player-points").innerText = player.points.ace1 + " / " + player.points.ace10;
 }
 
 async function updateHouse() {
-    document.querySelector("#house-points").innerText = house.real_points;
+    document.querySelector("#house-points").innerText = house.points.ace1 + " / " + house.points.ace10;
 }
 
 async function hit() {
@@ -154,23 +166,43 @@ async function hit() {
 
 async function stay() {
     await getHand(house, true);
-    while (house.real_points < 17 && house.real_points < player.points) {
+    while (house.points.ace1 < 17 || house.points.ace10 < 17 && house.points.ace1 < player.points.ace1) {
         await drawCard(1, house);
         await getHand(house, true);
         await updateHouse();
     }
     await updateHouse();
 
-    if (house.real_points > 21) {
-        document.querySelector("#blackjack-buttons").append(document.createTextNode("VOITIT"));
-    } else if (house.real_points === player.points) {
-        document.querySelector("#blackjack-buttons").append(document.createTextNode("TASAPELITIT"));
-    } else if (player.points > house.real_points) {
-        document.querySelector("#blackjack-buttons").append(document.createTextNode("VOITIT"));
-    } else {
-        document.querySelector("#blackjack-buttons").append(document.createTextNode("HÄVISIT"));
-    }
-    blackjack();
+
+    // if (house.real_points > 21) {
+    //     document.querySelector("#blackjack-buttons").append(document.createTextNode("VOITIT"));
+    // } else if (house.real_points === player.points) {
+    //     document.querySelector("#blackjack-buttons").append(document.createTextNode("TASAPELITIT"));
+    // } else if (player.points > house.real_points) {
+    //     document.querySelector("#blackjack-buttons").append(document.createTextNode("VOITIT"));
+    // } else {
+    //     document.querySelector("#blackjack-buttons").append(document.createTextNode("HÄVISIT"));
+    // }
 }
 
+function resetBlackjack() {
+    player = {
+        name: "player",
+        cards: [],
+        points: {
+            ace1: 0,
+            ace10: 0
+        }
+    };
+    house = {
+        name: "house",
+        cards: [],
+        points: {
+            ace1: 0,
+            ace10: 0,
+            hiddenAce1: 0,
+            hiddenAce10: 0
+        }
+    };
+}
 
