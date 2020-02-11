@@ -16,8 +16,8 @@ h2 {
 #header {
     max-width: 1200px;
     margin: auto;
-    padding: 10px;
-    font-size: 36px;
+    padding: 5px;
+    font-size: 42px;
     font-family: Rockwell, sans-serif;
 }
 
@@ -36,6 +36,8 @@ h2 {
     position: sticky;
     top: 0;
     padding: 5px;
+    border-radius: 4px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 #navBarContent {
@@ -144,7 +146,7 @@ input[type=text], input[type=password] {
 }
 
 .logonBackground {
-    display: none;
+    display: table;
     position: fixed;
     z-index: 100;
     left: 0;
@@ -319,7 +321,6 @@ input[type=text], input[type=password] {
     max-width: 300px;
     max-height: 300px;
     border-radius: 250px;
-    bor
 }
 
 #games img:hover {

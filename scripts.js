@@ -1,28 +1,30 @@
 window.onclick = (event) => {
     if (event.target === document.getElementById("logonBackground")) {
-        document.getElementById("logonForm").reset();
-        document.getElementById("logonBackground").style.display = "none";
+        cancelButton();
     } else if (event.target === document.getElementById("loginBackground")) {
-        document.getElementById("loginForm").reset();
-        document.getElementById("loginBackground").style.display = "none";
+        cancelButton();
     }
 };
 
-function showLogScreen(id) {
-    document.getElementById(id).style.display = "table";
-}
-
 function cancelButton() {
-    document.getElementById("loginBackground").style.display = "none";
-    document.getElementById("logonBackground").style.display = "none";
+    let element = document.getElementById("logonBackground");
+    element.parentNode.removeChild(element);
 }
 
-/*document.querySelector("#play-blackjack").addEventListener("click", function () {
-    document.querySelector("#play-blackjack").remove();
-    blackjack();
-    document.getElementById("gameBackground").style.display = "flex";
-});*/
+function openLoginScreen() {
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/JoonasTestBranch/loginScreen.txt";
 
-function stopButton() {
-    document.getElementById("gameBackground").style.display = "none";
+    fetch(file)
+        .then((response) => response.text())
+        .then((data) => document.body.innerHTML += data)
+        .catch((error) => console.log(error));
+}
+
+function openSignUpScreen() {
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/JoonasTestBranch/signUpScreen.txt";
+
+    fetch(file)
+        .then((response) => response.text())
+        .then((data) => document.body.innerHTML += data)
+        .catch((error) => console.log(error));
 }
