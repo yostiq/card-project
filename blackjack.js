@@ -115,7 +115,9 @@ async function getHand(player, isHouseTurn) {
                         cards = house.cards;
                         element = document.querySelector("#house-hand");
                     }
+                    element.innerText = "";
                     for (let i = 0; i < cards.length; i++) {
+                        console.log(element);
                         if (i === 0 && player.name === "house" && isHouseTurn !== true) {
                             let img = document.createElement("img");
                             img.src = "cards/purple_back.png";
@@ -206,3 +208,11 @@ function resetBlackjack() {
     };
 }
 
+document.querySelector("#openBlackjack").addEventListener("click", function () {
+    blackjack();
+    document.getElementById("gameBackground").style.display = "flex";
+});
+
+function stopButton() {
+    document.getElementById("gameBackground").style.display = "none";
+}
