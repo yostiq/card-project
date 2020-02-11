@@ -16,9 +16,18 @@ function cancelButton() {
     document.getElementById("loginBackground").style.display = "none";
     document.getElementById("logonBackground").style.display = "none";
 }
-openLoginScreen();
+
 function openLoginScreen() {
-    let file = "loginScreen.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/JoonasTestBranch/loginScreen.txt";
+
+    fetch(file)
+        .then((response) => response.text())
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
+}
+
+function openSignUpScreen() {
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/JoonasTestBranch/loginScreen.txt";
 
     fetch(file)
         .then((response) => response.text())
