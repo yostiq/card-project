@@ -1,4 +1,4 @@
-<div id="loginBackground" class="logonBackground">
+<div id="logonBackground" class="logonBackground">
     <div id="loginScreen" class="logonScreen">
         <span onclick="document.getElementById('loginBackground').style.display='none'" class="close"
               title="Close login screen">&times;</span>
