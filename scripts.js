@@ -8,13 +8,9 @@ window.onclick = (event) => {
     }
 };
 
-function showLogScreen(id) {
-    document.getElementById(id).style.display = "table";
-}
-
 function cancelButton() {
-    document.getElementById("loginBackground").style.display = "none";
-    document.getElementById("logonBackground").style.display = "none";
+    let element = document.getElementById("logonBackground");
+    element.parentNode.removeChild(element);
 }
 
 function openLoginScreen() {
@@ -22,7 +18,7 @@ function openLoginScreen() {
 
     fetch(file)
         .then((response) => response.text())
-        .then((data) => document.body.append(data))
+        .then((data) => document.body.innerHTML += data)
         .catch((error) => console.log(error));
 }
 
@@ -31,6 +27,6 @@ function openSignUpScreen() {
 
     fetch(file)
         .then((response) => response.text())
-        .then((data) => document.body.append(data))
+        .then((data) => document.body.innerHTML += data)
         .catch((error) => console.log(error));
 }

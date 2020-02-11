@@ -16,9 +16,7 @@
                        placeholder="Confirm password" minlength="6"
                        required>
                 <div class="logonButtons">
-                    <button class="buttonCancel"
-                            onclick="document.getElementById('logonBackground').style.display='none'">Cancel
-                    </button>
+                    <button class="buttonCancel" onclick="cancelButton()">Cancel</button>
                     <button type="submit" class="buttonSubmit" onclick="createUser()">Create user</button>
                 </div>
             </form>
