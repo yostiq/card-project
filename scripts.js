@@ -22,15 +22,15 @@ function openLoginScreen() {
 
     fetch(file)
         .then((response) => response.text())
-        .then((data) => console.log(data))
+        .then((data) => document.body.append(data))
         .catch((error) => console.log(error));
 }
 
 function openSignUpScreen() {
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/JoonasTestBranch/loginScreen.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/JoonasTestBranch/signUpScreen.txt";
 
     fetch(file)
         .then((response) => response.text())
-        .then((data) => console.log(data))
+        .then((data) => document.body.append(data))
         .catch((error) => console.log(error));
 }
