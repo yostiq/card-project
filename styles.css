@@ -208,13 +208,11 @@ input[type=text], input[type=password] {
     border: 3px solid black;
     position: relative;
     width: 1200px;
-    height: 600px;
+    height: fit-content;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: space-between;
-    padding: 15px;
-    align-self: center;
+    padding: 5px;
     background-color: #1a281f;
     color: #cccccc;
     font-size: 24px;
@@ -229,32 +227,45 @@ input[type=text], input[type=password] {
     flex-direction: column;
     flex-wrap: nowrap;
     height: fit-content;
+    width: 100%;
+}
+
+.playInfo {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: fit-content;
+    height: fit-content;
+    padding: 2px;
+    margin: 2px;
 }
 
 #player-hand, #house-hand{
     position: relative;
-    width: fit-content;
-    height: 300px;
-    margin-bottom: 20px;
+    height: 280px;
+    width: 100%;
+    padding: 2px;
+    margin: 2px;
 }
 
 #house-hand .card:nth-child(2), #player-hand .card:nth-child(2){
-    transform: translateX(50px);
+    transform: translateX(-123px);
 }
 #house-hand .card:nth-child(3), #player-hand .card:nth-child(3){
-    transform: translateX(100px);
+    transform: translateX(-246px);
 }
 #house-hand .card:nth-child(4), #player-hand .card:nth-child(4){
-    transform: translateX(150px);
+    transform: translateX(-369px);
 }
 #house-hand .card:nth-child(5), #player-hand .card:nth-child(5){
-    transform: translateX(200px);
+    transform: translateX(-492px);
 }
 #house-hand .card:nth-child(6), #player-hand .card:nth-child(6){
-    transform: translateX(250px);
+    transform: translateX(-615px);
 }
 #house-hand .card:nth-child(7), #player-hand .card:nth-child(7){
-    transform: translateX(300px);
+    transform: translateX(-738px);
 }
 
 #blackjack-buttons button {
@@ -273,6 +284,9 @@ input[type=text], input[type=password] {
 }
 
 #stop {
+    position: absolute;
+    top: 2px;
+    right: 2px;
     background: none;
     color: #b80c09;
     border: 2px solid #b80c09;
@@ -284,10 +298,8 @@ input[type=text], input[type=password] {
 }
 
 .card {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 200px;
+    max-width: 164px;
+    max-height: 250px;
 }
 
 .hidden {
