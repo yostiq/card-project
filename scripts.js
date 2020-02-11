@@ -17,8 +17,12 @@ function cancelButton() {
     document.getElementById("logonBackground").style.display = "none";
 }
 
-document.querySelector("#play-blackjack").addEventListener("click", function () {
+/*document.querySelector("#play-blackjack").addEventListener("click", function () {
     document.querySelector("#play-blackjack").remove();
     blackjack();
     document.getElementById("gameBackground").style.display = "flex";
-});
+});*/
+
+function stopButton() {
+    document.getElementById("gameBackground").style.display = "none";
+}
