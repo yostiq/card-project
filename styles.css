@@ -281,6 +281,7 @@ input[type=text], input[type=password] {
 
 #blackjack-buttons button:hover, #stop:hover {
     transform: scale(1.2);
+    cursor: pointer;
 }
 
 #stop {
@@ -317,9 +318,11 @@ input[type=text], input[type=password] {
 #games img {
     max-width: 300px;
     max-height: 300px;
-
+    border-radius: 250px;
+    bor
 }
 
 #games img:hover {
     transform: scale(1.2);
+    cursor: pointer;
 }
