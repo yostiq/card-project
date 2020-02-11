@@ -1,7 +1,6 @@
 <div id="logonBackground" class="logonBackground">
     <div id="loginScreen" class="logonScreen">
-        <span onclick="document.getElementById('loginBackground').style.display='none'" class="close"
-              title="Close login screen">&times;</span>
+        <span onclick="cancelButton()" class="close" title="Close login screen">&times;</span>
         <h2>Login</h2>
         <div class="form">
             <form action="javascript:void(0)" method="post" id="loginForm">
@@ -9,8 +8,7 @@
                 <input type="text" name="loginUsername" id="loginUsername" placeholder="Enter username" required>
                 <label for="loginPassword">Password</label>
                 <input type="password" name="loginPassword" id="loginPassword" placeholder="Enter password"
-                       minlength="6"
-                       required>
+                       minlength="6" required>
                 <div class="logonButtons">
                     <button class="buttonCancel" onclick="cancelButton()">Cancel</button>
                     <button type="submit" class="buttonSubmit" onclick="login()">Login</button>

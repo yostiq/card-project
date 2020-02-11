@@ -23,10 +23,8 @@
             <a id="active">Rules</a>
         </div>
         <div id="loginLinks">
-            <a href="javascript:void(0)" onclick="document.getElementById('logonBackground').style.display='table'"
-               id="signInButton">Sign up</a>
-            <a href="javascript:void(0)" onclick="document.getElementById('loginBackground').style.display='table'"
-               id="loginButton">Login</a>
+            <a href="javascript:void(0)" onclick="openSignUpScreen()" id="signInButton">Sign up</a>
+            <a href="javascript:void(0)" onclick="openLoginScreen()" id="loginButton">Login</a>
         </div>
         <div id="userPanel">
             <p>Hello,&#160;</p>
@@ -71,55 +69,6 @@
         <div class="rule">
             <a href="https://www.888casino.com/blog/blackjack-strategy-guide/how-to-play-blackjack"
                title="888casino blackjack rules">888casino blackjack rules</a>
-        </div>
-    </div>
-</div>
-
-<div id="logonBackground" class="logonBackground">
-    <div id="logonScreen" class="logonScreen">
-            <span onclick="document.getElementById('logonBackground').style.display='none'" class="close"
-                  title="Close sign up screen">&times;</span>
-        <h2>Create new user</h2>
-        <div class="form">
-            <form action="javascript:void(0)" method="post" id="logonForm">
-                <label for="createUsername">Username</label>
-                <input type="text" name="createUsername" id="createUsername" placeholder="Enter username" required>
-                <label for="createPassword">Password</label>
-                <input type="password" name="createPassword" id="createPassword" placeholder="Enter password"
-                       minlength="6"
-                       required>
-                <label for="createConfirmPassword">Confirm password</label>
-                <input type="password" name="createConfirmPassword" id="createConfirmPassword"
-                       placeholder="Confirm password" minlength="6"
-                       required>
-                <div class="logonButtons">
-                    <button class="buttonCancel"
-                            onclick="document.getElementById('logonBackground').style.display='none'">Cancel
-                    </button>
-                    <button type="submit" class="buttonSubmit" onclick="createUser()">Create user</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<div id="loginBackground" class="logonBackground">
-    <div id="loginScreen" class="logonScreen">
-            <span onclick="document.getElementById('loginBackground').style.display='none'" class="close"
-                  title="Close login screen">&times;</span>
-        <h2>Login</h2>
-        <div class="form">
-            <form action="javascript:void(0)" method="post" id="loginForm">
-                <label for="loginUsername">Username</label>
-                <input type="text" name="loginUsername" id="loginUsername" placeholder="Enter username" required>
-                <label for="loginPassword">Password</label>
-                <input type="password" name="loginPassword" id="loginPassword" placeholder="Enter password"
-                       minlength="6"
-                       required>
-                <div class="logonButtons">
-                    <button class="buttonCancel" onclick="cancelButton()">Cancel</button>
-                    <button type="submit" class="buttonSubmit" onclick="login()">Login</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>

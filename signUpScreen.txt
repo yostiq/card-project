@@ -1,7 +1,6 @@
 <div id="logonBackground" class="logonBackground">
     <div id="logonScreen" class="logonScreen">
-        <span onclick="document.getElementById('logonBackground').style.display='none'" class="close"
-              title="Close sign up screen">&times;</span>
+        <span onclick="cancelButton()" class="close" title="Close sign up screen">&times;</span>
         <h2>Create new user</h2>
         <div class="form">
             <form action="javascript:void(0)" method="post" id="logonForm">
@@ -9,12 +8,10 @@
                 <input type="text" name="createUsername" id="createUsername" placeholder="Enter username" required>
                 <label for="createPassword">Password</label>
                 <input type="password" name="createPassword" id="createPassword" placeholder="Enter password"
-                       minlength="6"
-                       required>
+                       minlength="6" required>
                 <label for="createConfirmPassword">Confirm password</label>
                 <input type="password" name="createConfirmPassword" id="createConfirmPassword"
-                       placeholder="Confirm password" minlength="6"
-                       required>
+                       placeholder="Confirm password" minlength="6" required>
                 <div class="logonButtons">
                     <button class="buttonCancel" onclick="cancelButton()">Cancel</button>
                     <button type="submit" class="buttonSubmit" onclick="createUser()">Create user</button>

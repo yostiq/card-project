@@ -1,10 +1,8 @@
 window.onclick = (event) => {
     if (event.target === document.getElementById("logonBackground")) {
-        document.getElementById("logonForm").reset();
-        document.getElementById("logonBackground").style.display = "none";
+        cancelButton();
     } else if (event.target === document.getElementById("loginBackground")) {
-        document.getElementById("loginForm").reset();
-        document.getElementById("loginBackground").style.display = "none";
+        cancelButton();
     }
 };
 
