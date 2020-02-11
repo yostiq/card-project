@@ -16,9 +16,12 @@ function cancelButton() {
     document.getElementById("loginBackground").style.display = "none";
     document.getElementById("logonBackground").style.display = "none";
 }
+openLoginScreen();
+function openLoginScreen() {
+    let file = "loginScreen.txt";
 
-document.querySelector("#play-blackjack").addEventListener("click", function () {
-    document.querySelector("#play-blackjack").remove();
-    blackjack();
-    document.getElementById("gameBackground").style.display = "flex";
-});
+    fetch(file)
+        .then((response) => response.text())
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
+}
