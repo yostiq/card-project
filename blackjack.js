@@ -4,7 +4,8 @@ let player = {
     cards: [],
     points: {
         ace1: 0,
-        ace10: 0
+        ace10: 0,
+        final: 0
     }
 };
 let house = {
@@ -14,7 +15,8 @@ let house = {
         ace1: 0,
         ace10: 0,
         hiddenAce1: 0,
-        hiddenAce10: 0
+        hiddenAce10: 0,
+        final: 0
     }
 };
 
@@ -31,11 +33,10 @@ async function blackjack() {
     await drawCard(2, player);
     await drawCard(2, house);
 
-    startUI();
-
     await getHand(player, false);
     await getHand(house, false);
 
+    await startUI();
 }
 
 async function drawCard(amount, player, isHouseTurn) {
@@ -117,7 +118,6 @@ async function getHand(player, isHouseTurn) {
                     }
                     element.innerText = "";
                     for (let i = 0; i < cards.length; i++) {
-                        console.log(element);
                         if (i === 0 && player.name === "house" && isHouseTurn !== true) {
                             let img = document.createElement("img");
                             img.src = "cards/purple_back.png";
@@ -135,7 +135,7 @@ async function getHand(player, isHouseTurn) {
         });
 }
 
-function startUI() {
+async function startUI() {
     document.querySelector("#player-points").innerText = player.points.ace1 + " / " + player.points.ace10;
     document.querySelector("#house-points").innerText = house.points.hiddenAce1 + " / " + house.points.hiddenAce10;
 
@@ -147,6 +147,7 @@ function startUI() {
     stayButton.innerText = "STAY";
     stayButton.addEventListener("click", () => stay());
 
+    document.querySelector("#blackjack-buttons").innerHTML = "";
     document.querySelector("#blackjack-buttons").appendChild(hitButton);
     document.querySelector("#blackjack-buttons").appendChild(stayButton);
 }
@@ -160,10 +161,10 @@ async function updateHouse() {
 }
 
 async function hit() {
-    document.querySelector("#player-hand").innerText = "";
     await drawCard(1, player);
     await getHand(player, false);
     await updatePlayer();
+    await hitCheck();
 }
 
 async function stay() {
@@ -174,17 +175,60 @@ async function stay() {
         await updateHouse();
     }
     await updateHouse();
+    let resetButton = document.createElement("button");
+    resetButton.innerText = "NEW GAME";
+    resetButton.id = "reset-button";
+    resetButton.addEventListener("click", () =>  {
+        document.querySelector("#reset-button").remove();
+        document.querySelector("#player-points").innerText = "";
+        document.querySelector("#house-points").innerText = "";
+        resetBlackjack();
+    });
+    document.querySelector("#blackjack-buttons").appendChild(resetButton);
+    await stayCheck();
+}
 
+async function hitCheck() {
+    if (player.points.ace1 > 21) {
+        window.alert("HÄVISIT");
+        let resetButton = document.createElement("button");
+        resetButton.innerText = "NEW GAME";
+        resetButton.id = "reset-button";
+        resetButton.addEventListener("click", () =>  {
+            document.querySelector("#reset-button").remove();
+            document.querySelector("#player-points").innerText = "";
+            document.querySelector("#house-points").innerText = "";
+            resetBlackjack();
+        });
+        document.querySelector("#blackjack-buttons").appendChild(resetButton);
+    }
+}
 
-    // if (house.real_points > 21) {
-    //     document.querySelector("#blackjack-buttons").append(document.createTextNode("VOITIT"));
-    // } else if (house.real_points === player.points) {
-    //     document.querySelector("#blackjack-buttons").append(document.createTextNode("TASAPELITIT"));
-    // } else if (player.points > house.real_points) {
-    //     document.querySelector("#blackjack-buttons").append(document.createTextNode("VOITIT"));
-    // } else {
-    //     document.querySelector("#blackjack-buttons").append(document.createTextNode("HÄVISIT"));
-    // }
+async function stayCheck() {
+    if (player.points.ace10 > 21) {
+        player.points.final = player.points.ace1;
+    } else {
+        player.points.final = player.points.ace10;
+    }
+
+    if (house.points.ace10 > 21) {
+        house.points.final = house.points.ace1;
+    } else {
+        house.points.final = house.points.ace10;
+    }
+
+    if (player.points.final > house.points.final) {
+        window.alert("VOITIT");
+    } else if (house.points.final > 21) {
+        window.alert("VOITIT");
+    } else if (player.points.final === house.points.final) {
+        window.alert("TASAPELI");
+    } else {
+        window.alert("HÄVISIT");
+    }
+
+    console.log("player: " + player.points.final);
+    console.log("house: " + house.points.final);
 }
 
 function resetBlackjack() {
@@ -206,6 +250,9 @@ function resetBlackjack() {
             hiddenAce10: 0
         }
     };
+    document.querySelector("#player-hand").innerText = "";
+    document.querySelector("#house-hand").innerText = "";
+    blackjack();
 }
 
 document.querySelector("#openBlackjack").addEventListener("click", function () {
