@@ -41,7 +41,8 @@ function login() {
     let password = document.getElementById("inputPassword").value;
 
     email += "@randomemail.com";
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(() => firebase.auth().signInWithEmailAndPassword(email, password))
         .then(() => {
             cancelButton();
         })
@@ -71,7 +72,8 @@ function createUser() {
         document.getElementById("inputConfirmPassword").setCustomValidity("");
         document.getElementById("inputUsername").setCustomValidity("");
         let email = username + "@randomemail.com";
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+            .then(() => firebase.auth().createUserWithEmailAndPassword(email, password))
             .then(() => {
                 console.log("UserId: " + firebase.auth().currentUser.uid);
                 db.collection("users").doc(firebase.auth().currentUser.uid).set({

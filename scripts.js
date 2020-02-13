@@ -17,6 +17,7 @@ function openLoginScreen() {
     fetch(file)
         .then((response) => response.text())
         .then((data) => document.body.innerHTML += data)
+        .then(() => document.getElementById("inputUsername").focus())
         .catch((error) => console.log(error));
 }
 
@@ -26,5 +27,6 @@ function openSignUpScreen() {
     fetch(file)
         .then((response) => response.text())
         .then((data) => document.body.innerHTML += data)
+        .then(() => document.getElementById("inputUsername").focus())
         .catch((error) => console.log(error));
 }
