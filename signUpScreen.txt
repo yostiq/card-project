@@ -4,7 +4,7 @@
         <h2>Create new user</h2>
         <div class="form">
             <form action="javascript:void(0)" method="post" id="logonForm">
-                <label for="inputeUsername">Username</label>
+                <label for="inputUsername">Username</label>
                 <input type="text" name="createUsername" id="inputUsername" placeholder="Enter username" required>
                 <label for="inputPassword">Password</label>
                 <input type="password" name="createPassword" id="inputPassword" placeholder="Enter password"
