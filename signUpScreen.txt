@@ -4,13 +4,13 @@
         <h2>Create new user</h2>
         <div class="form">
             <form action="javascript:void(0)" method="post" id="logonForm">
-                <label for="createUsername">Username</label>
-                <input type="text" name="createUsername" id="createUsername" placeholder="Enter username" required autofocus>
-                <label for="createPassword">Password</label>
-                <input type="password" name="createPassword" id="createPassword" placeholder="Enter password"
+                <label for="inputeUsername">Username</label>
+                <input type="text" name="createUsername" id="inputUsername" placeholder="Enter username" required autofocus>
+                <label for="inputPassword">Password</label>
+                <input type="password" name="createPassword" id="inputPassword" placeholder="Enter password"
                        minlength="6" required>
-                <label for="createConfirmPassword">Confirm password</label>
-                <input type="password" name="createConfirmPassword" id="createConfirmPassword"
+                <label for="inputConfirmPassword">Confirm password</label>
+                <input type="password" name="inputConfirmPassword" id="createConfirmPassword"
                        placeholder="Confirm password" minlength="6" required>
                 <div class="logonButtons">
                     <button class="buttonCancel" onclick="cancelButton()">Cancel</button>

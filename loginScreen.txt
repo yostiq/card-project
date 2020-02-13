@@ -4,10 +4,10 @@
         <h2>Login</h2>
         <div class="form">
             <form action="javascript:void(0)" method="post" id="loginForm">
-                <label for="loginUsername">Username</label>
-                <input type="text" name="loginUsername" id="loginUsername" placeholder="Enter username" required autofocus>
-                <label for="loginPassword">Password</label>
-                <input type="password" name="loginPassword" id="loginPassword" placeholder="Enter password"
+                <label for="inputUsername">Username</label>
+                <input type="text" name="loginUsername" id="inputUsername" placeholder="Enter username" required autofocus>
+                <label for="inputPassword">Password</label>
+                <input type="password" name="loginPassword" id="inputPassword" placeholder="Enter password"
                        minlength="6" required>
                 <div class="logonButtons">
                     <button class="buttonCancel" onclick="cancelButton()">Cancel</button>
