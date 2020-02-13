@@ -12,101 +12,84 @@ let firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 let db = firebase.firestore();
 
-if (localStorage.getItem("loggedIn")) {
-    document.getElementById("loginLinks").style.display = "none";
-    document.getElementById("userPanel").style.display = "flex";
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        document.getElementById("loginLinks").style.display = "none";
+        document.getElementById("userPanel").style.display = "flex";
 
-    if (localStorage.getItem("username")) {
-        document.getElementById("textUsername").innerHTML = localStorage.getItem("username");
-        if (localStorage.getItem("money")) {
-            document.getElementById("textMoneyLeft").innerHTML = localStorage.getItem("money");
-        }
+        db.collection("users").doc(firebase.auth().currentUser.uid).get()
+            .then((doc) => {
+                console.log(doc.data());
+                let username = doc.data().displayName[0].toUpperCase() + doc.data().displayName.slice(1);
+                console.log(username);
+                document.getElementById("textUsername").innerHTML = username;
+            });
+
+        db.collection("users").doc(firebase.auth().currentUser.uid)
+            .onSnapshot(function (doc) {
+                document.getElementById("textMoneyLeft").innerHTML = doc.data().money;
+            });
+    } else {
+        console.log("No users logged in");
+        document.getElementById("loginLinks").style.display = "flex";
+        document.getElementById("userPanel").style.display = "none";
     }
-
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            db.collection("users").doc(firebase.auth().currentUser.uid).get()
-                .then((doc) => {
-                    console.log(doc.data())
-                    let username = doc.data().displayName[0].toUpperCase() + doc.data().displayName.slice(1);
-                    console.log(username);
-                    document.getElementById("textUsername").innerHTML = username;
-                    localStorage.setItem("username", username);
-                });
-
-            db.collection("users").doc(firebase.auth().currentUser.uid)
-                .onSnapshot(function (doc) {
-                    document.getElementById("textMoneyLeft").innerHTML = doc.data().money;
-                    localStorage.setItem("money", doc.data().money);
-                });
-        } else {
-            document.getElementById("loginLinks").style.display = "flex";
-            document.getElementById("userPanel").style.display = "none";
-            localStorage.clear();
-        }
-    });
-} else {
-    document.getElementById("loginLinks").style.display = "flex";
-    document.getElementById("userPanel").style.display = "none";
-}
+});
 
 function login() {
-    let email = document.getElementById("loginUsername").value;
-    let password = document.getElementById("loginPassword").value;
+    let email = document.getElementById("inputUsername").value;
+    let password = document.getElementById("inputPassword").value;
 
     email += "@randomemail.com";
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
-            document.getElementById("loginForm").reset();
-            localStorage.setItem("loggedIn", "1");
-            location.reload();
-        }).catch(function (error) {
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-        if(errorCode === "auth/user-not-found"){
-            document.getElementById("loginUsername").setCustomValidity("Username or password is incorrect");
-        }
-    });
+            cancelButton();
+        })
+        .catch(function (error) {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log(errorCode);
+            console.log(errorMessage);
+            if (errorCode === "auth/user-not-found") {
+                document.getElementById("inputUsername").setCustomValidity("Username or password is incorrect");
+            }
+        });
 }
 
 function logOut() {
     firebase.auth().signOut().catch((error) => console.log(error));
-    localStorage.clear();
-    location.reload();
 }
 
 function createUser() {
-    let username = document.getElementById("createUsername").value;
-    let password = document.getElementById("createPassword").value;
-    let confirmPassword = document.getElementById("createConfirmPassword").value;
+    let username = document.getElementById("inputUsername").value;
+    let password = document.getElementById("inputPassword").value;
+    let confirmPassword = document.getElementById("inputConfirmPassword").value;
 
     if (password !== confirmPassword) {
-        document.getElementById("createConfirmPassword").setCustomValidity("Passwords don't match");
+        document.getElementById("inputConfirmPassword").setCustomValidity("Passwords don't match");
     } else {
-        document.getElementById("createConfirmPassword").setCustomValidity("");
-        document.getElementById("createUsername").setCustomValidity("");
+        document.getElementById("inputConfirmPassword").setCustomValidity("");
+        document.getElementById("inputUsername").setCustomValidity("");
         let email = username + "@randomemail.com";
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
                 console.log("UserId: " + firebase.auth().currentUser.uid);
                 db.collection("users").doc(firebase.auth().currentUser.uid).set({
-                    displayName: username,
+                    displayName: username.toLowerCase(),
                     money: 500
                 }).then(() => {
-                    document.getElementById("logonForm").reset();
-                    localStorage.setItem("loggedIn", "1");
-                    location.reload();
+                    cancelButton();
+                }).catch(function (error) {
+                    let errorCode = error.code;
+                    let errorMessage = error.message;
+                    console.log(errorCode);
+                    console.log(errorMessage);
+                    if (errorCode === "auth/invalid-email") {
+                        document.getElementById("inputUsername").setCustomValidity("Only letters and numbers are allowed.");
+                    } else {
+                        document.getElementById("inputUsername").setCustomValidity(errorMessage);
+                    }
                 });
-            }).catch(function (error) {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
-            if(errorCode === "auth/email-already-in-use"){
-                document.getElementById("createUsername").setCustomValidity("Username is already in use");
-            }
-        });
+            });
     }
 }

@@ -5,7 +5,7 @@
         <div class="form">
             <form action="javascript:void(0)" method="post" id="loginForm">
                 <label for="inputUsername">Username</label>
-                <input type="text" name="loginUsername" id="inputUsername" placeholder="Enter username" required autofocus>
+                <input type="text" name="loginUsername" id="inputUsername" placeholder="Enter username" required>
                 <label for="inputPassword">Password</label>
                 <input type="password" name="loginPassword" id="inputPassword" placeholder="Enter password"
                        minlength="6" required>
