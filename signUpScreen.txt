@@ -5,12 +5,12 @@
         <div class="form">
             <form action="javascript:void(0)" method="post" id="logonForm">
                 <label for="inputUsername">Username</label>
-                <input type="text" name="createUsername" id="inputUsername" placeholder="Enter username" required>
+                <input type="text" name="inputUsername" id="inputUsername" placeholder="Enter username" required>
                 <label for="inputPassword">Password</label>
-                <input type="password" name="createPassword" id="inputPassword" placeholder="Enter password"
+                <input type="password" name="inputPassword" id="inputPassword" placeholder="Enter password"
                        minlength="6" required>
                 <label for="inputConfirmPassword">Confirm password</label>
-                <input type="password" name="inputConfirmPassword" id="createConfirmPassword"
+                <input type="password" name="inputConfirmPassword" id="inputConfirmPassword"
                        placeholder="Confirm password" minlength="6" required>
                 <div class="logonButtons">
                     <button class="buttonCancel" onclick="cancelButton()">Cancel</button>

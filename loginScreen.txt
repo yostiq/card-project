@@ -5,9 +5,9 @@
         <div class="form">
             <form action="javascript:void(0)" method="post" id="loginForm">
                 <label for="inputUsername">Username</label>
-                <input type="text" name="loginUsername" id="inputUsername" placeholder="Enter username" required>
+                <input type="text" name="inputUsername" id="inputUsername" placeholder="Enter username" required>
                 <label for="inputPassword">Password</label>
-                <input type="password" name="loginPassword" id="inputPassword" placeholder="Enter password"
+                <input type="password" name="inputPassword" id="inputPassword" placeholder="Enter password"
                        minlength="6" required>
                 <div class="logonButtons">
                     <button class="buttonCancel" onclick="cancelButton()">Cancel</button>
