@@ -12,7 +12,7 @@ function cancelButton() {
 }
 
 function openLoginScreen() {
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/JoonasTestBranch/loginScreen.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/loginScreen.txt";
 
     fetch(file)
         .then((response) => response.text())
@@ -22,7 +22,7 @@ function openLoginScreen() {
 }
 
 function openSignUpScreen() {
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/JoonasTestBranch/signUpScreen.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/signUpScreen.txt";
 
     fetch(file)
         .then((response) => response.text())
