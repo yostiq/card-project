@@ -40,21 +40,29 @@ function login() {
     let email = document.getElementById("inputUsername").value;
     let password = document.getElementById("inputPassword").value;
 
-    email += "@randomemail.com";
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
-        .then(() => firebase.auth().signInWithEmailAndPassword(email, password))
-        .then(() => {
-            cancelButton();
-        })
-        .catch(function (error) {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
-            if (errorCode === "auth/user-not-found") {
-                document.getElementById("inputUsername").setCustomValidity("Username or password is incorrect");
-            }
-        });
+    if (email === "") {
+        document.getElementById("inputUsername").setCustomValidity("Field is empty");
+        document.getElementById("inputUsername").focus();
+    } else if (password === "") {
+        document.getElementById("inputUsername").setCustomValidity("Field is empty");
+        document.getElementById("inputUsername").focus();
+    } else {
+        email += "@randomemail.com";
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+            .then(() => firebase.auth().signInWithEmailAndPassword(email, password))
+            .then(() => {
+                cancelButton();
+            })
+            .catch(function (error) {
+                let errorCode = error.code;
+                let errorMessage = error.message;
+                console.log(errorCode);
+                console.log(errorMessage);
+                if (errorCode === "auth/user-not-found") {
+                    document.getElementById("inputUsername").setCustomValidity("Username or password is incorrect");
+                }
+            });
+    }
 }
 
 function logOut() {
@@ -66,11 +74,25 @@ function createUser() {
     let password = document.getElementById("inputPassword").value;
     let confirmPassword = document.getElementById("inputConfirmPassword").value;
 
-    if (password !== confirmPassword) {
+    document.getElementById("inputUsername").setCustomValidity("");
+    document.getElementById("inputPassword").setCustomValidity("");
+    document.getElementById("inputConfirmPassword").setCustomValidity("");
+
+    if (username === "") {
+        document.getElementById("inputUsername").setCustomValidity("Field is empty");
+        document.getElementById("inputUsername").focus();
+    } else if (password === "") {
+        document.getElementById("inputPassword").setCustomValidity("Field is empty");
+        document.getElementById("inputPassword").focus();
+    } else if(password.length < 6) {
+        document.getElementById("inputPassword").setCustomValidity("Password is too short. Min. 6 char.");
+        document.getElementById("inputPassword").focus();
+    } else if (confirmPassword === "") {
+        document.getElementById("inputConfirmPassword").setCustomValidity("Field is empty");
+        document.getElementById("inputConfirmPassword").focus();
+    } else if (password !== confirmPassword) {
         document.getElementById("inputConfirmPassword").setCustomValidity("Passwords don't match");
     } else {
-        document.getElementById("inputConfirmPassword").setCustomValidity("");
-        document.getElementById("inputUsername").setCustomValidity("");
         let email = username + "@randomemail.com";
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
             .then(() => firebase.auth().createUserWithEmailAndPassword(email, password))
@@ -86,12 +108,17 @@ function createUser() {
                     let errorMessage = error.message;
                     console.log(errorCode);
                     console.log(errorMessage);
-                    if (errorCode === "auth/invalid-email") {
-                        document.getElementById("inputUsername").setCustomValidity("Only letters and numbers are allowed.");
-                    } else {
-                        document.getElementById("inputUsername").setCustomValidity(errorMessage);
-                    }
                 });
-            });
+            }).catch((error) => {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log(errorCode);
+            console.log(errorMessage);
+            if (errorCode === "auth/invalid-email") {
+                document.getElementById("inputUsername").setCustomValidity("Only letters and numbers are allowed.");
+            } else if (errorCode === "auth/email-already-in-use") {
+                document.getElementById("inputUsername").setCustomValidity("The username is already in use by another account.");
+            }
+        });
     }
 }
