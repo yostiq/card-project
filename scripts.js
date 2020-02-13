@@ -17,7 +17,10 @@ function openLoginScreen() {
     fetch(file)
         .then((response) => response.text())
         .then((data) => document.body.innerHTML += data)
-        .then(() => document.getElementById("inputUsername").focus())
+        .then(() => {
+            document.getElementById("inputUsername").focus();
+            enterPress();
+        })
         .catch((error) => console.log(error));
 }
 
@@ -27,6 +30,34 @@ function openSignUpScreen() {
     fetch(file)
         .then((response) => response.text())
         .then((data) => document.body.innerHTML += data)
-        .then(() => document.getElementById("inputUsername").focus())
+        .then(() => {
+            document.getElementById("inputUsername").focus();
+            enterPress();
+        })
         .catch((error) => console.log(error));
+}
+
+function enterPress() {
+    document.getElementById("inputUsername").addEventListener("keypress", (event) => {
+        if(event.key === "Enter"){
+            event.preventDefault();
+            document.getElementById("submitButton").click();
+        }
+    });
+
+    document.getElementById("inputPassword").addEventListener("keypress", (event) => {
+        if(event.key === "Enter"){
+            event.preventDefault();
+            document.getElementById("submitButton").click();
+        }
+    });
+
+    if(document.getElementById("inputConfirmPassword") !== null){
+        document.getElementById("inputConfirmPassword").addEventListener("keypress", (event) => {
+            if(event.key === "Enter"){
+                event.preventDefault();
+                document.getElementById("submitButton").click();
+            }
+        });
+    }
 }
