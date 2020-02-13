@@ -14,7 +14,7 @@
                        placeholder="Confirm password" minlength="6" required>
                 <div class="logonButtons">
                     <button class="buttonCancel" onclick="cancelButton()">Cancel</button>
-                    <button type="submit" class="buttonSubmit" onclick="createUser()">Create user</button>
+                    <button type="submit" class="buttonSubmit" onclick="createUser()" id="submitButton">Create user</button>
                 </div>
             </form>
         </div>
