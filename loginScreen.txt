@@ -11,7 +11,7 @@
                        minlength="6" required>
                 <div class="logonButtons">
                     <button class="buttonCancel" onclick="cancelButton()">Cancel</button>
-                    <button type="submit" class="buttonSubmit" onclick="login()">Login</button>
+                    <button type="submit" class="buttonSubmit" onclick="login()" id="submitButton">Login</button>
                 </div>
             </form>
         </div>
