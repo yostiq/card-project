@@ -1,5 +1,5 @@
-let deck_id = "";
-let player = {
+let mCards = []
+let mPlayer = {
     name: "player",
     cards: [],
     points: {
@@ -7,8 +7,8 @@ let player = {
         ace10: 0,
         final: 0
     }
-};
-let house = {
+}
+let mHouse = {
     name: "house",
     cards: [],
     points: {
@@ -18,248 +18,232 @@ let house = {
         hiddenAce10: 0,
         final: 0
     }
-};
-
-async function blackjack() {
-    //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT;
-    let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/";
-    await fetch(url)
-        .then((response) => response.json())
-        .then((json) => {
-            deck_id = json.deck_id;
-        })
-        .catch((error) => console.log(error));
-
-    await drawCard(2, player);
-    await drawCard(2, house);
-
-    await getHand(player, false);
-    await getHand(house, false);
-
-    await startUI();
 }
 
-async function drawCard(amount, player, isHouseTurn) {
-    let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/draw/?count=" + amount;
+document.querySelector("#openBlackjack").addEventListener("click",() => {
+    playBlackjack()
+})
 
-    await fetch(url)
-        .then((response) => response.json())
-        .then((json) => addToHand(json, player, isHouseTurn))
-        .catch((error) => console.log(error))
-}
+document.querySelector("#reset-button").addEventListener("click", () => {
+    resetBlackjack()
+    playBlackjack()
+})
 
-async function addToHand(json, player, isHouseTurn) {
-    let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/pile/" + player.name + "/add/?cards=";
-    for (let i = 0; i < json.cards.length; i++) {
-        player.cards.push(json.cards[i]);
-        if (json.cards[i].value === "JACK" || json.cards[i].value === "QUEEN" || json.cards[i].value === "KING") {
-            if (player.name === "house" && i === 0 && isHouseTurn !== true) {
-                player.points.ace1 += 10;
-                player.points.ace10 += 10;
-            } else {
-                player.points.ace1 += 10;
-                player.points.ace10 += 10;
+document.querySelector("#stop").addEventListener("click", () => {
+    document.getElementById("gameBackground").style.display = "none"
+    resetBlackjack()
+})
 
-                player.points.hiddenAce1 += 10;
-                player.points.hiddenAce10 += 10;
-            }
-        } else if (json.cards[i].value === "ACE") {
-            if (player.name === "house" && i === 0 && isHouseTurn !== true) {
-                player.points.ace1 += 1;
-                player.points.ace10 += 10;
-            } else {
-                player.points.ace1 += 1;
-                player.points.ace10 += 10;
+document.querySelector("#hit-button").addEventListener("click", () => hit())
+document.querySelector("#stay-button").addEventListener("click", () => stay())
 
-                player.points.hiddenAce1 += 1;
-                player.points.hiddenAce10 += 10;
-            }
-        } else {
-            if (player.name === "house" && i === 0 && isHouseTurn !== true) {
-                player.points.ace1 += parseInt(json.cards[i].value);
-                player.points.ace10 += parseInt(json.cards[i].value);
-            } else {
-                player.points.ace1 += parseInt(json.cards[i].value);
-                player.points.ace10 += parseInt(json.cards[i].value);
-
-                player.points.hiddenAce1 += parseInt(json.cards[i].value);
-                player.points.hiddenAce10 += parseInt(json.cards[i].value);
-            }
-        }
-
-        if (i === json.cards.length - 1) {
-            url += json.cards[i].code;
-        } else {
-            url += json.cards[i].code + ",";
-        }
-    }
-    fetch(url)
-        .then((response) => {
-            if (response.status !== 200) {
-                window.alert(response)
-            }
-        }).catch((error) => console.log(error))
-}
-
-async function getHand(player, isHouseTurn) {
-    let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/pile/" + player.name + "/list/";
-    await fetch(url)
-        .then(function (response) {
-            response.json()
-                .then(function () {
-                    let cards;
-                    let element;
-                    if (player.name === "player") {
-                        cards = player.cards;
-                        element = document.querySelector("#player-hand");
-                    } else if (player.name === "house") {
-                        cards = house.cards;
-                        element = document.querySelector("#house-hand");
-                    }
-                    element.innerText = "";
-                    for (let i = 0; i < cards.length; i++) {
-                        if (i === 0 && player.name === "house" && isHouseTurn !== true) {
-                            let img = document.createElement("img");
-                            img.src = "cards/purple_back.png";
-                            img.className = "card";
-                            element.appendChild(img);
-                        } else {
-                            let img = document.createElement("img");
-                            img.src = "cards/" + cards[i].code + ".png";
-                            img.className = "card";
-                            element.appendChild(img);
-                        }
-                    }
-
+function playBlackjack() {
+    document.getElementById("gameBackground").style.display = "flex"
+    new Promise((resolve, reject) => {
+        //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT
+        let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/"
+        fetch(url)
+            .then(response => response.json())
+            .then(json => {
+                resolve(json.deck_id)
+            })
+            .catch(error => console.log(error))
+    }).then((deck_id) => {
+        return new Promise((resolve, reject) => {
+            let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/draw/?count=52"
+            fetch(url)
+                .then(response => response.json())
+                .then(json => {
+                    resolve(json)
                 })
-        });
+                .catch(error => console.log(error))
+        })
+    }).then(json => {
+        for (let i = 0; i < json.cards.length; i++) {
+            mCards[i] = json.cards[i]
+        }
+    }).then(() => {
+        addToHand(mPlayer, 2)
+        addToHand(mHouse, 2)
+    }).then(() => {
+        updateTableCards(mPlayer, false)
+        updateTableCards(mHouse, false)
+        updatePoints(false)
+    })
 }
 
-async function startUI() {
-    document.querySelector("#player-points").innerText = player.points.ace1 + " / " + player.points.ace10;
-    document.querySelector("#house-points").innerText = house.points.hiddenAce1 + " / " + house.points.hiddenAce10;
-
-    let hitButton = document.createElement("button");
-    hitButton.innerText = "HIT";
-    hitButton.addEventListener("click", () => hit());
-
-    let stayButton = document.createElement("button");
-    stayButton.innerText = "STAY";
-    stayButton.addEventListener("click", () => stay());
-
-    document.querySelector("#blackjack-buttons").innerHTML = "";
-    document.querySelector("#blackjack-buttons").appendChild(hitButton);
-    document.querySelector("#blackjack-buttons").appendChild(stayButton);
-}
-
-async function updatePlayer() {
-    document.querySelector("#player-points").innerText = player.points.ace1 + " / " + player.points.ace10;
-}
-
-async function updateHouse() {
-    document.querySelector("#house-points").innerText = house.points.ace1 + " / " + house.points.ace10;
-}
-
-async function hit() {
-    await drawCard(1, player);
-    await getHand(player, false);
-    await updatePlayer();
-    await hitCheck();
-}
-
-async function stay() {
-    await getHand(house, true);
-    while (house.points.ace1 < 17 || house.points.ace10 < 17 && house.points.ace1 < player.points.ace1) {
-        await drawCard(1, house);
-        await getHand(house, true);
-        await updateHouse();
-    }
-    await updateHouse();
-    let resetButton = document.createElement("button");
-    resetButton.innerText = "NEW GAME";
-    resetButton.id = "reset-button";
-    resetButton.addEventListener("click", () =>  {
-        document.querySelector("#reset-button").remove();
-        document.querySelector("#player-points").innerText = "";
-        document.querySelector("#house-points").innerText = "";
-        resetBlackjack();
-    });
-    document.querySelector("#blackjack-buttons").appendChild(resetButton);
-    await stayCheck();
-}
-
-async function hitCheck() {
-    if (player.points.ace1 > 21) {
-        window.alert("HÄVISIT");
-        let resetButton = document.createElement("button");
-        resetButton.innerText = "NEW GAME";
-        resetButton.id = "reset-button";
-        resetButton.addEventListener("click", () =>  {
-            document.querySelector("#reset-button").remove();
-            document.querySelector("#player-points").innerText = "";
-            document.querySelector("#house-points").innerText = "";
-            resetBlackjack();
-        });
-        document.querySelector("#blackjack-buttons").appendChild(resetButton);
+function addToHand(player, numberOfCards) {
+    for (let i = 0; i < numberOfCards; i++) {
+        //Set points for player
+        let card = mCards.pop()
+        if (checkPoints(card) !== "ACE") {
+            player.points.ace10 += checkPoints(card)
+            player.points.ace1 += checkPoints(card)
+            player.points.final += checkPoints(card)
+            if (i > 0 && player.name === "house")
+                player.points.hiddenAce10 += checkPoints(card)
+            player.points.hiddenAce1 += checkPoints(card)
+        }
+        else {
+            player.points.ace1 += 1
+            player.points.ace10 += 10
+            if (i > 0 && player.name === "house") {
+                player.points.hiddenAce1 += 1
+                player.points.hiddenAce10 += 10
+            }
+        }
+        player.cards.push(card)
     }
 }
 
-async function stayCheck() {
-    if (player.points.ace10 > 21) {
-        player.points.final = player.points.ace1;
+function checkPoints(card) {
+    //Returns value of card unless ace, then returns ace as string
+    if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
+        return 10
+    } else if (card.value === "ACE") {
+        return "ACE"
     } else {
-        player.points.final = player.points.ace10;
+        return parseInt(card.value)
     }
+}
 
-    if (house.points.ace10 > 21) {
-        house.points.final = house.points.ace1;
+function updateTableCards(player, houseTurn) {
+    let id
+    if (player.name === "player") {
+        id = "#player-hand"
     } else {
-        house.points.final = house.points.ace10;
+        id = "#house-hand"
     }
 
-    if (player.points.final > house.points.final) {
-        window.alert("VOITIT");
-    } else if (house.points.final > 21) {
-        window.alert("VOITIT");
-    } else if (player.points.final === house.points.final) {
-        window.alert("TASAPELI");
+    let handElement = document.querySelector(id)
+    handElement.innerText = ""
+    for (let i = 0; i < player.cards.length; i++) {
+        let img = document.createElement("img")
+        img.className = "card"
+        if (i === 0 && player.name === "house" && !houseTurn) {
+            img.src = "cards/purple_back.png"
+        } else {
+            img.src = "cards/" + player.cards[i].code + ".png"
+        }
+        handElement.appendChild(img)
+    }
+}
+
+function updatePoints(isHouseTurn) {
+    //Set points on the table, if ace is in play both possibilities shown
+    let playerPoints = document.querySelector("#player-points")
+    let housePoints = document.querySelector("#house-points")
+    if (isAceInHand(mPlayer)) {
+        playerPoints.innerText = mPlayer.points.ace1 + " / " + mPlayer.points.ace10
     } else {
-        window.alert("HÄVISIT");
+        playerPoints.innerText = mPlayer.points.ace10
     }
 
-    console.log("player: " + player.points.final);
-    console.log("house: " + house.points.final);
+    if (!isHouseTurn) {
+        if (isAceInHand(mHouse)) {
+            housePoints.innerText = mHouse.points.hiddenAce1 + " / " + mHouse.points.hiddenAce10
+        } else {
+            housePoints.innerText = mHouse.points.hiddenAce10
+        }
+    } else {
+        if (isAceInHand(mHouse)) {
+            housePoints.innerText = mHouse.points.ace1 + " / " + mHouse.points.ace10
+        } else {
+            housePoints.innerText = mHouse.points.ace10
+        }
+    }
+}
+
+function isAceInHand(player) {
+    //Checks whether an ace is in a player's hand
+    for (let i = 0; i < player.cards.length; i++) {
+        let card = player.cards[i]
+        if (card.value === "ACE") {
+            if (player.cards.length === 2 && i === 0 && player.name === "house") {
+
+            } else {
+                return true
+            }
+        }
+    }
+    return false
 }
 
 function resetBlackjack() {
-    player = {
+    mCards = []
+    mPlayer = {
         name: "player",
         cards: [],
         points: {
             ace1: 0,
-            ace10: 0
+            ace10: 0,
+            final: 0
         }
-    };
-    house = {
+    }
+    mHouse = {
         name: "house",
         cards: [],
         points: {
             ace1: 0,
             ace10: 0,
             hiddenAce1: 0,
-            hiddenAce10: 0
+            hiddenAce10: 0,
+            final: 0
         }
-    };
-    document.querySelector("#player-hand").innerText = "";
-    document.querySelector("#house-hand").innerText = "";
-    blackjack();
+    }
+    document.querySelector("#player-hand").innerText = ""
+    document.querySelector("#house-hand").innerText = ""
+    updatePoints(false)
 }
 
-document.querySelector("#openBlackjack").addEventListener("click", function () {
-    blackjack();
-    document.getElementById("gameBackground").style.display = "flex";
-});
+function hit() {
+    let promise = new Promise(resolve => {
+        addToHand(mPlayer, 1)
+        updateTableCards(mPlayer, false)
+        updatePoints(false)
+        setTimeout(resolve, 100)
+    })
 
-function stopButton() {
-    document.getElementById("gameBackground").style.display = "none";
+    promise.then(() => {
+        if (mPlayer.points.ace1 > 21) {
+            console.log("lost")
+        }
+    })
+}
+
+function stay() {
+    updateTableCards(mHouse, true)
+    updatePoints(true)
+
+    while (mHouse.points.ace1 < 17 || mHouse.points.ace10 < 17 && mHouse.points.ace1 < mPlayer.points.ace1) {
+        addToHand(mHouse, 1)
+        updateTableCards(mHouse, true)
+        updatePoints(true)
+    }
+
+    if (mPlayer.points.ace10 > 21) {
+        mPlayer.points.final = mPlayer.points.ace1;
+    } else {
+        mPlayer.points.final = mPlayer.points.ace10;
+    }
+
+    if (mHouse.points.ace10 > 21) {
+        mHouse.points.final = mHouse.points.ace1;
+    } else {
+        mHouse.points.final = mHouse.points.ace10;
+    }
+
+    if (mPlayer.points.final > mHouse.points.final) {
+        console.log("win");
+    } else if (mHouse.points.final > 21) {
+        console.log("win");
+    } else if (mPlayer.points.final === mHouse.points.final) {
+        console.log("tie");
+    } else {
+        console.log("lost");
+    }
+
+    console.log("player points: " + mPlayer.points.final);
+    console.log("house points: " + mHouse.points.final);
+    console.log("--------------------------------------------")
 }
