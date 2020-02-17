@@ -21,25 +21,25 @@ let mHouse = {
 }
 
 document.querySelector("#openBlackjack").addEventListener("click",() => {
-    playBlackjack()
+    document.getElementById("gameBackground").style.display = "flex"
+    document.querySelector("#play-button").setAttribute("class", "")
 })
-
+document.querySelector("#play-button").addEventListener("click", () => {
+    playBlackjack()
+    document.querySelector("#play-button").setAttribute("class", "hidden")
+})
 document.querySelector("#reset-button").addEventListener("click", () => {
     resetBlackjack()
     playBlackjack()
+    document.querySelector("#reset-button").setAttribute("class", "hidden")
 })
-
 document.querySelector("#stop").addEventListener("click", () => {
     document.getElementById("gameBackground").style.display = "none"
     resetBlackjack()
 })
 
-document.querySelector("#hit-button").addEventListener("click", () => hit())
-document.querySelector("#stay-button").addEventListener("click", () => stay())
-
 function playBlackjack() {
-    document.getElementById("gameBackground").style.display = "flex"
-    new Promise((resolve, reject) => {
+    new Promise(resolve => {
         //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT
         let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/"
         fetch(url)
@@ -48,8 +48,8 @@ function playBlackjack() {
                 resolve(json.deck_id)
             })
             .catch(error => console.log(error))
-    }).then((deck_id) => {
-        return new Promise((resolve, reject) => {
+    }).then(deck_id => {
+        return new Promise(resolve => {
             let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/draw/?count=52"
             fetch(url)
                 .then(response => response.json())
@@ -62,13 +62,13 @@ function playBlackjack() {
         for (let i = 0; i < json.cards.length; i++) {
             mCards[i] = json.cards[i]
         }
-    }).then(() => {
         addToHand(mPlayer, 2)
         addToHand(mHouse, 2)
-    }).then(() => {
         updateTableCards(mPlayer, false)
         updateTableCards(mHouse, false)
         updatePoints(false)
+        document.querySelector("#hit-button").addEventListener("click", hit)
+        document.querySelector("#stay-button").addEventListener("click", stay)
     })
 }
 
@@ -207,8 +207,13 @@ function hit() {
     promise.then(() => {
         if (mPlayer.points.ace1 > 21) {
             console.log("lost")
+            document.querySelector("#hit-button").removeEventListener("click", hit)
+            document.querySelector("#stay-button").removeEventListener("click", stay)
+            document.querySelector("#reset-button").setAttribute("class", "")
         }
     })
+    let amount = document.querySelector("#bet-amount").value
+    console.log(amount)
 }
 
 function stay() {
@@ -242,8 +247,23 @@ function stay() {
     } else {
         console.log("lost");
     }
+    document.querySelector("#hit-button").removeEventListener("click", hit)
+    document.querySelector("#stay-button").removeEventListener("click", stay)
+    document.querySelector("#reset-button").setAttribute("class", "")
 
     console.log("player points: " + mPlayer.points.final);
     console.log("house points: " + mHouse.points.final);
     console.log("--------------------------------------------")
 }
+
+
+
+
+
+
+
+
+
+
+
+
