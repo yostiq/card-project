@@ -28,6 +28,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         db.collection("users").doc(firebase.auth().currentUser.uid)
             .onSnapshot(function (doc) {
                 document.getElementById("textMoneyLeft").innerHTML = doc.data().money;
+                document.getElementById("player-money").innerHTML = doc.data().money;
             });
     } else {
         console.log("No users logged in");
