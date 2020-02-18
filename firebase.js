@@ -23,12 +23,13 @@ firebase.auth().onAuthStateChanged(function (user) {
                 let username = doc.data().displayName[0].toUpperCase() + doc.data().displayName.slice(1);
                 console.log(username);
                 document.getElementById("textUsername").innerHTML = username;
-            });
+            }).catch((error) => console.log(error));
 
         db.collection("users").doc(firebase.auth().currentUser.uid)
             .onSnapshot(function (doc) {
                 document.getElementById("textMoneyLeft").innerHTML = doc.data().money;
-            });
+            }, (error) => console.log(error));
+        
     } else {
         console.log("No users logged in");
         document.getElementById("loginLinks").style.display = "flex";
