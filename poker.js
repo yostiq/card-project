@@ -30,21 +30,21 @@ async function poker() {
     }
 
     for (let i = 0; i < pokerPlayers.length; i++){
-        await drawCard(5, pokerPlayers[i]);
-        await getHand(pokerPlayers[i]);
+        await pokerDrawCard(5, pokerPlayers[i]);
+        await pokerGetHand(pokerPlayers[i]);
     }
 }
 
-async function drawCard(amount, player){
+async function pokerDrawCard(amount, player){
     let url = "https://deckofcardsapi.com/api/deck/" + poker_deck + "/draw/?count=" + amount;
 
     await fetch(url)
         .then((response) => response.json())
-        .then((json) => addToHand(json, player))
+        .then((json) => pokerAddToHand(json, player))
         .catch((error) => console.log(error));
 }
 
-async function addToHand(json, player) {
+async function pokerAddToHand(json, player) {
     let url = "https://deckofcardsapi.com/api/deck/" + poker_deck + "/pile/" + player.name + "/add/?cards=";
     for (let i = 0; i < json.cards.length; i++) {
         if(json.cards[i].value === "JACK"){
@@ -70,7 +70,7 @@ async function addToHand(json, player) {
         .catch((error) => console.log(error));
 }
 
-async function getHand(player) {
+async function pokerGetHand(player) {
     player.cards.sort((a,b) => b.value - a.value);
     console.log(player.cards);
 }
@@ -78,15 +78,3 @@ async function getHand(player) {
 document.querySelector("#openPoker").addEventListener("click", async function () {
     await poker();
 });
-
-/*
-
-//FOR TEST PURPOSES ONLY!
-
-document.querySelector("#openTexas").addEventListener("click", async function () {
-    for(let i = 0; i < pokerPlayers.length; i++){
-        console.log(pokerPlayers[i].cards);
-        console.log(solve(pokerPlayers[i].cards));
-    }
-});
-*/
