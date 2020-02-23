@@ -1,3 +1,4 @@
+// solve(player[0].cards)
 function solve(cards) {
     return royalFlush(cards);
 }
@@ -94,6 +95,22 @@ function pair(cards) {
 
 function highCard(cards) {
     return "HIGH_CARD_" + cards[0].value;
+}
+
+// highestLeftOver(player[0].cards, 9, 0) if only three same cards
+// highestLeftOver(player[0].cards, 9, 3) if two pairs
+function highestLeftOver(cards, card1, card2) {
+    let highest = 0;
+    for (let i = 0; i < cards.length; i++) {
+        if (parseInt(cards[i].value) !== card1 && parseInt(cards[i].value) !== card2) {
+            if (parseInt(cards[i].value) > highest){
+                highest = parseInt(cards[i].value);
+                console.log(highest)
+            }
+        }
+    }
+
+    return highest;
 }
 
 function royalChecker(cards) {
