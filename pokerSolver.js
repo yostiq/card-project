@@ -110,7 +110,7 @@ function highestLeftOver(cards, card1, card2) {
         }
     }
 
-    return highest;
+    return "HIGHEST_LEFTOVER_" + highest;
 }
 
 function royalChecker(cards) {
