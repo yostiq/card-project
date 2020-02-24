@@ -2,6 +2,7 @@ let mCards = []
 let mPlayer = {
     name: "player",
     cards: [],
+    money: 0,
     points: {
         ace1: 0,
         ace10: 0,
@@ -20,9 +21,16 @@ let mHouse = {
     }
 }
 
-document.querySelector("#openBlackjack").addEventListener("click",() => {
+document.querySelector("#openBlackjack").addEventListener("click", () => {
     document.getElementById("gameBackground").style.display = "flex"
     document.querySelector("#play-button").setAttribute("class", "")
+    db.collection("users").doc(firebase.auth().currentUser.uid).get()
+        .then((doc) => {
+            console.log(doc.data())
+            // mPlayer.money = doc.data().displayName[0].toUpperCase() + doc.data().displayName.slice(1)
+            mPlayer.money = doc.data().money
+            document.querySelector("#player-money").textContent = mPlayer.money
+        }).catch((error) => console.log(error))
 })
 document.querySelector("#play-button").addEventListener("click", () => {
     playBlackjack()
@@ -39,9 +47,12 @@ document.querySelector("#stop").addEventListener("click", () => {
 })
 
 function playBlackjack() {
+    let betAmount = document.querySelector("#bet-amount").value
+    decrementMoney(betAmount)
     new Promise(resolve => {
         //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT
         let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/"
+        console.log(mPlayer)
         fetch(url)
             .then(response => response.json())
             .then(json => {
@@ -83,8 +94,7 @@ function addToHand(player, numberOfCards) {
             if (i > 0 && player.name === "house")
                 player.points.hiddenAce10 += checkPoints(card)
             player.points.hiddenAce1 += checkPoints(card)
-        }
-        else {
+        } else {
             player.points.ace1 += 1
             player.points.ace10 += 10
             if (i > 0 && player.name === "house") {
@@ -256,6 +266,15 @@ function stay() {
     console.log("--------------------------------------------")
 }
 
+function decrementMoney(amount) {
+    db.collection("users").doc(firebase.auth().currentUser.uid).update(
+        "money", firebase.firestore.FieldValue.decrement(amount));
+}
+
+function incrementMoney(amount) {
+    db.collection("users").doc(firebase.auth().currentUser.uid).update(
+        "money", firebase.firestore.FieldValue.increment(amount));
+}
 
 
 
