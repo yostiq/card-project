@@ -1,4 +1,5 @@
 let mCards = []
+let betAmount = 0
 let mPlayer = {
     name: "player",
     cards: [],
@@ -24,13 +25,7 @@ let mHouse = {
 document.querySelector("#openBlackjack").addEventListener("click", () => {
     document.getElementById("gameBackground").style.display = "flex"
     document.querySelector("#play-button").setAttribute("class", "")
-    db.collection("users").doc(firebase.auth().currentUser.uid).get()
-        .then((doc) => {
-            console.log(doc.data())
-            // mPlayer.money = doc.data().displayName[0].toUpperCase() + doc.data().displayName.slice(1)
-            mPlayer.money = doc.data().money
-            document.querySelector("#player-money").textContent = mPlayer.money
-        }).catch((error) => console.log(error))
+    updatePlayerMoney()
 })
 document.querySelector("#play-button").addEventListener("click", () => {
     playBlackjack()
@@ -46,9 +41,28 @@ document.querySelector("#stop").addEventListener("click", () => {
     resetBlackjack()
 })
 
+function updatePlayerMoney() {
+    db.collection("users").doc(firebase.auth().currentUser.uid).get()
+        .then((doc) => {
+            console.log(doc.data())
+            mPlayer.money = doc.data().money
+            document.querySelector("#player-money").textContent = mPlayer.money
+        }).catch((error) => console.log(error))
+}
+
+function victory() {
+    incrementMoney(betAmount * 2)
+    updatePlayerMoney()
+}
+
+function tie() {
+    incrementMoney(betAmount)
+}
+
 function playBlackjack() {
-    let betAmount = document.querySelector("#bet-amount").value
+    betAmount = document.querySelector("#bet-amount").value
     decrementMoney(betAmount)
+    updatePlayerMoney()
     new Promise(resolve => {
         //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT
         let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/"
@@ -250,8 +264,10 @@ function stay() {
 
     if (mPlayer.points.final > mHouse.points.final) {
         console.log("win");
+        victory()
     } else if (mHouse.points.final > 21) {
         console.log("win");
+        victory()
     } else if (mPlayer.points.final === mHouse.points.final) {
         console.log("tie");
     } else {
@@ -260,6 +276,7 @@ function stay() {
     document.querySelector("#hit-button").removeEventListener("click", hit)
     document.querySelector("#stay-button").removeEventListener("click", stay)
     document.querySelector("#reset-button").setAttribute("class", "")
+    updatePlayerMoney()
 
     console.log("player points: " + mPlayer.points.final);
     console.log("house points: " + mHouse.points.final);
@@ -268,7 +285,7 @@ function stay() {
 
 function decrementMoney(amount) {
     db.collection("users").doc(firebase.auth().currentUser.uid).update(
-        "money", firebase.firestore.FieldValue.decrement(amount));
+        "money", firebase.firestore.FieldValue.increment(amount * -1));
 }
 
 function incrementMoney(amount) {
