@@ -44,8 +44,7 @@ document.querySelector("#stop").addEventListener("click", () => {
 function updatePlayerMoney() {
     db.collection("users").doc(firebase.auth().currentUser.uid).get()
         .then((doc) => {
-            console.log(doc.data())
-            mPlayer.money = doc.data().money
+            mPlayer.money = parseInt(doc.data().money)
             document.querySelector("#player-money").textContent = mPlayer.money
         }).catch((error) => console.log(error))
 }
@@ -53,10 +52,15 @@ function updatePlayerMoney() {
 function victory() {
     incrementMoney(betAmount * 2)
     updatePlayerMoney()
+    console.log("won")
 }
 
 function tie() {
     incrementMoney(betAmount)
+    console.log("tied")
+}
+function lost() {
+    console.log("lost")
 }
 
 function playBlackjack() {
@@ -66,7 +70,6 @@ function playBlackjack() {
     new Promise(resolve => {
         //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT
         let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/"
-        console.log(mPlayer)
         fetch(url)
             .then(response => response.json())
             .then(json => {
@@ -94,6 +97,7 @@ function playBlackjack() {
         updatePoints(false)
         document.querySelector("#hit-button").addEventListener("click", hit)
         document.querySelector("#stay-button").addEventListener("click", stay)
+        document.querySelector("#double-button").addEventListener("click", double)
     })
 }
 
@@ -230,17 +234,15 @@ function hit() {
 
     promise.then(() => {
         if (mPlayer.points.ace1 > 21) {
-            console.log("lost")
+            lost()
             document.querySelector("#hit-button").removeEventListener("click", hit)
             document.querySelector("#stay-button").removeEventListener("click", stay)
             document.querySelector("#reset-button").setAttribute("class", "")
         }
     })
-    let amount = document.querySelector("#bet-amount").value
-    console.log(amount)
 }
 
-function stay() {
+function stay(doubled) {
     updateTableCards(mHouse, true)
     updatePoints(true)
 
@@ -251,46 +253,48 @@ function stay() {
     }
 
     if (mPlayer.points.ace10 > 21) {
-        mPlayer.points.final = mPlayer.points.ace1;
+        mPlayer.points.final = mPlayer.points.ace1
     } else {
-        mPlayer.points.final = mPlayer.points.ace10;
+        mPlayer.points.final = mPlayer.points.ace10
     }
 
     if (mHouse.points.ace10 > 21) {
-        mHouse.points.final = mHouse.points.ace1;
+        mHouse.points.final = mHouse.points.ace1
     } else {
-        mHouse.points.final = mHouse.points.ace10;
+        mHouse.points.final = mHouse.points.ace10
     }
 
     if (mPlayer.points.final > mHouse.points.final) {
-        console.log("win");
         victory()
     } else if (mHouse.points.final > 21) {
-        console.log("win");
         victory()
     } else if (mPlayer.points.final === mHouse.points.final) {
-        console.log("tie");
+        tie()
     } else {
-        console.log("lost");
+        lost()
     }
     document.querySelector("#hit-button").removeEventListener("click", hit)
     document.querySelector("#stay-button").removeEventListener("click", stay)
-    document.querySelector("#reset-button").setAttribute("class", "")
+    document.querySelector("#reset-button").setAttribute("class", double)
     updatePlayerMoney()
+}
 
-    console.log("player points: " + mPlayer.points.final);
-    console.log("house points: " + mHouse.points.final);
-    console.log("--------------------------------------------")
+function double() {
+    decrementMoney(betAmount)
+    addToHand(mPlayer, 1)
+    updateTableCards(mHouse, false)
+    updatePoints(false)
+    stay(true)
 }
 
 function decrementMoney(amount) {
     db.collection("users").doc(firebase.auth().currentUser.uid).update(
-        "money", firebase.firestore.FieldValue.increment(amount * -1));
+        "money", firebase.firestore.FieldValue.increment(amount * -1))
 }
 
 function incrementMoney(amount) {
     db.collection("users").doc(firebase.auth().currentUser.uid).update(
-        "money", firebase.firestore.FieldValue.increment(amount));
+        "money", firebase.firestore.FieldValue.increment(amount * 1))
 }
 
 
