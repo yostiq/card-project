@@ -10,6 +10,10 @@ document.querySelector("#openPoker").addEventListener("click", async function ()
     openPoker();
 });
 
+document.querySelector("#openBlackjack").addEventListener("click", async function () {
+    openBlackjack();
+});
+
 function cancelButton() {
     let element = document.getElementById("logonBackground");
     element.parentNode.removeChild(element);
@@ -20,9 +24,28 @@ function openPoker() {
 
     fetch(file)
         .then((response) => response.text())
-        .then((data) => document.body.innerHTML += data)
+        .then((data) => document.getElementById("gameBackground").innerHTML = data)
+        .then(() => document.getElementById("gameBackground").style.display = "flex")
         .then(() => poker())
         .catch((error) => console.log(error));
+}
+
+function openBlackjack() {
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/blackjack.txt";
+
+    fetch(file)
+        .then((response) => response.text())
+        .then((data) => document.getElementById("gameBackground").innerHTML = data)
+        .then(() => {
+            document.getElementById("gameBackground").style.display = "flex";
+            document.querySelector("#play-button").setAttribute("class", "");
+            updatePlayerMoney();
+        })
+        .catch((error) => console.log(error));
+}
+
+function closeGame() {
+    document.getElementById("gameBackground").innerHTML = ""
 }
 
 function openLoginScreen() {

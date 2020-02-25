@@ -1,5 +1,5 @@
 <div id="bjTable">
-    <button id="stop">X</button>
+    <button id="stop" onclick="closeGame()">X</button>
     <div id="player">
         <div class="playInfo">
             <p>Player:&#160;</p>

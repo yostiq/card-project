@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="grid-item">
-        <button id="stop">X</button>
+        <button id="stop" onclick="closeGame()">X</button>
     </div>
     <div id="cpu1" class="grid-item">
         <div class="playInfo">
