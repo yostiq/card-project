@@ -7,7 +7,7 @@ window.onclick = (event) => {
 };
 
 document.querySelector("#openPoker").addEventListener("click", async function () {
-    await poker();
+    openPoker();
 });
 
 function cancelButton() {
@@ -21,6 +21,7 @@ function openPoker() {
     fetch(file)
         .then((response) => response.text())
         .then((data) => document.body.innerHTML += data)
+        .then(() => poker())
         .catch((error) => console.log(error));
 }
 
