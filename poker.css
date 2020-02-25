@@ -1,0 +1,72 @@
+#pokerTable {
+    border: 3px solid black;
+    position: relative;
+    width: 1200px;
+    height: 750px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: #1a281f;
+    color: #cccccc;
+    font-size: 24px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    margin: auto;
+    border-radius: 15px;
+}
+
+.grid-item {
+    width: 390px;
+    height: 240px;
+    padding: 5px;
+    font-size: 24px;
+    text-align: start;
+}
+
+#poker-buttons, #play-grid, #draw-buttons {
+    align-items: center;
+    justify-items: center;
+}
+
+#poker-buttons button, #draw-buttons button, #play-grid button {
+    font-family: Rockwell sans-serif;
+    width: 150px;
+    font-size: 20px;
+    margin: 3px;
+    border-radius: 8px;
+    color: #ada8b6;
+    background: none;
+    border: 3px solid #ada8b6;
+}
+
+#poker-buttons button:hover, #stop:hover, #draw-buttons button:hover, #play-grid button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+#cpu1-hand, #cpu2-hand, #cpu3-hand, #player-hand {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: start;
+}
+
+#cpu1-hand img, #cpu2-hand img, #cpu3-hand img, #player-hand img{
+    max-width: 82px;
+    max-height: 125px;
+}
+
+#cpu1-hand img:nth-child(2), #cpu2-hand img:nth-child(2), #cpu3-hand img:nth-child(2), #player-hand img:nth-child(2){
+    transform: translateX(-60px);
+}
+#cpu1-hand img:nth-child(3), #cpu2-hand img:nth-child(3), #cpu3-hand img:nth-child(3), #player-hand img:nth-child(3){
+    transform: translateX(-120px);
+}
+#cpu1-hand img:nth-child(4), #cpu2-hand img:nth-child(4), #cpu3-hand img:nth-child(4), #player-hand img:nth-child(4){
+    transform: translateX(-180px);
+}
+#cpu1-hand img:nth-child(5), #cpu2-hand img:nth-child(5), #cpu3-hand img:nth-child(5), #player-hand img:nth-child(5){
+    transform: translateX(-240px);
+}
+
+.playInfo p{
+    font-size: 18px;
+}

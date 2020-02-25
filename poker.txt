@@ -1,0 +1,68 @@
+<div id="gameBackground">
+    <div id="pokerTable">
+        <div class="grid-item" id="play-grid">
+            <button id="play-button">PLAY</button> <!--Esiin vain ennen peliä!-->
+        </div>
+        <div id="cpu2" class="grid-item">
+            <div class="playInfo">
+                <p>Amin&#160;</p>
+                <p id="cpu2-bet"></p>
+            </div>
+            <div id="cpu2-hand">
+            </div>
+        </div>
+        <div class="grid-item">
+            <button id="stop">X</button>
+        </div>
+        <div id="cpu1" class="grid-item">
+            <div class="playInfo">
+                <p>Joonas&#160;</p>
+                <p id="cpu1-bet"></p>
+            </div>
+            <div id="cpu1-hand">
+            </div>
+        </div>
+        <div id="pot" class="grid-item">
+            <p id="pot-amount">Pot: </p>
+        </div>
+        <div id="cpu3" class="grid-item">
+            <div class="playInfo">
+                <p>Joni&#160;</p>
+                <p id="cpu3-bet"></p>
+            </div>
+            <div id="cpu3-hand">
+            </div>
+        </div>
+        <div id="draw-buttons" class="grid-item">
+            <p>Money:&#160;</p>
+            <p id="player-money"></p>
+            <button id="draw-button">DRAW</button> <!--Esiin vain kun mahdollista painaa!-->
+            <button id="stay-button">STAY</button> <!--Esiin vain kun mahdollista painaa!-->
+        </div>
+        <div id="player" class="grid-item">
+            <div class="playInfo">
+                <p>Player:&#160;</p>
+                <p id="player-bet"></p>
+            </div>
+            <div id="player-hand">
+            </div>
+        </div>
+        <div class="grid-item">
+            <div id="poker-buttons">
+                <p id="bet-amount">Bet amount: </p>
+                <button id="minus-button">-</button> <!--Esiin vain kun mahdollista painaa!-->
+                <button id="plus-button">+</button> <!--Esiin vain kun mahdollista painaa!-->
+                <button id="CHECK-button">CHECK</button> <!--Esiin vain kun mahdollista painaa!-->
+                <button id="call-button">CALL</button> <!--Esiin vain kun mahdollista painaa!-->
+                <button id="bet-button">BET</button> <!--Esiin vain kun mahdollista painaa!-->
+                <button id="raise-button">RAISE</button> <!--Esiin vain kun mahdollista painaa!-->
+                <button id="all-in-button">ALL IN</button> <!--Esiin vain kun mahdollista painaa!-->
+                <button id="fold-button">FOLD</button> <!--Esiin vain kun mahdollista painaa!-->
+            </div>
+        </div>
+        <div id="buy-in-screen" class="grid-item"> <!--Esiin vain ennen peliä!-->
+            <label for="buy-in-amount">&#160;&#160;&#160;Minimum bet for the game?&#160;</label> <!--Esiin vain ennen peliä!-->
+            <input type="number" id="buy-in-amount"> <!--Esiin vain ennen peliä!-->
+        </div>
+    </div>
+</div>

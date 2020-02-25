@@ -1,29 +1,34 @@
 let mCards = []
+let betAmount = 0
+let mInsured = false
 let mPlayer = {
     name: "player",
     cards: [],
+    money: 0,
     points: {
         ace1: 0,
-        ace10: 0,
+        ace11: 0,
         final: 0
     }
 }
+
 let mHouse = {
     name: "house",
     cards: [],
     points: {
         ace1: 0,
-        ace10: 0,
+        ace11: 0,
         hiddenAce1: 0,
-        hiddenAce10: 0,
+        hiddenAce11: 0,
         final: 0
     }
 }
 
-document.querySelector("#openBlackjack").addEventListener("click",() => {
+/*document.querySelector("#openBlackjack").addEventListener("click", () => {
     document.getElementById("gameBackground").style.display = "flex"
     document.querySelector("#play-button").setAttribute("class", "")
-})
+    updatePlayerMoney()
+})*/
 document.querySelector("#play-button").addEventListener("click", () => {
     playBlackjack()
     document.querySelector("#play-button").setAttribute("class", "hidden")
@@ -38,7 +43,49 @@ document.querySelector("#stop").addEventListener("click", () => {
     resetBlackjack()
 })
 
+document.querySelector("#hit-button").addEventListener("click", hit)
+document.querySelector("#stay-button").addEventListener("click", stay)
+document.querySelector("#double-button").addEventListener("click", double)
+document.querySelector("#insurance-button").addEventListener("click", insurance)
+
+function updatePlayerMoney() {
+    db.collection("users").doc(firebase.auth().currentUser.uid).get()
+        .then((doc) => {
+            mPlayer.money = parseInt(doc.data().money)
+            document.querySelector("#player-money").textContent = mPlayer.money
+        }).catch((error) => console.log(error))
+}
+
+function victory() {
+    incrementMoney(betAmount * 2)
+    updatePlayerMoney()
+    udpateButtons()
+    console.log("won")
+}
+
+function tie() {
+    incrementMoney(betAmount)
+    udpateButtons()
+    console.log("tied")
+}
+
+function lost() {
+    udpateButtons()
+    console.log("lost")
+}
+
+function udpateButtons() {
+    showButton("#reset-button")
+    hideButton("#hit-button")
+    hideButton("#stay-button")
+    hideButton("#double-button")
+    hideButton("#insurance-button")
+}
+
 function playBlackjack() {
+    betAmount = document.querySelector("#bet-amount").value
+    decrementMoney(betAmount)
+    updatePlayerMoney()
     new Promise(resolve => {
         //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT
         let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/"
@@ -67,8 +114,14 @@ function playBlackjack() {
         updateTableCards(mPlayer, false)
         updateTableCards(mHouse, false)
         updatePoints(false)
-        document.querySelector("#hit-button").addEventListener("click", hit)
-        document.querySelector("#stay-button").addEventListener("click", stay)
+        showButton("#hit-button")
+        showButton("#stay-button")
+        showButton("#double-button")
+
+    }).then(() => {
+        if (mHouse.cards[1].value === "ACE") {
+            showButton("#insurance-button")
+        }
     })
 }
 
@@ -77,19 +130,18 @@ function addToHand(player, numberOfCards) {
         //Set points for player
         let card = mCards.pop()
         if (checkPoints(card) !== "ACE") {
-            player.points.ace10 += checkPoints(card)
+            player.points.ace11 += checkPoints(card)
             player.points.ace1 += checkPoints(card)
             player.points.final += checkPoints(card)
             if (i > 0 && player.name === "house")
-                player.points.hiddenAce10 += checkPoints(card)
+                player.points.hiddenAce11 += checkPoints(card)
             player.points.hiddenAce1 += checkPoints(card)
-        }
-        else {
+        } else {
             player.points.ace1 += 1
-            player.points.ace10 += 10
+            player.points.ace11 += 11
             if (i > 0 && player.name === "house") {
                 player.points.hiddenAce1 += 1
-                player.points.hiddenAce10 += 10
+                player.points.hiddenAce11 += 11
             }
         }
         player.cards.push(card)
@@ -134,22 +186,22 @@ function updatePoints(isHouseTurn) {
     let playerPoints = document.querySelector("#player-points")
     let housePoints = document.querySelector("#house-points")
     if (isAceInHand(mPlayer)) {
-        playerPoints.innerText = mPlayer.points.ace1 + " / " + mPlayer.points.ace10
+        playerPoints.innerText = mPlayer.points.ace1 + " / " + mPlayer.points.ace11
     } else {
-        playerPoints.innerText = mPlayer.points.ace10
+        playerPoints.innerText = mPlayer.points.ace11
     }
 
     if (!isHouseTurn) {
         if (isAceInHand(mHouse)) {
-            housePoints.innerText = mHouse.points.hiddenAce1 + " / " + mHouse.points.hiddenAce10
+            housePoints.innerText = mHouse.points.hiddenAce1 + " / " + mHouse.points.hiddenAce11
         } else {
-            housePoints.innerText = mHouse.points.hiddenAce10
+            housePoints.innerText = mHouse.points.hiddenAce11
         }
     } else {
         if (isAceInHand(mHouse)) {
-            housePoints.innerText = mHouse.points.ace1 + " / " + mHouse.points.ace10
+            housePoints.innerText = mHouse.points.ace1 + " / " + mHouse.points.ace11
         } else {
-            housePoints.innerText = mHouse.points.ace10
+            housePoints.innerText = mHouse.points.ace11
         }
     }
 }
@@ -176,7 +228,7 @@ function resetBlackjack() {
         cards: [],
         points: {
             ace1: 0,
-            ace10: 0,
+            ace11: 0,
             final: 0
         }
     }
@@ -185,9 +237,9 @@ function resetBlackjack() {
         cards: [],
         points: {
             ace1: 0,
-            ace10: 0,
+            ace11: 0,
             hiddenAce1: 0,
-            hiddenAce10: 0,
+            hiddenAce11: 0,
             final: 0
         }
     }
@@ -206,57 +258,100 @@ function hit() {
 
     promise.then(() => {
         if (mPlayer.points.ace1 > 21) {
-            console.log("lost")
-            document.querySelector("#hit-button").removeEventListener("click", hit)
-            document.querySelector("#stay-button").removeEventListener("click", stay)
-            document.querySelector("#reset-button").setAttribute("class", "")
+            lost()
         }
     })
-    let amount = document.querySelector("#bet-amount").value
-    console.log(amount)
 }
 
-function stay() {
+function stay(doubled) {
     updateTableCards(mHouse, true)
     updatePoints(true)
 
-    while (mHouse.points.ace1 < 17 || mHouse.points.ace10 < 17 && mHouse.points.ace1 < mPlayer.points.ace1) {
+    if (mInsured && mHouse.cards[0].value === "10") {
+        console.log("INSURANCE WON")
+        incrementMoney(betAmount * 1.5)
+        mInsured = false
+        window.alert()
+    }
+
+    while (mHouse.points.ace1 < 17 || mHouse.points.ace11 < 17 && mHouse.points.ace1 < mPlayer.points.ace1) {
         addToHand(mHouse, 1)
         updateTableCards(mHouse, true)
         updatePoints(true)
     }
 
-    if (mPlayer.points.ace10 > 21) {
-        mPlayer.points.final = mPlayer.points.ace1;
+    if (mPlayer.points.ace11 > 21) {
+        mPlayer.points.final = mPlayer.points.ace1
     } else {
-        mPlayer.points.final = mPlayer.points.ace10;
+        mPlayer.points.final = mPlayer.points.ace11
     }
 
-    if (mHouse.points.ace10 > 21) {
-        mHouse.points.final = mHouse.points.ace1;
+    if (mHouse.points.ace11 > 21) {
+        mHouse.points.final = mHouse.points.ace1
     } else {
-        mHouse.points.final = mHouse.points.ace10;
+        mHouse.points.final = mHouse.points.ace11
     }
 
     if (mPlayer.points.final > mHouse.points.final) {
-        console.log("win");
+        victory()
+        if (doubled) {
+            victory()
+        }
     } else if (mHouse.points.final > 21) {
-        console.log("win");
+        victory()
+        if (doubled) {
+            victory()
+        }
     } else if (mPlayer.points.final === mHouse.points.final) {
-        console.log("tie");
+        tie()
     } else {
-        console.log("lost");
+        lost()
     }
-    document.querySelector("#hit-button").removeEventListener("click", hit)
-    document.querySelector("#stay-button").removeEventListener("click", stay)
-    document.querySelector("#reset-button").setAttribute("class", "")
-
-    console.log("player points: " + mPlayer.points.final);
-    console.log("house points: " + mHouse.points.final);
-    console.log("--------------------------------------------")
+    showButton("#reset-button")
+    updatePlayerMoney()
 }
 
+function double() {
+    decrementMoney(betAmount)
+    let promise = new Promise(resolve => {
+        addToHand(mPlayer, 1)
+        updateTableCards(mPlayer, false)
+        updatePoints(false)
+        setTimeout(resolve, 100)
+    })
 
+    promise.then(() => {
+        if (mPlayer.points.ace1 > 21) {
+            lost()
+        } else {
+            stay(true)
+        }
+    })
+}
+
+function insurance() {
+    decrementMoney(betAmount / 2)
+    mInsured = true
+    hideButton("#insurance-button")
+}
+
+function decrementMoney(amount) {
+    db.collection("users").doc(firebase.auth().currentUser.uid).update(
+        "money", firebase.firestore.FieldValue.increment(amount * -1))
+}
+
+function incrementMoney(amount) {
+    db.collection("users").doc(firebase.auth().currentUser.uid).update(
+        "money", firebase.firestore.FieldValue.increment(amount * 1))
+}
+
+function showButton(id) {
+    document.querySelector(id).setAttribute("class", "")
+}
+
+function hideButton(id) {
+    document.querySelector(id).setAttribute("class", "hidden")
+}
 
 
 
