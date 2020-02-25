@@ -13,7 +13,9 @@
             <div id="blackjack-buttons">
                 <button id="play-button">PLAY</button>
                 <button id="hit-button">HIT</button>
+                <button id="double-button">DOUBLE</button>
                 <button id="stay-button">STAY</button>
+                <button id="insurance-button">INSURANCE</button>
                 <button id="reset-button" class="hidden">NEW GAME</button>
             </div>
             <div id="player-hand">
