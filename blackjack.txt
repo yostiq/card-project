@@ -1,0 +1,33 @@
+<div id="gameBackground">
+    <div id="bjTable">
+        <button id="stop">X</button>
+        <div id="player">
+            <div class="playInfo">
+                <p>Player:&#160;</p>
+                <p id="player-points"></p>
+                <p>&#160;&#160;&#160;Money:&#160;</p>
+                <p id="player-money"></p>
+                <label for="bet-amount">&#160;&#160;&#160;Bet amount:&#160;</label>
+                <input type="number" id="bet-amount">
+            </div>
+            <div id="blackjack-buttons">
+                <button id="play-button">PLAY</button>
+                <button id="hit-button">HIT</button>
+                <button id="stay-button">STAY</button>
+                <button id="reset-button" class="hidden">NEW GAME</button>
+            </div>
+            <div id="player-hand">
+
+            </div>
+        </div>
+        <div id="house">
+            <div class="playInfo">
+                <p>House:&#160;</p>
+                <p id="house-points"></p>
+            </div>
+            <div id="house-hand">
+
+            </div>
+        </div>
+    </div>
+</div>
