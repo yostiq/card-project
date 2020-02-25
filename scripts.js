@@ -1,3 +1,5 @@
+let deck_id = "";
+
 window.onclick = (event) => {
     if (event.target === document.getElementById("logonBackground")) {
         cancelButton();
