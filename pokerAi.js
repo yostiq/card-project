@@ -89,17 +89,17 @@ function aiSolveDraw(cards) {
                 }
             }
         }
-
-        console.log("unwanted:");
-        console.log(unwantedCards);
-        console.log("--------------------------------------");
-
-        if (unwantedCards.length > 0) {
-            aiDiscard(cards, unwantedCards);
-        }
-
-        return unwantedCards.length;
     }
+
+    console.log("unwanted:");
+    console.log(unwantedCards);
+    console.log("--------------------------------------");
+
+    if (unwantedCards.length > 0) {
+        aiDiscard(cards, unwantedCards);
+    }
+
+    return unwantedCards.length;
 }
 
 function aiDiscard(cards, unwantedCards) {
