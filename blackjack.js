@@ -1,5 +1,6 @@
 let mCards = []
 let betAmount = 0
+let mInsured = false
 let mPlayer = {
     name: "player",
     cards: [],
@@ -23,11 +24,11 @@ let mHouse = {
     }
 }
 
-document.querySelector("#openBlackjack").addEventListener("click", () => {
+/*document.querySelector("#openBlackjack").addEventListener("click", () => {
     document.getElementById("gameBackground").style.display = "flex"
     document.querySelector("#play-button").setAttribute("class", "")
     updatePlayerMoney()
-})
+})*/
 document.querySelector("#play-button").addEventListener("click", () => {
     playBlackjack()
     document.querySelector("#play-button").setAttribute("class", "hidden")
@@ -45,6 +46,7 @@ document.querySelector("#stop").addEventListener("click", () => {
 document.querySelector("#hit-button").addEventListener("click", hit)
 document.querySelector("#stay-button").addEventListener("click", stay)
 document.querySelector("#double-button").addEventListener("click", double)
+document.querySelector("#insurance-button").addEventListener("click", insurance)
 
 function updatePlayerMoney() {
     db.collection("users").doc(firebase.auth().currentUser.uid).get()
@@ -57,28 +59,27 @@ function updatePlayerMoney() {
 function victory() {
     incrementMoney(betAmount * 2)
     updatePlayerMoney()
-    showButton("#reset-button")
-    hideButton("#hit-button")
-    hideButton("#stay-button")
-    hideButton("#double-button")
+    udpateButtons()
     console.log("won")
 }
 
 function tie() {
     incrementMoney(betAmount)
-    showButton("#reset-button")
-    hideButton("#hit-button")
-    hideButton("#stay-button")
-    hideButton("#double-button")
+    udpateButtons()
     console.log("tied")
 }
 
 function lost() {
+    udpateButtons()
+    console.log("lost")
+}
+
+function udpateButtons() {
     showButton("#reset-button")
     hideButton("#hit-button")
     hideButton("#stay-button")
     hideButton("#double-button")
-    console.log("lost")
+    hideButton("#insurance-button")
 }
 
 function playBlackjack() {
@@ -116,6 +117,11 @@ function playBlackjack() {
         showButton("#hit-button")
         showButton("#stay-button")
         showButton("#double-button")
+
+    }).then(() => {
+        if (mHouse.cards[1].value === "ACE") {
+            showButton("#insurance-button")
+        }
     })
 }
 
@@ -261,6 +267,13 @@ function stay(doubled) {
     updateTableCards(mHouse, true)
     updatePoints(true)
 
+    if (mInsured && mHouse.cards[0].value === "10") {
+        console.log("INSURANCE WON")
+        incrementMoney(betAmount * 1.5)
+        mInsured = false
+        window.alert()
+    }
+
     while (mHouse.points.ace1 < 17 || mHouse.points.ace11 < 17 && mHouse.points.ace1 < mPlayer.points.ace1) {
         addToHand(mHouse, 1)
         updateTableCards(mHouse, true)
@@ -281,10 +294,14 @@ function stay(doubled) {
 
     if (mPlayer.points.final > mHouse.points.final) {
         victory()
-        if (doubled) { victory() }
+        if (doubled) {
+            victory()
+        }
     } else if (mHouse.points.final > 21) {
         victory()
-        if (doubled) { victory() }
+        if (doubled) {
+            victory()
+        }
     } else if (mPlayer.points.final === mHouse.points.final) {
         tie()
     } else {
@@ -310,6 +327,12 @@ function double() {
             stay(true)
         }
     })
+}
+
+function insurance() {
+    decrementMoney(betAmount / 2)
+    mInsured = true
+    hideButton("#insurance-button")
 }
 
 function decrementMoney(amount) {
