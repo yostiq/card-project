@@ -41,10 +41,11 @@ function aiSolveDraw(cards) {
             }
         }
 
-        console.log("almostSuit: " + almostSuit);
+        let almostSuitHand = unwantedCards;
+        let almostStraightHand = [];
 
-        if (!almostSuit) {
-            if (cards[0].value === "14" && cards[1].value !== "13" || cards[1].value !== "12") {
+        if (unwantedCards.length !== 1 || !almostSuit) {
+            if (cards[0].value === "14" && cards[1].value !== "13" && cards[1].value !== "12" && cards[1].value !== "11") {
                 cards[0].value = "1";
                 cards.sort((a, b) => b.value - a.value);
             }
@@ -57,24 +58,34 @@ function aiSolveDraw(cards) {
                 }
 
                 for (let j = i; j < cards.length; j++) {
-                    console.log("i: " + i);
                     if (parseInt(cards[i].value) - 4 > parseInt(cards[j].value)) {
                         unwantedCards.push(j);
                     }
-                    console.log("kortti: " + parseInt(cards[i].value));
                 }
 
-                console.log(unwantedCards);
+                if (unwantedCards.length === 1) {
+                    almostStraight = true;
+                    break;
+                } else if (unwantedCards.length === 2) {
+                    almostStraight = true;
+                    almostStraightHand = unwantedCards;
+                }
             }
+        }
 
-            console.log("almostStraight: " + almostStraight);
+        if (almostStraightHand.length !== 0 && almostSuitHand.length !== 0) {
+            if (almostSuitHand.length > almostStraightHand.length) {
+                unwantedCards = almostStraightHand;
+            } else {
+                unwantedCards = almostSuitHand;
+            }
+        }
 
-            if (!almostSuit && !almostStraight) {
-                unwantedCards = [];
-                for (let i = 0; i < cards.length; i++) {
-                    if (cards[i].value !== handArray[handArray.length - 1]) {
-                        unwantedCards.push(i);
-                    }
+        if (!almostSuit && !almostStraight) {
+            unwantedCards = [];
+            for (let i = 0; i < cards.length; i++) {
+                if (cards[i].value !== handArray[handArray.length - 1]) {
+                    unwantedCards.push(i);
                 }
             }
         }
