@@ -44,6 +44,17 @@ document.querySelector("#stay-button").addEventListener("click", stay)
 document.querySelector("#double-button").addEventListener("click", double)
 document.querySelector("#insurance-button").addEventListener("click", insurance)*/
 
+function bjPlayButton() {
+    playBlackjack()
+    document.querySelector("#play-button").setAttribute("class", "hidden")
+}
+
+function bjResetButton() {
+    resetBlackjack()
+    playBlackjack()
+    document.querySelector("#reset-button").setAttribute("class", "hidden")
+}
+
 function updatePlayerMoney() {
     db.collection("users").doc(firebase.auth().currentUser.uid).get()
         .then((doc) => {
@@ -55,22 +66,22 @@ function updatePlayerMoney() {
 function victory() {
     incrementMoney(betAmount * 2)
     updatePlayerMoney()
-    udpateButtons()
+    updateButtons()
     console.log("won")
 }
 
 function tie() {
     incrementMoney(betAmount)
-    udpateButtons()
+    updateButtons()
     console.log("tied")
 }
 
 function lost() {
-    udpateButtons()
+    updateButtons()
     console.log("lost")
 }
 
-function udpateButtons() {
+function updateButtons() {
     showButton("#reset-button")
     hideButton("#hit-button")
     hideButton("#stay-button")

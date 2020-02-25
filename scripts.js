@@ -38,22 +38,7 @@ function openBlackjack() {
         .then((data) => document.getElementById("gameBackground").innerHTML = data)
         .then(() => {
             document.getElementById("gameBackground").style.display = "flex";
-            document.querySelector("#play-button").setAttribute("class", "");
             updatePlayerMoney();
-            document.querySelector("#play-button").addEventListener("click", () => {
-                playBlackjack()
-                document.querySelector("#play-button").setAttribute("class", "hidden")
-            })
-            document.querySelector("#reset-button").addEventListener("click", () => {
-                resetBlackjack()
-                playBlackjack()
-                document.querySelector("#reset-button").setAttribute("class", "hidden")
-            })
-
-            document.querySelector("#hit-button").addEventListener("click", hit)
-            document.querySelector("#stay-button").addEventListener("click", stay)
-            document.querySelector("#double-button").addEventListener("click", double)
-            document.querySelector("#insurance-button").addEventListener("click", insurance)
         })
         .catch((error) => console.log(error));
 }
