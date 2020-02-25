@@ -11,6 +11,15 @@ let mPlayer = {
         final: 0
     }
 }
+let mPlayerSplit = {
+    name: "playerSplit",
+    cards: [],
+    points: {
+        ace1: 0,
+        ace11: 0,
+        final: 0
+    }
+}
 
 let mHouse = {
     name: "house",
@@ -129,6 +138,11 @@ function playBlackjack() {
         if (mHouse.cards[1].value === "ACE") {
             showButton("#insurance-button")
         }
+        if (mPlayer.cards[0].value === mPlayer.cards[1].value) {
+            showButton("#split-button")
+            console.log("vittu")
+        }
+        console.log("perkele")
     })
 }
 
@@ -340,6 +354,10 @@ function insurance() {
     decrementMoney(betAmount / 2)
     mInsured = true
     hideButton("#insurance-button")
+}
+
+function split() {
+    mPlayerSplit.cards = mPlayer.cards.pop()
 }
 
 function decrementMoney(amount) {
