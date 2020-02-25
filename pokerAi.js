@@ -91,19 +91,11 @@ function aiSolveDraw(cards) {
         }
     }
 
-    console.log("unwanted:");
-    console.log(unwantedCards);
-    console.log("--------------------------------------");
-
     if (unwantedCards.length > 0) {
-        aiDiscard(cards, unwantedCards);
+        for (let i = 0; i < unwantedCards.length; i++) {
+            cards.splice(unwantedCards[i] - i, 1);
+        }
     }
 
     return unwantedCards.length;
-}
-
-function aiDiscard(cards, unwantedCards) {
-    for (let i = 0; i < unwantedCards.length; i++) {
-        cards.splice(unwantedCards[i] - i, 1);
-    }
 }

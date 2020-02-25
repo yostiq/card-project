@@ -1,5 +1,3 @@
-let deck_id = "";
-
 window.onclick = (event) => {
     if (event.target === document.getElementById("logonBackground")) {
         cancelButton();
@@ -8,9 +6,22 @@ window.onclick = (event) => {
     }
 };
 
+document.querySelector("#openPoker").addEventListener("click", async function () {
+    await poker();
+});
+
 function cancelButton() {
     let element = document.getElementById("logonBackground");
     element.parentNode.removeChild(element);
+}
+
+function openPoker() {
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/poker.txt";
+
+    fetch(file)
+        .then((response) => response.text())
+        .then((data) => document.body.innerHTML += data)
+        .catch((error) => console.log(error));
 }
 
 function openLoginScreen() {

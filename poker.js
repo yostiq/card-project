@@ -77,7 +77,3 @@ async function pokerGetHand(player) {
     console.log(player.cards);
     console.log(solve(player.cards));
 }
-
-document.querySelector("#openPoker").addEventListener("click", async function () {
-    await poker();
-});
