@@ -180,9 +180,9 @@ function updateTableCards(player, houseTurn) {
         let img = document.createElement("img")
         img.className = "card"
         if (i === 0 && player.name === "house" && !houseTurn) {
-            img.src = "cards/purple_back.png"
+            img.src = "img/cards/purple_back.png"
         } else {
-            img.src = "cards/" + player.cards[i].code + ".png"
+            img.src = "img/cards/" + player.cards[i].code + ".png"
         }
         handElement.appendChild(img)
     }
