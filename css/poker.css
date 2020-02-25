@@ -41,7 +41,7 @@
     transform: scale(1.1);
     cursor: pointer;
 }
-#cpu1-hand, #cpu2-hand, #cpu3-hand, #player-hand {
+#cpu1-hand, #cpu2-hand, #cpu3-hand, #poker-player-hand {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;

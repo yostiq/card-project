@@ -26,7 +26,7 @@ function openPoker() {
         .then((response) => response.text())
         .then((data) => document.getElementById("gameBackground").innerHTML = data)
         .then(() => document.getElementById("gameBackground").style.display = "flex")
-        .then(() => poker())
+        .then(() => askMinBet())
         .catch((error) => console.log(error));
 }
 
