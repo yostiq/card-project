@@ -46,13 +46,13 @@ document.querySelector("#insurance-button").addEventListener("click", insurance)
 
 function bjPlayButton() {
     playBlackjack()
-    document.querySelector("#play-button").setAttribute("class", "hidden")
+    document.getElementById("play-button").setAttribute("class", "hidden")
 }
 
 function bjResetButton() {
     resetBlackjack()
     playBlackjack()
-    document.querySelector("#reset-button").setAttribute("class", "hidden")
+    document.getElementById("reset-button").setAttribute("class", "hidden")
 }
 
 function updatePlayerMoney() {
