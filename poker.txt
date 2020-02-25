@@ -43,7 +43,7 @@
             <p>Player:&#160;</p>
             <p id="player-bet"></p>
         </div>
-        <div id="player-hand">
+        <div id="poker-player-hand">
         </div>
     </div>
     <div class="grid-item">

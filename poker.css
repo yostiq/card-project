@@ -49,21 +49,21 @@
     align-items: start;
 }
 
-#cpu1-hand img, #cpu2-hand img, #cpu3-hand img, #player-hand img{
+#cpu1-hand img, #cpu2-hand img, #cpu3-hand img, #poker-player-hand img{
     max-width: 82px;
     max-height: 125px;
 }
 
-#cpu1-hand img:nth-child(2), #cpu2-hand img:nth-child(2), #cpu3-hand img:nth-child(2), #player-hand img:nth-child(2){
+#cpu1-hand img:nth-child(2), #cpu2-hand img:nth-child(2), #cpu3-hand img:nth-child(2), #poker-player-hand img:nth-child(2){
     transform: translateX(-60px);
 }
-#cpu1-hand img:nth-child(3), #cpu2-hand img:nth-child(3), #cpu3-hand img:nth-child(3), #player-hand img:nth-child(3){
+#cpu1-hand img:nth-child(3), #cpu2-hand img:nth-child(3), #cpu3-hand img:nth-child(3), #poker-player-hand img:nth-child(3){
     transform: translateX(-120px);
 }
-#cpu1-hand img:nth-child(4), #cpu2-hand img:nth-child(4), #cpu3-hand img:nth-child(4), #player-hand img:nth-child(4){
+#cpu1-hand img:nth-child(4), #cpu2-hand img:nth-child(4), #cpu3-hand img:nth-child(4), #poker-player-hand img:nth-child(4){
     transform: translateX(-180px);
 }
-#cpu1-hand img:nth-child(5), #cpu2-hand img:nth-child(5), #cpu3-hand img:nth-child(5), #player-hand img:nth-child(5){
+#cpu1-hand img:nth-child(5), #cpu2-hand img:nth-child(5), #cpu3-hand img:nth-child(5), #poker-player-hand img:nth-child(5){
     transform: translateX(-240px);
 }
 
