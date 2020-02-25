@@ -10,6 +10,7 @@ let mPlayer = {
         final: 0
     }
 }
+
 let mHouse = {
     name: "house",
     cards: [],
@@ -280,8 +281,10 @@ function stay(doubled) {
 
     if (mPlayer.points.final > mHouse.points.final) {
         victory()
+        if (doubled) { victory() }
     } else if (mHouse.points.final > 21) {
         victory()
+        if (doubled) { victory() }
     } else if (mPlayer.points.final === mHouse.points.final) {
         tie()
     } else {
