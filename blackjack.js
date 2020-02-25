@@ -28,7 +28,7 @@ let mHouse = {
     document.getElementById("gameBackground").style.display = "flex"
     document.querySelector("#play-button").setAttribute("class", "")
     updatePlayerMoney()
-})*/
+})
 document.querySelector("#play-button").addEventListener("click", () => {
     playBlackjack()
     document.querySelector("#play-button").setAttribute("class", "hidden")
@@ -38,15 +38,11 @@ document.querySelector("#reset-button").addEventListener("click", () => {
     playBlackjack()
     document.querySelector("#reset-button").setAttribute("class", "hidden")
 })
-document.querySelector("#stop").addEventListener("click", () => {
-    document.getElementById("gameBackground").style.display = "none"
-    resetBlackjack()
-})
 
 document.querySelector("#hit-button").addEventListener("click", hit)
 document.querySelector("#stay-button").addEventListener("click", stay)
 document.querySelector("#double-button").addEventListener("click", double)
-document.querySelector("#insurance-button").addEventListener("click", insurance)
+document.querySelector("#insurance-button").addEventListener("click", insurance)*/
 
 function updatePlayerMoney() {
     db.collection("users").doc(firebase.auth().currentUser.uid).get()
