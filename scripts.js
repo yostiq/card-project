@@ -45,7 +45,8 @@ function openBlackjack() {
 }
 
 function closeGame() {
-    document.getElementById("gameBackground").innerHTML = ""
+    document.getElementById("gameBackground").innerHTML = "";
+    document.getElementById("gameBackground").style.display = "none";
 }
 
 function openLoginScreen() {
