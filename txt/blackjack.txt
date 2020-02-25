@@ -8,8 +8,6 @@
             <p id="player-money"></p>
             <label for="bet-amount">&#160;&#160;&#160;Bet amount:&#160;</label>
             <input type="number" id="bet-amount">
-        </div>
-        <div id="blackjack-buttons">
             <button id="play-button" class="" onclick="bjPlayButton()">PLAY</button>
             <button id="hit-button" class="hidden" onclick="hit()">HIT</button>
             <button id="double-button" class="hidden" onclick="double()">DOUBLE</button>
