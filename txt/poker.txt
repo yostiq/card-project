@@ -1,8 +1,7 @@
-<div id="pokerTable">
-    <div class="grid-item" id="play-grid">
-        <button id="play-button">PLAY</button> <!--Esiin vain ennen peliä!-->
+<div id="pokerTable-Flex">
+    <div id="play-div" class="pokerCol">
     </div>
-    <div id="cpu2" class="grid-item">
+    <div id="cpu2" class="pokerCol">
         <div class="playInfo">
             <p>Amin&#160;</p>
             <p id="cpu2-bet"></p>
@@ -10,10 +9,10 @@
         <div id="cpu2-hand">
         </div>
     </div>
-    <div class="grid-item">
+    <div class="pokerCol">
         <button id="stop" onclick="closeGame()">X</button>
     </div>
-    <div id="cpu1" class="grid-item">
+    <div id="cpu1" class="pokerCol">
         <div class="playInfo">
             <p>Joonas&#160;</p>
             <p id="cpu1-bet"></p>
@@ -21,10 +20,10 @@
         <div id="cpu1-hand">
         </div>
     </div>
-    <div id="pot" class="grid-item">
+    <div id="pot" class="pokerCol">
         <p id="pot-amount">Pot: </p>
     </div>
-    <div id="cpu3" class="grid-item">
+    <div id="cpu3" class="pokerCol">
         <div class="playInfo">
             <p>Joni&#160;</p>
             <p id="cpu3-bet"></p>
@@ -32,13 +31,13 @@
         <div id="cpu3-hand">
         </div>
     </div>
-    <div id="draw-buttons" class="grid-item">
+    <div id="draw-buttons" class="pokerCol">
         <p>Money:&#160;</p>
         <p id="player-money"></p>
         <button id="draw-button">DRAW</button> <!--Esiin vain kun mahdollista painaa!-->
         <button id="stay-button">STAY</button> <!--Esiin vain kun mahdollista painaa!-->
     </div>
-    <div id="player" class="grid-item">
+    <div id="pokerPlayer" class="pokerCol">
         <div class="playInfo">
             <p>Player:&#160;</p>
             <p id="player-bet"></p>
@@ -46,7 +45,7 @@
         <div id="poker-player-hand">
         </div>
     </div>
-    <div class="grid-item">
+    <div class="pokerCol">
         <div id="poker-buttons">
             <p id="bet-amount">Bet amount: </p>
             <button id="minus-button">-</button> <!--Esiin vain kun mahdollista painaa!-->
@@ -58,9 +57,5 @@
             <button id="all-in-button">ALL IN</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="fold-button">FOLD</button> <!--Esiin vain kun mahdollista painaa!-->
         </div>
-    </div>
-    <div id="buy-in-screen" class="grid-item"> <!--Esiin vain ennen peliä!-->
-        <label for="buy-in-amount">&#160;&#160;&#160;Minimum bet for the game?&#160;</label> <!--Esiin vain ennen peliä!-->
-        <input type="number" id="buy-in-amount"> <!--Esiin vain ennen peliä!-->
     </div>
 </div>

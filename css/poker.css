@@ -1,10 +1,12 @@
-#pokerTable {
+#pokerTable-Flex {
     border: 3px solid black;
     position: relative;
-    width: 1200px;
-    height: 750px;
-    display: grid;
-    grid-template-columns: auto auto auto;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 5px;
     background-color: #1a281f;
     color: #cccccc;
     font-size: 24px;
@@ -13,20 +15,17 @@
     border-radius: 15px;
 }
 
-.grid-item {
-    width: 390px;
-    height: 240px;
-    padding: 5px;
-    font-size: 24px;
-    text-align: start;
+.pokerCol {
+    width: 30%;
+    height: 30%;
 }
 
-#poker-buttons, #play-grid, #draw-buttons {
+#poker-buttons, #play-div, #draw-buttons {
     align-items: center;
     justify-items: center;
 }
 
-#poker-buttons button, #draw-buttons button, #play-grid button {
+#poker-buttons button, #draw-buttons button, #play-div button {
     font-family: Rockwell sans-serif;
     width: 150px;
     font-size: 20px;
@@ -68,5 +67,11 @@
 }
 
 .playInfo p{
-    font-size: 18px;
+    font-size: 1em;
+}
+
+#buy-in-screen {
+    display: flex;
+    flex-direction: column;
+
 }
