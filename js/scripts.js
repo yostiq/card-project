@@ -98,3 +98,51 @@ function enterPress() {
         });
     }
 }
+
+function bjRules() {
+    let bj = document.getElementById("bjRules");
+    let poker = document.getElementById("pokerRules");
+    let holdem = document.getElementById("holdemRules");
+
+    if (bj.style.display === "none") {
+        bj.style.display = "block";
+        poker.style.display = "none";
+        holdem.style.display = "none";
+    } else {
+        bj.style.display = "none";
+        poker.style.display = "none";
+        holdem.style.display = "none";
+    }
+}
+
+function pokerRules() {
+    let bj = document.getElementById("bjRules");
+    let poker = document.getElementById("pokerRules");
+    let holdem = document.getElementById("holdemRules");
+
+    if (poker.style.display === "none") {
+        poker.style.display = "block";
+        bj.style.display = "none";
+        holdem.style.display = "none";
+    }else {
+        bj.style.display = "none";
+        poker.style.display = "none";
+        holdem.style.display = "none";
+    }
+}
+
+function holdemRules() {
+    let bj = document.getElementById("bjRules");
+    let poker = document.getElementById("pokerRules");
+    let holdem = document.getElementById("holdemRules");
+
+    if (holdem.style.display === "none") {
+        holdem.style.display = "block";
+        poker.style.display = "none";
+        bj.style.display = "none";
+    } else {
+        bj.style.display = "none";
+        poker.style.display = "none";
+        holdem.style.display = "none";
+    }
+}
