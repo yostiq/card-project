@@ -13,6 +13,7 @@
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     margin: auto;
     border-radius: 15px;
+    font-family: Rockwell sans-serif;
 }
 
 .pokerCol {
@@ -25,7 +26,7 @@
     justify-items: center;
 }
 
-#poker-buttons button, #draw-buttons button, #play-div button {
+#poker-buttons button, #draw-buttons button, #play-div button, #buy-in-screen button {
     font-family: Rockwell sans-serif;
     width: 150px;
     font-size: 20px;
@@ -36,7 +37,7 @@
     border: 3px solid #ada8b6;
 }
 
-#poker-buttons button:hover, #stop:hover, #draw-buttons button:hover, #play-grid button:hover {
+#poker-buttons button:hover, #stop:hover, #draw-buttons button:hover, #play-grid button:hover, #buy-in-screen button:hover {
     transform: scale(1.1);
     cursor: pointer;
 }
@@ -81,4 +82,28 @@
     right: 0;
     bottom: 0;
     margin: auto;
+    width: 400px;
+    height: 300px;
+    border-radius: 8px;
+    background-color: #555555;
+    color: #E5E5E5;
+    font-family: Rockwell sans-serif;
+    font-size: 2em;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+#buy-in-amount {
+    width: 50%;
+    height: 2em;
+    font-size: 1em;
+    font-family: Rockwell sans-serif;
+    margin-top: 10px;
+    background-color: #555555;
+    border: 2px solid black;
+    border-radius: 8px;
+}
+
+::placeholder {
+    color: #555555;
+    opacity: 0.6;
 }

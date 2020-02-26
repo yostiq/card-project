@@ -61,5 +61,6 @@
 </div>
 <div id="buy-in-screen" class="grid-item"> <!--Esiin vain ennen peliä!-->
         <label for="buy-in-amount">&#160;&#160;&#160;Minimum bet for the game?&#160;</label> <!--Esiin vain ennen peliä!-->
-        <input type="number" id="buy-in-amount"> <!--Esiin vain ennen peliä!-->
+        <input type="number" id="buy-in-amount" placeholder="50"> <!--Esiin vain ennen peliä!-->
+        <button type="button" id="playPoker">Play</button>
 </div>
