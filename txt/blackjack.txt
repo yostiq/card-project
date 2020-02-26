@@ -2,19 +2,23 @@
     <button id="stop" onclick="closeGame()">X</button>
     <div id="player">
         <div class="playInfo">
-            <p>Player:&#160;</p>
-            <p id="player-points"></p>
-            <p>&#160;&#160;&#160;Money:&#160;</p>
-            <p id="player-money"></p>
-            <label for="bet-amount">&#160;&#160;&#160;Bet amount:&#160;</label>
-            <input type="number" id="bet-amount">
-            <button id="play-button" class="" onclick="bjPlayButton()">PLAY</button>
-            <button id="hit-button" class="hidden" onclick="hit()">HIT</button>
-            <button id="double-button" class="hidden" onclick="double()">DOUBLE</button>
-            <button id="stay-button" class="hidden" onclick="stay()">STAY</button>
-            <button id="insurance-button" class="hidden" onclick="insurance()">INSURANCE</button>
-            <button id="split-button" class="hidden" onclick="split()">SPLIT</button>
-            <button id="reset-button" class="hidden" onclick="bjResetButton()">NEW GAME</button>
+            <div id="playerInfo">
+                <p>Player:&#160;</p>
+                <p id="player-points"></p>
+                <p>&#160;&#160;&#160;Money:&#160;</p>
+                <p id="player-money"></p>
+                <label for="bet-amount">&#160;&#160;&#160;Bet amount:&#160;</label>
+                <input type="number" id="bet-amount">
+            </div>
+            <div class="bjButtons">
+                <button id="play-button" class="" onclick="bjPlayButton()">PLAY</button>
+                <button id="hit-button" class="hidden" onclick="hit()">HIT</button>
+                <button id="double-button" class="hidden" onclick="double()">DOUBLE</button>
+                <button id="stay-button" class="hidden" onclick="stay()">STAY</button>
+                <button id="insurance-button" class="hidden" onclick="insurance()">INSURANCE</button>
+                <button id="split-button" class="hidden" onclick="split()">SPLIT</button>
+                <button id="reset-button" class="hidden" onclick="bjResetButton()">NEW GAME</button>
+            </div>
         </div>
         <div id="player-hand">
 

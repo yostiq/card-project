@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="pokerCol">
-        <button id="stop" onclick="closeGame()">X</button>
+        <button id="stopPoker" onclick="closeGame()">X</button>
     </div>
     <div id="cpu1" class="pokerCol">
         <div class="playInfo">
