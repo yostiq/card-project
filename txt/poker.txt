@@ -35,7 +35,7 @@
         <p>Money:&#160;</p>
         <p id="player-money"></p>
         <button id="draw-button">DRAW</button> <!--Esiin vain kun mahdollista painaa!-->
-        <button id="stay-button">STAY</button> <!--Esiin vain kun mahdollista painaa!-->
+        <button id="stay-button">STAND</button> <!--Esiin vain kun mahdollista painaa!-->
     </div>
     <div id="pokerPlayer" class="pokerCol">
         <div class="playInfo">

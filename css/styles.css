@@ -5,7 +5,7 @@
 body {
     padding: 0;
     background-color: #E5E5E5;
-    font-family: Helvetica, sans-serif;
+    font-family: Rockwell, sans-serif;
 }
 
 h2 {
@@ -14,26 +14,27 @@ h2 {
 }
 
 #header {
-    max-width: 1200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 20%;
     margin: auto;
     padding: 5px;
-    font-size: 42px;
+    font-size: 4em;
     font-family: Rockwell, sans-serif;
 }
 
 #header img {
-    max-width: 150px;
-    max-height: 150px;
-    float: left;
+    width: 15%;
 }
 
 #navBar {
-    height: fit-content;
-    width: 100%;
-    z-index: 100;
+    width: 90%;
+    height: 10%;
     margin: auto;
     background-color: #555555;
-    position: sticky;
     top: 0;
     padding: 5px;
     border-radius: 4px;
@@ -48,9 +49,8 @@ h2 {
     flex-wrap: nowrap;
     flex-direction: row;
     justify-content: space-between;
-    max-width: 1200px;
+    max-width: 100%;
     margin: auto;
-    padding: 0;
 }
 
 #mainLinks, #loginLinks, #userPanel {
@@ -109,8 +109,8 @@ h2 {
 }
 
 #mainContent {
-    height: auto;
-    max-width: 1200px;
+    height: 70%;
+    width: 75%;
     margin: auto;
     padding: 50px 0;
 }
@@ -224,4 +224,49 @@ input[type=text], input[type=password] {
 #games img:hover {
     transform: scale(1.2);
     cursor: pointer;
+}
+
+#ruleButtons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 20%;
+}
+
+.gameRules {
+    height: 80%;
+}
+
+#bjRules {
+    display: none;
+}
+
+#pokerRules {
+    display: none;
+}
+
+#holdemRules {
+    display: none;
+}
+
+#ruleButtons button {
+    font-family: Rockwell sans-serif;
+    width: 25%;
+    height: 100%;
+    font-size: 1.5em;
+    border-radius: 8px;
+    color: black;
+    background: none;
+    border: 3px solid black;
+}
+
+#ruleButtons button:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
 }

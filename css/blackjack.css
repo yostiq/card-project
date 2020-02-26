@@ -33,20 +33,22 @@
     margin: 2px;
 }
 
-.playerInfo {
+#playerInfo {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-evenly;
     align-items: center;
+    width: 50%;
 }
 
 .bjButtons {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     align-items: center;
+    width: 50%;
 }
 
 #player-hand{
@@ -101,8 +103,8 @@
 }
 
 #bet-amount {
-    height: 100%;
-    font-size: 2em;
+    height: 75%;
+    font-size: 1em;
     font-family: Rockwell sans-serif;
     width: 10%;
 }
@@ -129,8 +131,4 @@
 
 .card {
     height: 100%;
-}
-
-.hidden {
-    display: none;
 }
