@@ -1,13 +1,13 @@
 let poker_deck = "";
 let minBet;
-let currentBet;
 let maxBet;
+let currentBet;
 let pokerPlayers;
 let playersIn;
 let pokerPot;
 
 async function askMinBet() {
-    clearPoker();
+    resetPoker();
     minBet = parseInt(prompt("Set minimum bet amount:"));
 
     if (minBet > await getPlayerMoney()) {
@@ -34,26 +34,39 @@ async function setMaxBet() {
 
 function setCpuMoney() {
     const multiplier = 10;
-    if (minBet * multiplier > 100) {
-        for (let i = 1; i < 3; i++) {
-            pokerPlayers[i].money = minBet * multiplier;
-        }
+    for (let i = 1; i < pokerPlayers.length; i++) {
+        pokerPlayers[i].money = minBet * multiplier;
     }
 }
 
 async function getPlayerMoney() {
     let money = 0;
     await db.collection("users").doc(firebase.auth().currentUser.uid).get()
-        .then((doc) => {
-            money = doc.data().money;
-        }).catch((error) => console.log(error));
+        .then(doc => money = doc.data().money)
+        .catch(error => console.log(error));
     return money;
 }
 
-async function pokerPlayerWinMoney(amount) {
-    await db.collection("users").doc(firebase.auth().currentUser.uid)
-        .update("money", firebase.firestore.FieldValue.increment(amount * 1))
-        .catch(error => console.log(error));
+async function pokerVictoryRoyale(player, amount) {
+    if (player.name === "poker-player"){
+        await db.collection("users").doc(firebase.auth().currentUser.uid)
+            .update("money", firebase.firestore.FieldValue.increment(amount * 1))
+            .catch(error => console.log(error));
+    } else {
+        player.money += parseInt(amount);
+    }
+
+    alert("Winner is: " + pokerPlayers[playersIn[0]].name);
+    if(await getPlayerMoney() >= minBet){
+        if(confirm("Do you want to keep playing?")){
+            await pokerBeginTurn();
+        } else {
+            closeGame();
+        }
+    } else {
+        alert("You don't have enough money to keep playing. Please leave.");
+        closeGame();
+    }
 }
 
 async function pokerPlayerLoseMoney(amount) {
@@ -64,17 +77,17 @@ async function pokerPlayerLoseMoney(amount) {
     }
 }
 
-async function pokerGetDeck(){
+async function pokerGetDeck() {
     if (poker_deck === "") {
         const url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
         await fetch(url)
-            .then((response) => response.json())
-            .then((json) => poker_deck = json.deck_id)
-            .catch((error) => console.log(error));
+            .then(response => response.json())
+            .then(json => poker_deck = json.deck_id)
+            .catch(error => console.log(error));
     } else {
         const url = "https://deckofcardsapi.com/api/deck/" + poker_deck + "/shuffle/";
         await fetch(url)
-            .catch((error) => console.log(error));
+            .catch(error => console.log(error));
     }
 }
 
@@ -87,9 +100,9 @@ async function pokerDrawCard(amount, player) {
     let url = "https://deckofcardsapi.com/api/deck/" + poker_deck + "/draw/?count=" + amount;
     if (amount !== 0) {
         await fetch(url)
-            .then((response) => response.json())
-            .then((json) => pokerAddToHand(json, player))
-            .catch((error) => console.log(error));
+            .then(response => response.json())
+            .then(json => pokerAddToHand(json, player))
+            .catch(error => console.log(error));
     }
 }
 
@@ -109,7 +122,7 @@ function pokerAddToHand(json, player) {
     }
 }
 
-async function pokerGetHand(player) {
+async function pokerSetCardsToTable(player) {
     player.cards.sort((a, b) => b.value - a.value);
     let hand = document.getElementById(player.name + "-hand");
 
@@ -127,8 +140,28 @@ async function pokerGetHand(player) {
     }
 }
 
+async function pokerKickPoorPlayers() {
+    for (let i = 0; i < pokerPlayers.length; i++) {
+        if (pokerPlayers[i].name === "poker-player") {
+            if (await getPlayerMoney() < minBet) {
+                alert("You don't have enough money to keep playing. Please leave");
+                closeGame();
+                return true;
+            }
+        } else {
+            if (pokerPlayers[i].money < minBet) {
+                pokerPlayers[i].out = true;
+            }
+        }
+    }
+    return false;
+}
+
 async function pokerBeginTurn() {
     clearTable();
+    if (await pokerKickPoorPlayers()) {
+        return;
+    }
     await pokerGetDeck();
 
     pokerPlayers.sort((a, b) => a.order - b.order);
@@ -143,9 +176,8 @@ async function pokerBeginTurn() {
 
     for (let i = 0; i < playersIn.length; i++) {
         await pokerPlayerPay(pokerPlayers[playersIn[i]], minBet);
-        pokerPot += minBet;
         await pokerDrawCard(5, pokerPlayers[i]);
-        await pokerGetHand(pokerPlayers[i]);
+        await pokerSetCardsToTable(pokerPlayers[i]);
     }
 
     await playPoker();
@@ -191,7 +223,7 @@ async function playPoker() {
             }
         }
     }
-    alert("Winner is: " + pokerPlayers[playersIn[0]].name);
+    await pokerVictoryRoyale(pokerPlayers[playersIn[0]], pokerPot);
 }
 
 function pokerPlayerTurn() {
@@ -199,22 +231,34 @@ function pokerPlayerTurn() {
     alert("Players turn");
 }
 
-function pokerAiTurn(cpu) {
+async function pokerAiTurn(cpu) {
     let risk = cpu.risk / 100;
 
     if (cpu.out || cpu.fold) {
         return false;
     }
 
+    setOverlayText(cpu, "Thinking...");
+    await sleep(1000);
+    clearPlayerOverlayText(cpu);
+
     if (Math.random() > risk) { /*ai fold*/
         cpu.fold = true;
 
         setOverlayText(cpu, "FOLD");
     } else {
-        if (Math.random() > risk) {
-            //TODO ai check/call
+        if (Math.random() > 0.3) {
+            if(currentBet === 0){
+                await pokerPlayerPay(cpu, currentBet);
+                await pokerAiActionText(cpu, "Check");
+            } else {
+                await pokerPlayerPay(cpu, currentBet);
+                await pokerAiActionText(cpu, "Call");
+            }
         } else {
-            //TODO ai raise
+            await pokerAiActionText(cpu, "Raise");
+            let amount = (maxBet - minBet) * Math.random();
+            await pokerRaise(cpu, amount);
         }
     }
 
@@ -227,13 +271,12 @@ async function pokerPlayerPay(player, amount) {
     } else {
         player.money -= parseInt(amount);
     }
-
-    pokerPot += parseInt(amount)
+    pokerPot += parseInt(amount);
 }
 
 async function pokerRaise(player, amount) {
     await pokerPlayerPay(player, amount);
-    currentBet = currentBet + amount;
+    minBet = parseInt(amount) - minBet;
 }
 
 function pokerSetPlayerOrder() {
@@ -252,18 +295,39 @@ function setOverlayText(player, text) {
     let overlay = document.createElement("p");
     overlay.innerHTML = text;
     overlay.className = "overlayText";
-    overlay.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
-    overlay.style.paddingTop = "10%";
+    overlay.id = player.name + "OverlayText";
+
+    if(text === "Thinking..."){
+        overlay.style.backgroundColor = "rgba(0,0,255,0.5)";
+    } else if (text === "Fold" || text === "Out"){
+        overlay.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+    } else {
+        overlay.style.backgroundColor = "rgba(255,255,0,0.5)";
+    }
+
     overlay.style.position = "absolute";
     overlay.style.top = "50%";
     overlay.style.left = "50%";
     overlay.style.width = "100%";
     overlay.style.height = "100%";
-    overlay.style.textAlign = "center";
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
     overlay.style.transform = "translate(-50%, -50%)";
 
     let element = document.getElementById(player.name + "-hand");
     element.appendChild(overlay);
+}
+
+function clearPlayerOverlayText(player) {
+    let element = document.getElementById(player.name + "OverlayText");
+    element.parentNode.removeChild(element);
+}
+
+async function pokerAiActionText(cpu, text) {
+    setOverlayText(cpu, text);
+    await sleep(500);
+    clearPlayerOverlayText(cpu);
 }
 
 function clearTable() {
@@ -273,13 +337,14 @@ function clearTable() {
         }
     }
 
-    for(let i = 0; i < pokerPlayers.length; i++){
+    for (let i = 0; i < pokerPlayers.length; i++) {
         pokerPlayers[i].cards = [];
         document.getElementById(pokerPlayers[i].name + "-hand").innerHTML = "";
     }
 }
 
-function clearPoker() {
+function resetPoker() {
+
     playersIn = [0, 1, 2, 3];
     minBet = 0;
     currentBet = 0;

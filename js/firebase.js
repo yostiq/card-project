@@ -8,30 +8,33 @@ let firebaseConfig = {
     appId: "1:576386674320:web:0f8db7c2c8550a0cfbb215",
     measurementId: "G-45VCDFQGH3"
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 let db = firebase.firestore();
 
+let userLogged;
+
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
+        userLogged = true;
+
         document.getElementById("loginLinks").style.display = "none";
         document.getElementById("userPanel").style.display = "flex";
 
         db.collection("users").doc(firebase.auth().currentUser.uid).get()
             .then((doc) => {
-                console.log(doc.data());
-                let username = doc.data().displayName[0].toUpperCase() + doc.data().displayName.slice(1);
-                console.log(username);
-                document.getElementById("textUsername").innerHTML = username;
+                document.getElementById("textUsername").innerHTML = doc.data().displayName[0].toUpperCase() + doc.data().displayName.slice(1);
             }).catch((error) => console.log(error));
 
         db.collection("users").doc(firebase.auth().currentUser.uid)
             .onSnapshot(function (doc) {
                 document.getElementById("textMoneyLeft").innerHTML = doc.data().money;
             }, (error) => console.log(error));
-        
+
     } else {
-        console.log("No users logged in");
+        userLogged = false;
+
         document.getElementById("loginLinks").style.display = "flex";
         document.getElementById("userPanel").style.display = "none";
     }
@@ -53,6 +56,7 @@ function login() {
             .then(() => firebase.auth().signInWithEmailAndPassword(email, password))
             .then(() => {
                 cancelButton();
+                location.reload();
             })
             .catch(function (error) {
                 let errorCode = error.code;
@@ -85,7 +89,7 @@ function createUser() {
     } else if (password === "") {
         document.getElementById("inputPassword").setCustomValidity("Field is empty");
         document.getElementById("inputPassword").focus();
-    } else if(password.length < 6) {
+    } else if (password.length < 6) {
         document.getElementById("inputPassword").setCustomValidity("Password is too short. Min. 6 char.");
         document.getElementById("inputPassword").focus();
     } else if (confirmPassword === "") {
@@ -104,6 +108,7 @@ function createUser() {
                     money: 500
                 }).then(() => {
                     cancelButton();
+                    location.reload();
                 }).catch(function (error) {
                     let errorCode = error.code;
                     let errorMessage = error.message;

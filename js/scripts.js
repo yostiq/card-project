@@ -20,6 +20,11 @@ function cancelButton() {
 }
 
 function openPoker() {
+    if (!userLogged) {
+        alert("You must be login to able to play");
+        return;
+    }
+
     let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/poker.txt";
 
     fetch(file)
@@ -31,6 +36,11 @@ function openPoker() {
 }
 
 function openBlackjack() {
+    if (!userLogged) {
+        alert("You must be login to able to play");
+        return;
+    }
+
     let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/blackjack.txt";
 
     fetch(file)
@@ -76,22 +86,22 @@ function openSignUpScreen() {
 
 function enterPress() {
     document.getElementById("inputUsername").addEventListener("keypress", (event) => {
-        if(event.key === "Enter"){
+        if (event.key === "Enter") {
             event.preventDefault();
             document.getElementById("submitButton").click();
         }
     });
 
     document.getElementById("inputPassword").addEventListener("keypress", (event) => {
-        if(event.key === "Enter"){
+        if (event.key === "Enter") {
             event.preventDefault();
             document.getElementById("submitButton").click();
         }
     });
 
-    if(document.getElementById("inputConfirmPassword") !== null){
+    if (document.getElementById("inputConfirmPassword") !== null) {
         document.getElementById("inputConfirmPassword").addEventListener("keypress", (event) => {
-            if(event.key === "Enter"){
+            if (event.key === "Enter") {
                 event.preventDefault();
                 document.getElementById("submitButton").click();
             }
@@ -124,7 +134,7 @@ function pokerRules() {
         poker.style.display = "block";
         bj.style.display = "none";
         holdem.style.display = "none";
-    }else {
+    } else {
         bj.style.display = "none";
         poker.style.display = "none";
         holdem.style.display = "none";
@@ -145,4 +155,9 @@ function holdemRules() {
         poker.style.display = "none";
         holdem.style.display = "none";
     }
+}
+
+// https://stackoverflow.com/a/39914235
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
