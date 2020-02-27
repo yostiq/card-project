@@ -285,6 +285,10 @@ function hit() {
     })
 }
 
+function hitSplit() {
+
+}
+
 function stay(doubled) {
     updateTableCards(mHouse, true)
     updatePoints(true)
@@ -331,6 +335,10 @@ function stay(doubled) {
     }
     showButton("#reset-button")
     updatePlayerMoney()
+}
+
+function staySplit() {
+
 }
 
 function double() {
