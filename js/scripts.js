@@ -20,7 +20,7 @@ function cancelButton() {
 }
 
 function openPoker() {
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/amin/txt/poker.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/poker.txt";
 
     fetch(file)
         .then((response) => response.text())
@@ -31,7 +31,7 @@ function openPoker() {
 }
 
 function openBlackjack() {
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/amin/txt/blackjack.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/blackjack.txt";
 
     fetch(file)
         .then((response) => response.text())
@@ -49,7 +49,7 @@ function closeGame() {
 }
 
 function openLoginScreen() {
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/amin/txt/loginScreen.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/loginScreen.txt";
 
     fetch(file)
         .then((response) => response.text())
@@ -62,7 +62,7 @@ function openLoginScreen() {
 }
 
 function openSignUpScreen() {
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/amin/txt/signUpScreen.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/signUpScreen.txt";
 
     fetch(file)
         .then((response) => response.text())
