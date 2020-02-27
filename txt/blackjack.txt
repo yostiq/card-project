@@ -24,10 +24,10 @@
 
         </div>
         <div id="playerSplit-hand" class="hand">
-            <p style="display: none">Split:&#160;</p>
-            <p id="player-points-split" style="display: none"></p>
-            <button id="hit-button-split" style="display: none" onclick="hitSplit()">HIT</button>
-            <button id="stay-button-split" style="display: none" onclick="staySplit()">STAY</button>
+            <p class="hidden">Split:&#160;</p>
+            <p id="player-points-split" class="hidden"></p>
+            <button id="hit-button-split" class="hidden" onclick="hitSplit()">HIT</button>
+            <button id="stay-button-split" class="hidden" onclick="staySplit()">STAY</button>
         </div>
     </div>
     <div id="house">

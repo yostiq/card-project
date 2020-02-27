@@ -33,26 +33,6 @@ let mHouse = {
     }
 }
 
-/*document.querySelector("#openBlackjack").addEventListener("click", () => {
-    document.getElementById("gameBackground").style.display = "flex"
-    document.querySelector("#play-button").setAttribute("class", "")
-    updatePlayerMoney()
-})
-document.querySelector("#play-button").addEventListener("click", () => {
-    playBlackjack()
-    document.querySelector("#play-button").setAttribute("class", "hidden")
-})
-document.querySelector("#reset-button").addEventListener("click", () => {
-    resetBlackjack()
-    playBlackjack()
-    document.querySelector("#reset-button").setAttribute("class", "hidden")
-})
-
-document.querySelector("#hit-button").addEventListener("click", hit)
-document.querySelector("#stay-button").addEventListener("click", stay)
-document.querySelector("#double-button").addEventListener("click", double)
-document.querySelector("#insurance-button").addEventListener("click", insurance)*/
-
 function bjPlayButton() {
     playBlackjack()
     document.getElementById("play-button").setAttribute("class", "hidden")
@@ -88,6 +68,27 @@ function tie() {
 function lost() {
     updateButtons()
     console.log("lost")
+}
+
+function victorySplit() {
+    incrementMoney(betAmount * 2)
+    updatePlayerMoney()
+    hideButton("#hit-button-split")
+    hideButton("#stay-button-split")
+    console.log("won split")
+}
+
+function tieSplit() {
+    incrementMoney(betAmount)
+    hideButton("#hit-button-split")
+    hideButton("#stay-button-split")
+    console.log("tied split")
+}
+
+function lostSplit() {
+    hideButton("#hit-button-split")
+    hideButton("#stay-button-split")
+    console.log("lost split")
 }
 
 function updateButtons() {
@@ -286,7 +287,18 @@ function hit() {
 }
 
 function hitSplit() {
+    let promise = new Promise(resolve => {
+        addToHand(mPlayerSplit, 1)
+        updateTableCards(mPlayerSplit, false)
+        updatePoints(false)
+        setTimeout(resolve, 100)
+    })
 
+    promise.then(() => {
+        if (mPlayerSplit.points.ace1 > 21) {
+            lostSplit()
+        }
+    })
 }
 
 function stay(doubled) {
@@ -338,7 +350,35 @@ function stay(doubled) {
 }
 
 function staySplit() {
+    updateTableCards(mHouse, true)
+    updatePoints(true)
 
+    while (mHouse.points.ace1 < 17 || mHouse.points.ace11 < 17 && mHouse.points.ace1 < mPlayerSplit.points.ace1) {
+        addToHand(mHouse, 1)
+        updateTableCards(mHouse, true)
+        updatePoints(true)
+    }
+
+    if (mPlayerSplit.points.ace11 > 21) {
+        mPlayerSplit.points.final = mPlayerSplit.points.ace1
+    } else {
+        mPlayerSplit.points.final = mPlayerSplit.points.ace11
+    }
+
+    if (mHouse.points.ace11 > 21) {
+        mHouse.points.final = mHouse.points.ace1
+    } else {
+        mHouse.points.final = mHouse.points.ace11
+    }
+
+    if (mPlayerSplit.points.final > mHouse.points.final) {
+        victorySplit()
+    } else if (mPlayerSplit.points.final === mHouse.points.final) {
+        tieSplit()
+    } else {
+        lostSplit()
+    }
+    updatePlayerMoney()
 }
 
 function double() {
@@ -366,6 +406,10 @@ function insurance() {
 }
 
 function split() {
+    decrementMoney(betAmount)
+    hideButton("#split-button")
+    showButton("#hit-button-split")
+    showButton("#stay-button-split")
     let splitCard = mPlayer.cards.pop()
     if (splitCard.value === "ACE") {
         mPlayer.points.ace1 -= 1
@@ -403,7 +447,6 @@ function showButton(id) {
 function hideButton(id) {
     document.querySelector(id).setAttribute("class", "hidden")
 }
-
 
 
 
