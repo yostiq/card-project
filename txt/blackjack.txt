@@ -20,10 +20,10 @@
                 <button id="reset-button" class="hidden" onclick="bjResetButton()">NEW GAME</button>
             </div>
         </div>
-        <div id="player-hand">
+        <div id="player-hand" class="hand">
 
         </div>
-        <div id="playerSplit-hand">
+        <div id="playerSplit-hand" class="hand">
 
         </div>
     </div>
@@ -32,7 +32,7 @@
             <p>House:&#160;</p>
             <p id="house-points"></p>
         </div>
-        <div id="house-hand">
+        <div id="house-hand" class="hand">
 
         </div>
     </div>
