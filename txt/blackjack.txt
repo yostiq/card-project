@@ -27,10 +27,10 @@
             <div id="playerSplit-info">
                 <p class="hidden">Split:&#160;</p>
                 <p id="player-points-split" class="hidden"></p>
-            </div>
-            <div id="playerSplit-hand">
                 <button id="hit-button-split" class="hidden" onclick="hitSplit()">HIT</button>
                 <button id="stay-button-split" class="hidden" onclick="staySplit()">STAY</button>
+            </div>
+            <div id="playerSplit-hand">
             </div>
         </div>
     </div>
