@@ -23,7 +23,7 @@
         <div id="player-hand">
 
         </div>
-        <div id="player-hand-split">
+        <div id="playerSplit-hand">
 
         </div>
     </div>
