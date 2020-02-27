@@ -51,7 +51,7 @@
     width: 50%;
 }
 
-#player-hand{
+.hand{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -61,32 +61,22 @@
     margin: 2px;
 }
 
-#house-hand{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    height: 80%;
-    width: 100%;
-    padding: 2px;
-    margin: 2px;
-}
-
-#house-hand .card:nth-child(2), #player-hand .card:nth-child(2){
+.hand .card:nth-child(2){
     transform: translateX(-123px);
 }
-#house-hand .card:nth-child(3), #player-hand .card:nth-child(3){
+.hand .card:nth-child(3){
     transform: translateX(-246px);
 }
-#house-hand .card:nth-child(4), #player-hand .card:nth-child(4){
+.hand .card:nth-child(4){
     transform: translateX(-369px);
 }
-#house-hand .card:nth-child(5), #player-hand .card:nth-child(5){
+.hand .card:nth-child(5){
     transform: translateX(-492px);
 }
-#house-hand .card:nth-child(6), #player-hand .card:nth-child(6){
+.hand .card:nth-child(6){
     transform: translateX(-615px);
 }
-#house-hand .card:nth-child(7), #player-hand .card:nth-child(7){
+.hand .card:nth-child(7){
     transform: translateX(-738px);
 }
 
