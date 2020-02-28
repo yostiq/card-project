@@ -415,6 +415,8 @@ function split() {
     hideButton("#split-button")
     showButton("#hit-button-split")
     showButton("#stay-button-split")
+    showButton("#player-info-split")
+    showButton("#player-points-split")
     let splitCard = mPlayer.cards.pop()
     if (splitCard.value === "ACE") {
         mPlayer.points.ace1 -= 1
