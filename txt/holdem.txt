@@ -37,12 +37,12 @@
         <button id="draw-button">DRAW</button> <!--Esiin vain kun mahdollista painaa!-->
         <button id="stay-button">STAND</button> <!--Esiin vain kun mahdollista painaa!-->
     </div>
-    <div id="pokerPlayer" class="pokerCol">
+    <div id="holdemPlayer" class="pokerCol">
         <div class="playInfo">
             <p>Player:&#160;</p>
             <p id="player-bet"></p>
         </div>
-        <div id="poker-player-hand">
+        <div id="holdem-player-hand">
         </div>
     </div>
     <div class="pokerCol">

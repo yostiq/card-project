@@ -70,8 +70,8 @@ function openHoldem() {
         .then((data) => document.getElementById("gameBackground").innerHTML = data)
         .then(() => {
             document.getElementById("gameBackground").style.display = "flex";
-            updatePlayerMoney();
         })
+        .then(() => askBigBlind())
         .catch((error) => console.log(error));
 }
 
