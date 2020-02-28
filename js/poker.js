@@ -6,12 +6,12 @@ let pokerPlayers;
 let playersIn;
 let pokerPot;
 let round;
+let continueGame;
 
 const api_server = "http://joy.karaoui.fi:8000/api/deck/";
 
 async function askMinBet() {
     pokerHideAllButtons();
-    pokerSetButtonActions();
     resetPoker();
     document.getElementById("player-money").innerHTML = await getPlayerMoney();
 
@@ -268,6 +268,7 @@ async function playPoker() {
     if (playersIn.length === 1) {
         await pokerVictoryRoyale(pokerPlayers[playersIn[0]], pokerPot);
     } else {
+        //TODO solve winner
         alert("Solve cards to find winner.");
     }
 }
@@ -295,11 +296,16 @@ function pokerPlayerMoneyTurn() {
         }
     }
 
-    //TODO wait user action
-
     pokerShowMoneyTurnButtons();
 
-    alert("Players turn");
+    //TODO wait user action
+
+    continueGame = false;
+
+    if(!continueGame){
+
+    }
+
     if (confirm("Fold?")) {
         player.fold = true;
         setOverlayText(player, "FOLD");
@@ -413,6 +419,7 @@ function pokerSetButtonActions() {
     });
     document.getElementById("call-button").addEventListener("click", () => {
         //TODO call button
+        pokerPlayerPay()
     });
     document.getElementById("bet-button").addEventListener("click", () => {
         //TODO bet button

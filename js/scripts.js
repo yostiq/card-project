@@ -28,11 +28,11 @@ function openPoker() {
     let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/poker.txt";
 
     fetch(file)
-        .then((response) => response.text())
-        .then((data) => document.getElementById("gameBackground").innerHTML = data)
+        .then(response => response.text())
+        .then(data => document.getElementById("gameBackground").innerHTML = data)
         .then(() => document.getElementById("gameBackground").style.display = "flex")
         .then(() => askMinBet())
-        .catch((error) => console.log(error));
+        .catch(error => console.log(error));
 }
 
 function openBlackjack() {
