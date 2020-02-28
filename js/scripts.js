@@ -14,6 +14,10 @@ document.querySelector("#openBlackjack").addEventListener("click", async functio
     openBlackjack();
 });
 
+document.querySelector("#openTexas").addEventListener("click", async function () {
+    openHoldem();
+});
+
 function cancelButton() {
     let element = document.getElementById("logonBackground");
     element.parentNode.removeChild(element);
@@ -42,6 +46,24 @@ function openBlackjack() {
     }
 
     let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/blackjack.txt";
+
+    fetch(file)
+        .then((response) => response.text())
+        .then((data) => document.getElementById("gameBackground").innerHTML = data)
+        .then(() => {
+            document.getElementById("gameBackground").style.display = "flex";
+            updatePlayerMoney();
+        })
+        .catch((error) => console.log(error));
+}
+
+function openHoldem() {
+    if (!userLogged) {
+        alert("You must be login to able to play");
+        return;
+    }
+
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/holdem.txt";
 
     fetch(file)
         .then((response) => response.text())
@@ -113,15 +135,26 @@ function bjRules() {
     let bj = document.getElementById("bjRules");
     let poker = document.getElementById("pokerRules");
     let holdem = document.getElementById("holdemRules");
+    let bjButton = document.getElementById("openBjRules");
+    let pokerButton = document.getElementById("openPokerRules");
+    let holdemButton = document.getElementById("openHoldemRules");
 
     if (bj.style.display === "none") {
         bj.style.display = "block";
         poker.style.display = "none";
         holdem.style.display = "none";
+        bjButton.style.backgroundColor = "#FFE0B5";
+        pokerButton.style.backgroundColor = "#212d40";
+        holdemButton.style.backgroundColor = "#212d40";
+        bjButton.style.color = "black";
+        holdemButton.style.color = "white";
+        pokerButton.style.color = "white";
     } else {
         bj.style.display = "none";
         poker.style.display = "none";
         holdem.style.display = "none";
+        bjButton.style.backgroundColor = "#212d40";
+        bjButton.style.color = "white";
     }
 }
 
@@ -129,15 +162,26 @@ function pokerRules() {
     let bj = document.getElementById("bjRules");
     let poker = document.getElementById("pokerRules");
     let holdem = document.getElementById("holdemRules");
+    let bjButton = document.getElementById("openBjRules");
+    let pokerButton = document.getElementById("openPokerRules");
+    let holdemButton = document.getElementById("openHoldemRules");
 
     if (poker.style.display === "none") {
         poker.style.display = "block";
         bj.style.display = "none";
         holdem.style.display = "none";
+        pokerButton.style.backgroundColor = "#FFE0B5";
+        holdemButton.style.backgroundColor = "#212d40";
+        bjButton.style.backgroundColor = "#212d40";
+        pokerButton.style.color = "black";
+        holdemButton.style.color = "white";
+        bjButton.style.color = "white";
     } else {
         bj.style.display = "none";
         poker.style.display = "none";
         holdem.style.display = "none";
+        pokerButton.style.backgroundColor = "#212d40";
+        pokerButton.style.color = "white";
     }
 }
 
@@ -145,15 +189,25 @@ function holdemRules() {
     let bj = document.getElementById("bjRules");
     let poker = document.getElementById("pokerRules");
     let holdem = document.getElementById("holdemRules");
+    let bjButton = document.getElementById("openBjRules");
+    let pokerButton = document.getElementById("openPokerRules");
+    let holdemButton = document.getElementById("openHoldemRules");
 
     if (holdem.style.display === "none") {
         holdem.style.display = "block";
         poker.style.display = "none";
         bj.style.display = "none";
+        holdemButton.style.backgroundColor = "#FFE0B5";
+        pokerButton.style.backgroundColor = "#212d40";
+        bjButton.style.backgroundColor = "#212d40";
+        holdemButton.style.color = "black";
+        bjButton.style.color = "white";
+        pokerButton.style.color = "white";
     } else {
         bj.style.display = "none";
         poker.style.display = "none";
         holdem.style.display = "none";
+        holdemButton.style.backgroundColor = "#212d40";
     }
 }
 
