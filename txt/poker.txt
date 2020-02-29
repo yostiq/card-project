@@ -32,7 +32,7 @@
         </div>
     </div>
     <div id="draw-buttons" class="pokerCol">
-        <p id="player-money>Money:</p>
+        <p id="player-money">Money:</p>
         <button id="draw-button">DRAW</button> <!--Esiin vain kun mahdollista painaa!-->
         <button id="stay-button">STAND</button> <!--Esiin vain kun mahdollista painaa!-->
     </div>
