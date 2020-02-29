@@ -32,8 +32,7 @@
         </div>
     </div>
     <div id="draw-buttons" class="pokerCol">
-        <p>Money:&#160;</p>
-        <p id="player-money"></p>
+        <p id="player-money>Money:</p>
         <button id="draw-button">DRAW</button> <!--Esiin vain kun mahdollista painaa!-->
         <button id="stay-button">STAND</button> <!--Esiin vain kun mahdollista painaa!-->
     </div>
@@ -47,7 +46,7 @@
     </div>
     <div class="pokerCol">
         <div id="poker-buttons">
-            <p id="bet-amount">Bet amount: </p>
+            <p id="poker-bet-amount">Bet amount: </p>
             <button id="minus-button">-</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="plus-button">+</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="cancel-button">Cancel</button> <!--Esiin vain kun mahdollista painaa!-->
