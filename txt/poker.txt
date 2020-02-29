@@ -50,6 +50,7 @@
             <p id="bet-amount">Bet amount: </p>
             <button id="minus-button">-</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="plus-button">+</button> <!--Esiin vain kun mahdollista painaa!-->
+            <button id="cancel-button">Cancel</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="CHECK-button">CHECK</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="call-button">CALL</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="bet-button">BET</button> <!--Esiin vain kun mahdollista painaa!-->
