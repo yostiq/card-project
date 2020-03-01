@@ -4,7 +4,7 @@
 
 body {
     padding: 0;
-    background-color: #E5E5E5;
+    background-color: #212D40;
     font-family: Rockwell, sans-serif;
 }
 
@@ -24,6 +24,7 @@ h2 {
     padding: 5px;
     font-size: 4em;
     font-family: Rockwell, sans-serif;
+    color: #cd5334;
 }
 
 #header img {
@@ -34,7 +35,7 @@ h2 {
     width: 90%;
     height: 10%;
     margin: auto;
-    background-color: #555555;
+    background-color: #cd5334;
     top: 0;
     padding: 5px;
     border-radius: 4px;
@@ -80,7 +81,7 @@ h2 {
 #mainLinks a{
     line-height: 3em;
     padding: 0 0.75em;
-    color: #cccccc;
+    color: white;
     text-decoration: none;
     border-radius: 5px;
     margin-right: 5px;
@@ -105,7 +106,7 @@ h2 {
 }
 
 #logOutButton {
-    background-color: #B80C09;
+    background-color: #c52233;
 }
 
 #mainContent {
@@ -113,6 +114,9 @@ h2 {
     width: 75%;
     margin: auto;
     padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    color: white;
 }
 
 .logonButtons {
@@ -159,7 +163,8 @@ input[type=text], input[type=password] {
 }
 
 .logonScreen {
-    background-color: #E5E5E5;
+    background-color: #edb88b;
+    color: #2c0e37;
     width: 500px;
     height: fit-content;
     padding: 30px;
@@ -212,7 +217,8 @@ input[type=text], input[type=password] {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    width: 75%;
 }
 
 #games img {
@@ -232,11 +238,19 @@ input[type=text], input[type=password] {
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
-    height: 20%;
+    height: 30%;
+    width: 100%;
+    background-color: #212d40;
+    padding: 0;
+    margin: 0;
 }
 
 .gameRules {
-    height: 80%;
+    height: 70%;
+    background-color: #FFE0B5;
+    padding: 2em;
+    color: black;
+    font-family: "Helvetica", sans-serif;
 }
 
 #bjRules {
@@ -251,20 +265,27 @@ input[type=text], input[type=password] {
     display: none;
 }
 
-#ruleButtons button {
+#ruleButtons div {
     font-family: Rockwell sans-serif;
-    width: 25%;
+    flex: 1;
     height: 100%;
-    font-size: 1.5em;
-    border-radius: 8px;
-    color: black;
+    font-size: 2.5em;
+    color: white;
     background: none;
-    border: 3px solid black;
+    padding: 3px;
+    text-align: center;
 }
 
-#ruleButtons button:hover{
-    transform: scale(1.2);
+#ruleButtons div:hover{
     cursor: pointer;
+}
+
+#openBjRules {
+    border-radius: 8px 0 0 0;
+}
+
+#openHoldemRules {
+    border-radius: 0 8px 0 0;
 }
 
 .hidden {

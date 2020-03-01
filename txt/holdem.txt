@@ -32,24 +32,24 @@
         </div>
     </div>
     <div id="draw-buttons" class="pokerCol">
-        <p id="player-money">Money:</p>
+        <p>Money:&#160;</p>
+        <p id="player-money"></p>
         <button id="draw-button">DRAW</button> <!--Esiin vain kun mahdollista painaa!-->
         <button id="stay-button">STAND</button> <!--Esiin vain kun mahdollista painaa!-->
     </div>
-    <div id="pokerPlayer" class="pokerCol">
+    <div id="holdemPlayer" class="pokerCol">
         <div class="playInfo">
             <p>Player:&#160;</p>
             <p id="player-bet"></p>
         </div>
-        <div id="poker-player-hand">
+        <div id="holdem-player-hand">
         </div>
     </div>
     <div class="pokerCol">
         <div id="poker-buttons">
-            <p id="poker-bet-amount">Bet amount: </p>
+            <p id="bet-amount">Bet amount: </p>
             <button id="minus-button">-</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="plus-button">+</button> <!--Esiin vain kun mahdollista painaa!-->
-            <button id="cancel-button">Cancel</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="CHECK-button">CHECK</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="call-button">CALL</button> <!--Esiin vain kun mahdollista painaa!-->
             <button id="bet-button">BET</button> <!--Esiin vain kun mahdollista painaa!-->
@@ -60,7 +60,7 @@
     </div>
 </div>
 <div id="buy-in-screen" class="grid-item"> <!--Esiin vain ennen peliä!-->
-        <label for="buy-in-amount">&#160;&#160;&#160;Minimum bet for the game?&#160;</label> <!--Esiin vain ennen peliä!-->
-        <input type="number" id="buy-in-amount" placeholder="50"> <!--Esiin vain ennen peliä!-->
-        <button type="button" id="playPoker">Play</button>
+    <label for="buy-in-amount">&#160;&#160;&#160;Minimum bet for the game?&#160;</label> <!--Esiin vain ennen peliä!-->
+    <input type="number" id="buy-in-amount" placeholder="50"> <!--Esiin vain ennen peliä!-->
+    <button type="button" id="playPoker">Play</button>
 </div>

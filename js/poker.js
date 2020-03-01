@@ -6,12 +6,16 @@ let pokerPlayers;
 let playersIn;
 let pokerPot;
 let round;
+let playerDrawTurn;
+let playerBetTurn;
+let gameOver;
+let currentPlayerIndex;
+let drawed;
 
 const api_server = "http://joy.karaoui.fi:8000/api/deck/";
 
 async function askMinBet() {
     pokerHideAllButtons();
-    pokerSetButtonActions();
     resetPoker();
     document.getElementById("player-money").innerHTML = await getPlayerMoney();
 
@@ -63,8 +67,20 @@ async function pokerVictoryRoyale(player, amount) {
         player.money += parseInt(amount);
     }
 
-    alert("Winner is: " + player.nickname + "\nWin amount: " + pokerPot);
+    alert("Winner is: " + player.nickname + "\nWin amount: " + amount);
     pokerPot = 0;
+
+    if (await getPlayerMoney() >= minBet) {
+        if (confirm("Do you want to keep playing?")) {
+            await pokerSetPlayerOrder();
+            await pokerBeginTurn();
+        } else {
+            closeGame();
+        }
+    } else {
+        alert("You don't have enough money to keep playing. Please leave.");
+        closeGame();
+    }
 }
 
 async function pokerPlayerLoseMoney(amount) {
@@ -161,6 +177,13 @@ async function pokerBeginTurn() {
         return;
     }
 
+    gameOver = false;
+    currentPlayerIndex = 0;
+    round = 1;
+    drawed = 0;
+    playerBetTurn = false;
+    playerDrawTurn = false;
+
     await pokerGetDeck();
     playersIn = [0, 1, 2, 3];
 
@@ -183,18 +206,6 @@ async function pokerBeginTurn() {
     currentBet = 0;
 
     await playPoker();
-
-    if (await getPlayerMoney() >= minBet) {
-        if (confirm("Do you want to keep playing?")) {
-            await pokerSetPlayerOrder();
-            await pokerBeginTurn();
-        } else {
-            closeGame();
-        }
-    } else {
-        alert("You don't have enough money to keep playing. Please leave.");
-        closeGame();
-    }
 }
 
 async function playPoker() {
@@ -209,16 +220,17 @@ async function playPoker() {
         }
     }
 
+    await pokerTurn();
+}
 
-    let drawed = 0;
-    let round = 1;
-    let i = 0;
+async function pokerTurn() {
     while (true) {
         if (playersIn.length === 1) {
+            await pokerVictoryRoyale(pokerPlayers[playersIn[0]], pokerPot);
             break;
         }
 
-        let currentPlayer = pokerPlayers[playersIn[i]];
+        let currentPlayer = pokerPlayers[playersIn[currentPlayerIndex]];
         let checked = 0;
         for (let j = 0; j < playersIn.length; j++) {
             if (pokerPlayers[playersIn[j]].checkCall) {
@@ -233,7 +245,10 @@ async function playPoker() {
         /* Draw round */
         if (checked === playersIn.length && round === 1 && drawed !== playersIn.length) {
             if (currentPlayer.name === "poker-player") {
-                await pokerPlayerDrawTurn();
+                playerDrawTurn = true;
+                pokerSetButtonActions();
+                pokerShowDrawButtons();
+                break;
             } else {
                 await aiSolveDraw(currentPlayer.cards);
                 await pokerAiActionText(currentPlayer, "Drawing...");
@@ -248,66 +263,22 @@ async function playPoker() {
             await setMaxBet();
 
             if (currentPlayer.name === "poker-player") {
-                await pokerPlayerMoneyTurn();
+                playerBetTurn = true;
+                pokerShowMoneyTurnButtons();
+                break;
             } else {
                 await pokerAiMoneyTurn(currentPlayer);
+                if (currentPlayer.fold) {
+                    playersIn.splice(playersIn.indexOf(playersIn[currentPlayerIndex]), 1);
+                    currentPlayerIndex--;
+                }
+                currentPlayerIndex++;
+                if (currentPlayerIndex === playersIn.length) {
+                    currentPlayerIndex = 0;
+                }
             }
-
-            if (currentPlayer.fold) {
-                playersIn.splice(playersIn.indexOf(playersIn[i]), 1);
-                i--;
-            }
-        }
-
-        i++;
-        if (i === playersIn.length) {
-            i = 0;
         }
     }
-
-    if (playersIn.length === 1) {
-        await pokerVictoryRoyale(pokerPlayers[playersIn[0]], pokerPot);
-    } else {
-        alert("Solve cards to find winner.");
-    }
-}
-
-function pokerPlayerDrawTurn() {
-    //TODO wait user action
-
-    pokerShowDrawButtons();
-
-    alert("Players turn");
-    if (confirm("Draw?")) {
-
-    } else {
-
-    }
-
-    pokerHideAllButtons();
-}
-
-function pokerPlayerMoneyTurn() {
-    let player;
-    for (let i = 0; i < playersIn.length; i++) {
-        if (pokerPlayers[playersIn[i]].name === "poker-player") {
-            player = pokerPlayers[playersIn[i]];
-        }
-    }
-
-    //TODO wait user action
-
-    pokerShowMoneyTurnButtons();
-
-    alert("Players turn");
-    if (confirm("Fold?")) {
-        player.fold = true;
-        setOverlayText(player, "FOLD");
-    } else {
-
-    }
-
-    pokerHideAllButtons();
 }
 
 async function pokerAiMoneyTurn(cpu) {
@@ -328,11 +299,9 @@ async function pokerAiMoneyTurn(cpu) {
         if (cpu.money === currentBet || Math.random() > 0.3 || currentBet >= maxBet) {
             if (currentBet === 0) {
                 await pokerAiActionText(cpu, "Check");
-                console.log(cpu.name + " check");
             } else {
                 await pokerPlayerPay(cpu, currentBet);
                 await pokerAiActionText(cpu, "Call");
-                console.log(cpu.name + " call: " + currentBet);
             }
             cpu.checkCall = true;
         } else {
@@ -341,14 +310,12 @@ async function pokerAiMoneyTurn(cpu) {
                 await pokerPlayerPay(cpu, maxBet);
                 await clearCheckCall();
                 cpu.checkCall = true;
-                console.log(cpu.name + " all-in: " + maxBet);
             } else {
                 await pokerAiActionText(cpu, "Raise");
                 let amount = currentBet + Math.floor((maxBet - minBet) * Math.random());
                 await pokerPlayerPay(cpu, amount);
                 await clearCheckCall();
                 cpu.checkCall = true;
-                console.log(cpu.name + " raise: " + amount);
             }
         }
     }
@@ -364,6 +331,7 @@ async function pokerPlayerPay(player, amount) {
         //TODO document.getElementById(player.name + "-money").innerHTML = player.money;
     }
     currentBet = amount;
+    document.getElementById("bet-amount").innerHTML = "Bet amount: " + currentBet;
     pokerPot += parseInt(amount);
     document.getElementById("pot-amount").innerHTML = "Pot: " + pokerPot;
 }
@@ -379,6 +347,7 @@ async function pokerSetPlayerOrder() {
 }
 
 function pokerShowMoneyTurnButtons() {
+    pokerSetButtonActions();
     if(currentBet === 0){
         document.getElementById("CHECK-button").style.display = "block";
     } else {
@@ -389,6 +358,7 @@ function pokerShowMoneyTurnButtons() {
 }
 
 function pokerShowDrawButtons() {
+    pokerSetButtonActions();
     document.getElementById("draw-button").style.display = "block";
     document.getElementById("stay-button").style.display = "block";
 }
@@ -408,28 +378,67 @@ function pokerHideAllButtons() {
 }
 
 function pokerSetButtonActions() {
+    const playerIndex = () => {
+        for (let i = 0; i < playersIn.length; i++){
+            if(pokerPlayers[playersIn[i]].name === "poker-player"){
+                return i;
+            }
+        }
+    };
+    const player = pokerPlayers[playersIn[playerIndex()]];
+
     document.getElementById("CHECK-button").addEventListener("click", () => {
-        //TODO check button
+        playerBetTurn = false;
+        player.checkCall = true;
+        currentPlayerIndex++;
+        if (currentPlayerIndex === playersIn.length) {
+            currentPlayerIndex = 0;
+        }
+        pokerHideAllButtons();
+        pokerTurn().catch(error => console.log(error));
     });
     document.getElementById("call-button").addEventListener("click", () => {
-        //TODO call button
+        playerBetTurn = false;
+        player.checkCall = true;
+        currentPlayerIndex++;
+        if (currentPlayerIndex === playersIn.length) {
+            currentPlayerIndex = 0;
+        }
+        pokerPlayerPay(player, currentBet).catch(error => console.log(error));
+        pokerTurn().catch(error => console.log(error));
     });
     document.getElementById("bet-button").addEventListener("click", () => {
-        //TODO bet button
+        playerBetTurn = false;
+        player.checkCall = true;
+
+        pokerHideAllButtons();
+        pokerTurn().catch(error => console.log(error));
     });
     document.getElementById("raise-button").addEventListener("click", () => {
-        //TODO raise button
+        document.getElementById("minus-button").style.display = "block";
+        document.getElementById("plus-button").style.display = "block";
     });
     document.getElementById("all-in-button").addEventListener("click", () => {
-        //TODO all-in button
+        playerBetTurn = false;
+        player.checkCall = true;
+        pokerHideAllButtons();
+
+        pokerTurn().catch(error => console.log(error));
     });
     document.getElementById("fold-button").addEventListener("click", () => {
-        //TODO fold button
+        playerBetTurn = false;
+        player.fold = true;
+        playersIn.splice(playersIn.indexOf(playersIn[playerIndex()]), 1);
+        pokerHideAllButtons();
+        setOverlayText(player, "FOLD");
+        pokerTurn().catch(error => console.log(error));
     });
     document.getElementById("draw-button").addEventListener("click", () => {
+        pokerHideAllButtons();
         //TODO draw button
     });
     document.getElementById("stay-button").addEventListener("click", () => {
+        pokerHideAllButtons();
         //TODO stay button
     });
     document.getElementById("minus-button").addEventListener("click", () => {
@@ -455,16 +464,6 @@ function setOverlayText(player, text) {
     } else {
         overlay.style.backgroundColor = "rgba(255,255,0,0.5)";
     }
-
-    overlay.style.position = "absolute";
-    overlay.style.top = "50%";
-    overlay.style.left = "50%";
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.display = "flex";
-    overlay.style.justifyContent = "center";
-    overlay.style.alignItems = "center";
-    overlay.style.transform = "translate(-50%, -50%)";
 
     let element = document.getElementById(player.name + "-hand");
     element.appendChild(overlay);
