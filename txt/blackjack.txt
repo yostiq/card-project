@@ -20,17 +20,19 @@
                 <button id="reset-button" class="hidden" onclick="bjResetButton()">NEW GAME</button>
             </div>
         </div>
-        <div id="player-hand" class="hand">
+        <div id="player-hands">
+            <div id="player-hand" class="hand">
 
-        </div>
-        <div id="playerSplit">
-            <div id="playerSplit-info">
-                <p class="hidden">Split:&#160;</p>
-                <p id="player-points-split" class="hidden"></p>
-                <button id="hit-button-split" class="hidden" onclick="hitSplit()">HIT</button>
-                <button id="stay-button-split" class="hidden" onclick="staySplit()">STAY</button>
             </div>
-            <div id="playerSplit-hand" class="hand"></div>
+            <div id="playerSplit" class="hand">
+                <div id="playerSplit-hand" class="hand"></div>
+                <div id="playerSplit-info">
+                    <p id="player-info-split" class="hidden">Split:&#160;</p>
+                    <p id="player-points-split" class="hidden"></p>
+                    <button id="hit-button-split" class="hidden" onclick="hitSplit()">HIT</button>
+                    <button id="stay-button-split" class="hidden" onclick="staySplit()">STAY</button>
+                </div>
+            </div>
         </div>
     </div>
     <div id="house">
@@ -38,8 +40,6 @@
             <p>House:&#160;</p>
             <p id="house-points"></p>
         </div>
-        <div id="house-hand" class="hand">
-
-        </div>
+        <div id="house-hand" class="hand"></div>
     </div>
 </div>
