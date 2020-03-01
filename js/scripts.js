@@ -25,11 +25,11 @@ function cancelButton() {
 
 function openPoker() {
     if (!userLogged) {
-        alert("You must be login to able to play");
+        alert("You must be logged in to play");
         return;
     }
 
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/poker.txt";
+    let file = "https://raw.githubusercontent.com/master/card-project/master/txt/poker.txt";
 
     fetch(file)
         .then(response => response.text())
@@ -41,12 +41,12 @@ function openPoker() {
 
 function openBlackjack() {
     if (!userLogged) {
-        alert("You must be login to able to play");
+        alert("You must be logged in to play");
         return;
     }
 
-    //ORIGINAL let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/blackjack.txt";
-    let file = "txt/blackjack.html";
+    //ORIGINAL let file = "https://raw.githubusercontent.com/master/card-project/master/txt/blackjack.txt";
+    let file = "txt/blackjack.txt";
 
     fetch(file, {mode: "no-cors"})
         .then((response) => response.text())
@@ -60,11 +60,11 @@ function openBlackjack() {
 
 function openHoldem() {
     if (!userLogged) {
-        alert("You must be login to able to play");
+        alert("You must be logged in to play");
         return;
     }
 
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/holdem.txt";
+    let file = "https://raw.githubusercontent.com/master/card-project/master/txt/holdem.txt";
 
     fetch(file)
         .then((response) => response.text())
@@ -82,7 +82,7 @@ function closeGame() {
 }
 
 function openLoginScreen() {
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/loginScreen.txt";
+    let file = "https://raw.githubusercontent.com/master/card-project/master/txt/loginScreen.txt";
 
     fetch(file)
         .then((response) => response.text())
@@ -95,7 +95,7 @@ function openLoginScreen() {
 }
 
 function openSignUpScreen() {
-    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/signUpScreen.txt";
+    let file = "https://raw.githubusercontent.com/master/card-project/master/txt/signUpScreen.txt";
 
     fetch(file)
         .then((response) => response.text())

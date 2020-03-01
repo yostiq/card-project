@@ -107,8 +107,8 @@ function playBlackjack() {
     new Promise(resolve => {
         //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT
         //NORMAL let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/"
-        //REMOTE let url = "http://joy.karaoui.fi:8000/api/deck/82hvrjdlf915/shuffle/"
-        let url = "http://192.168.1.5:8000/api/deck/82hvrjdlf915/shuffle/"
+        let url = "http://joy.karaoui.fi:8000/api/deck/82hvrjdlf915/shuffle/"
+
         fetch(url)
             .then(response => response.json())
             .then(json => {
@@ -118,9 +118,7 @@ function playBlackjack() {
     }).then(deck_id => {
         return new Promise(resolve => {
             //ORIGINAL let url = "https://deckofcardsapi.com/api/deck/" + deck_id + "/draw/?count=52"
-            //REMOTE let url = "http://joy.karaoui.fi:8000/api/deck/" + deck_id + "/draw/?count=52"
-            let url = "http://192.168.1.5:8000/api/deck/" + deck_id + "/draw/?count=52"
-
+            let url = "http://joy.karaoui.fi:8000/api/deck/" + deck_id + "/draw/?count=52"
 
             fetch(url)
                 .then(response => response.json())
