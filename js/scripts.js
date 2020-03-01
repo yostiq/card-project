@@ -29,7 +29,7 @@ function openPoker() {
         return;
     }
 
-    let file = "https://raw.githubusercontent.com/master/card-project/master/txt/poker.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/poker.txt";
 
     fetch(file)
         .then(response => response.text())
@@ -45,7 +45,7 @@ function openBlackjack() {
         return;
     }
 
-    //ORIGINAL let file = "https://raw.githubusercontent.com/master/card-project/master/txt/blackjack.txt";
+    //ORIGINAL let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/blackjack.txt";
     let file = "txt/blackjack.txt";
 
     fetch(file, {mode: "no-cors"})
@@ -64,7 +64,7 @@ function openHoldem() {
         return;
     }
 
-    let file = "https://raw.githubusercontent.com/master/card-project/master/txt/holdem.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/holdem.txt";
 
     fetch(file)
         .then((response) => response.text())
@@ -82,7 +82,7 @@ function closeGame() {
 }
 
 function openLoginScreen() {
-    let file = "https://raw.githubusercontent.com/master/card-project/master/txt/loginScreen.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/loginScreen.txt";
 
     fetch(file)
         .then((response) => response.text())
@@ -95,7 +95,7 @@ function openLoginScreen() {
 }
 
 function openSignUpScreen() {
-    let file = "https://raw.githubusercontent.com/master/card-project/master/txt/signUpScreen.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/signUpScreen.txt";
 
     fetch(file)
         .then((response) => response.text())
