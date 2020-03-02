@@ -148,10 +148,10 @@ function playBlackjack() {
             showButton("#split-button")
         }
     }).then(() => {
-        /*if (mPlayer.cards[0].value !== mPlayer.cards[1].value) {
+        if (mPlayer.cards[0].value !== mPlayer.cards[1].value) {
             resetBlackjack()
             playBlackjack()
-        }*/
+        }
     })
 }
 

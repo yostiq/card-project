@@ -119,6 +119,10 @@ h2 {
     color: white;
 }
 
+#mainContent h2 {
+    font-size: 5em;
+}
+
 .logonButtons {
     float: bottom;
     margin: 10px;

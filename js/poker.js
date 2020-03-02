@@ -331,7 +331,7 @@ async function pokerPlayerPay(player, amount) {
         //TODO document.getElementById(player.name + "-money").innerHTML = player.money;
     }
     currentBet = amount;
-    document.getElementById("bet-amount").innerHTML = "Bet amount: " + currentBet;
+    document.getElementById("poker-bet-amount").innerHTML = "Bet amount: " + currentBet;
     pokerPot += parseInt(amount);
     document.getElementById("pot-amount").innerHTML = "Pot: " + pokerPot;
 }

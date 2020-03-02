@@ -48,7 +48,7 @@
     background: none;
     color: #b80c09;
     border: 2px solid #b80c09;
-    font-family: "Arial Black", serif ;
+    font-family: "Arial Black", serif;
     font-size: 24px;
     font-weight: bold;
     border-radius: 8px;
@@ -56,7 +56,7 @@
     z-index: 100;
 }
 
-#cpu1-hand, #cpu2-hand, #cpu3-hand, #poker-player-hand {
+#cpu1-hand, #cpu2-hand, #cpu3-hand, #poker-player-hand #holdem-player-hand {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -64,25 +64,30 @@
     align-items: start;
 }
 
-#cpu1-hand img, #cpu2-hand img, #cpu3-hand img, #poker-player-hand img{
+#cpu1-hand img, #cpu2-hand img, #cpu3-hand img, #poker-player-hand img, #holdem-player-hand img {
     max-width: 82px;
     max-height: 125px;
 }
 
-#cpu1-hand img:nth-child(2), #cpu2-hand img:nth-child(2), #cpu3-hand img:nth-child(2), #poker-player-hand img:nth-child(2){
+#cpu1-hand img:nth-child(2), #cpu2-hand img:nth-child(2), #cpu3-hand img:nth-child(2), #poker-player-hand img:nth-child(2),
+#holdem-player-hand img:nth-child(2) {
     transform: translateX(-60px);
 }
-#cpu1-hand img:nth-child(3), #cpu2-hand img:nth-child(3), #cpu3-hand img:nth-child(3), #poker-player-hand img:nth-child(3){
+
+#cpu1-hand img:nth-child(3), #cpu2-hand img:nth-child(3), #cpu3-hand img:nth-child(3), #poker-player-hand img:nth-child(3),
+#holdem-player-hand img:nth-child(3) {
     transform: translateX(-120px);
 }
-#cpu1-hand img:nth-child(4), #cpu2-hand img:nth-child(4), #cpu3-hand img:nth-child(4), #poker-player-hand img:nth-child(4){
+
+#cpu1-hand img:nth-child(4), #cpu2-hand img:nth-child(4), #cpu3-hand img:nth-child(4), #poker-player-hand img:nth-child(4) {
     transform: translateX(-180px);
 }
-#cpu1-hand img:nth-child(5), #cpu2-hand img:nth-child(5), #cpu3-hand img:nth-child(5), #poker-player-hand img:nth-child(5){
+
+#cpu1-hand img:nth-child(5), #cpu2-hand img:nth-child(5), #cpu3-hand img:nth-child(5), #poker-player-hand img:nth-child(5) {
     transform: translateX(-240px);
 }
 
-.playInfo p{
+.playInfo p {
     font-size: 1em;
 }
 

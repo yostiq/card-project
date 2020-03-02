@@ -209,6 +209,7 @@ function holdemRules() {
         poker.style.display = "none";
         holdem.style.display = "none";
         holdemButton.style.backgroundColor = "#212d40";
+        holdemButton.style.color = "white";
     }
 }
 
