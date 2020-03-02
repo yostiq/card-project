@@ -162,7 +162,6 @@ function addToHand(player, numberOfCards) {
         if (checkPoints(card) !== "ACE") {
             player.points.ace11 += checkPoints(card)
             player.points.ace1 += checkPoints(card)
-            player.points.final += checkPoints(card)
             if (i > 0 && player.name === "house") {
                 player.points.hiddenAce11 += checkPoints(card)
                 player.points.hiddenAce1 += checkPoints(card)
@@ -194,7 +193,7 @@ function updateTableCards(player, houseTurn) {
     let id = "#" + player.name + "-hand"
 
     let handElement = document.querySelector(id)
-    handElement.innerText = ""
+    handElement.textContent = ""
     for (let i = 0; i < player.cards.length; i++) {
         let img = document.createElement("img")
         img.className = "card"
@@ -212,22 +211,35 @@ function updatePoints(isHouseTurn) {
     let playerPoints = document.querySelector("#player-points")
     let housePoints = document.querySelector("#house-points")
     if (isAceInHand(mPlayer)) {
-        playerPoints.innerText = mPlayer.points.ace1 + " / " + mPlayer.points.ace11
+        playerPoints.textContent = mPlayer.points.ace1 + " / " + mPlayer.points.ace11
     } else {
-        playerPoints.innerText = mPlayer.points.ace11
+        playerPoints.textContent = mPlayer.points.ace11
     }
 
     if (!isHouseTurn) {
         if (isAceInHand(mHouse)) {
-            housePoints.innerText = mHouse.points.hiddenAce1 + " / " + mHouse.points.hiddenAce11
+            housePoints.textContent = mHouse.points.hiddenAce1 + " / " + mHouse.points.hiddenAce11
         } else {
-            housePoints.innerText = mHouse.points.hiddenAce11
+            housePoints.textContent = mHouse.points.hiddenAce11
         }
     } else {
         if (isAceInHand(mHouse)) {
-            housePoints.innerText = mHouse.points.ace1 + " / " + mHouse.points.ace11
+            housePoints.textContent = mHouse.points.ace1 + " / " + mHouse.points.ace11
         } else {
-            housePoints.innerText = mHouse.points.ace11
+            housePoints.textContent = mHouse.points.ace11
+        }
+    }
+}
+
+function updatePointsSplit() {
+    let splitPoints = document.querySelector("#player-points-split")
+    if (mPlayerSplit.points.final > 0) {
+        splitPoints.textContent = mPlayerSplit.points.final
+    } else {
+        if (isAceInHand(mPlayer)) {
+            splitPoints.textContent = mPlayerSplit.points.ace1 + " / " + mPlayerSplit.points.ace11
+        } else {
+            splitPoints.textContent = mPlayerSplit.points.ace11
         }
     }
 }
@@ -269,8 +281,8 @@ function resetBlackjack() {
             final: 0
         }
     }
-    document.querySelector("#player-hand").innerText = ""
-    document.querySelector("#house-hand").innerText = ""
+    document.querySelector("#player-hand").textContent = ""
+    document.querySelector("#house-hand").textContent = ""
     updatePoints(false)
 }
 
@@ -294,6 +306,7 @@ function hitSplit() {
         addToHand(mPlayerSplit, 1)
         updateTableCards(mPlayerSplit, false)
         updatePoints(false)
+        updatePointsSplit()
         setTimeout(resolve, 100)
     })
 
@@ -360,6 +373,7 @@ function staySplit() {
         addToHand(mHouse, 1)
         updateTableCards(mHouse, true)
         updatePoints(true)
+        updatePointsSplit()
     }
 
     if (mPlayerSplit.points.ace11 > 21) {
@@ -367,6 +381,7 @@ function staySplit() {
     } else {
         mPlayerSplit.points.final = mPlayerSplit.points.ace11
     }
+    updatePointsSplit()
 
     if (mHouse.points.ace11 > 21) {
         mHouse.points.final = mHouse.points.ace1
@@ -375,6 +390,8 @@ function staySplit() {
     }
 
     if (mPlayerSplit.points.final > mHouse.points.final) {
+        victorySplit()
+    } else if (mHouse.points.final > 21) {
         victorySplit()
     } else if (mPlayerSplit.points.final === mHouse.points.final) {
         tieSplit()
@@ -433,6 +450,7 @@ function split() {
     updateTableCards(mPlayer,false)
     updateTableCards(mPlayerSplit,false)
     updatePoints(false)
+    updatePointsSplit()
 }
 
 function decrementMoney(amount) {
