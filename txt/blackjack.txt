@@ -30,12 +30,14 @@
             </div>
         </div>
     </div>
-    <div id="house">
-        <div class="playInfo">
-            <p>House:&#160;</p>
-            <p id="house-points"></p>
+    <div id="bottomRow">
+        <div id="house">
+            <div class="playInfo">
+                <p>House:&#160;</p>
+                <p id="house-points"></p>
+            </div>
+            <div id="house-hand" class="hand"></div>
         </div>
-        <div id="house-hand" class="hand"></div>
         <div id="playerSplit-info">
             <p id="player-info-split" class="hidden">Split:&#160;</p>
             <p id="player-points-split" class="hidden"></p>

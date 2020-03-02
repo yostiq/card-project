@@ -15,18 +15,10 @@
     border-radius: 15px;
 }
 
-#player {
+#player, #bottomRow {
     position: relative;
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    height: 50%;
-}
-
-#house {
-    position: relative;
-    display: flex;
-    flex-direction: row;
     flex-wrap: nowrap;
     height: 50%;
 }
