@@ -270,6 +270,15 @@ function resetBlackjack() {
             final: 0
         }
     }
+    mPlayerSplit = {
+        name: "playerSplit",
+        cards: [],
+        points: {
+            ace1: 0,
+            ace11: 0,
+            final: 0
+        }
+    }
     mHouse = {
         name: "house",
         cards: [],
@@ -283,7 +292,9 @@ function resetBlackjack() {
     }
     document.querySelector("#player-hand").textContent = ""
     document.querySelector("#house-hand").textContent = ""
+    document.querySelector("#playerSplit-hand").textContent = ""
     updatePoints(false)
+    updatePointsSplit()
 }
 
 function hit() {
