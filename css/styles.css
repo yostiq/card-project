@@ -31,6 +31,18 @@ h2 {
     width: 15%;
 }
 
+@media screen and (max-width: 1024px) {
+    #logoName {
+        display: none !important;
+    }
+    #header img {
+        width: 50% !important;
+    }
+    #creators {
+        display: none !important;
+    }
+}
+
 #navBar {
     width: 90%;
     height: 10%;
@@ -116,16 +128,48 @@ h2 {
     padding: 50px 0;
     display: flex;
     flex-direction: column;
+    align-content: start;
+    justify-content: center;
     color: white;
 }
 
-#mainContent h2 {
-    font-size: 5em;
+#mainContent #welcome {
+    font-size: 3em;
+}
+
+#mainContent iframe {
+    margin-top: 30px;
+    margin-bottom: 100px;
+    align-self: center;
+}
+
+#mainContent #creators {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    padding: 10px;
+    align-self: center;
+}
+
+#creators .creator {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.creator img {
+    width: 50%;
 }
 
 .logonButtons {
-    float: bottom;
-    margin: 10px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .buttonCancel, .buttonSubmit {
@@ -151,6 +195,7 @@ input[type=text], input[type=password] {
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    border-radius: 5px;
 }
 
 .logonBackground {
@@ -167,13 +212,28 @@ input[type=text], input[type=password] {
 }
 
 .logonScreen {
-    background-color: #edb88b;
-    color: #2c0e37;
+    background-color: #212D40;
+    color: white;
     width: 500px;
     height: fit-content;
-    padding: 30px;
+    padding: 20px;
     margin: 5px auto;
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: 3px 3px 9px black;
+    position: relative;
+    top: 250px;
+}
+
+.logonScreen h2 {
+    flex: 1;
+}
+
+.logonScreen form {
+    flex: 4;
 }
 
 .close {
@@ -221,13 +281,13 @@ input[type=text], input[type=password] {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
-    width: 75%;
+    justify-content: space-evenly;
+    width: 100%;
 }
 
 #games img {
-    max-width: 300px;
-    max-height: 300px;
+    max-width: 350px;
+    max-height: 350px;
     border-radius: 250px;
 }
 
@@ -242,7 +302,7 @@ input[type=text], input[type=password] {
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
-    height: 30%;
+    height: 100%;
     width: 100%;
     background-color: #212d40;
     padding: 0;
@@ -273,7 +333,7 @@ input[type=text], input[type=password] {
     font-family: Rockwell sans-serif;
     flex: 1;
     height: 100%;
-    font-size: 2.5em;
+    font-size: 2.2em;
     color: white;
     background: none;
     padding: 3px;
