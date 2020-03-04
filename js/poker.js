@@ -17,7 +17,7 @@ const api_server = "http://joy.karaoui.fi:8000/api/deck/";
 async function askMinBet() {
     pokerHideAllButtons();
     resetPoker();
-    document.getElementById("player-money").innerHTML = await getPlayerMoney();
+    document.getElementById("player-money").innerHTML = "Money: " + await getPlayerMoney();
 
     minBet = parseInt(prompt("Set minimum bet amount:"));
 
@@ -239,32 +239,37 @@ async function pokerTurn() {
         }
 
         if (checked === playersIn.length && round === 2) {
+            await pokerSolveWinner();
             break;
         }
 
         /* Draw round */
         if (checked === playersIn.length && round === 1 && drawed !== playersIn.length) {
+            await clearCheckCall();
+
             if (currentPlayer.name === "poker-player") {
                 playerDrawTurn = true;
-                pokerSetButtonActions();
-                pokerShowDrawButtons();
+                await pokerShowDrawButtons();
                 break;
             } else {
-                await aiSolveDraw(currentPlayer.cards);
                 await pokerAiActionText(currentPlayer, "Drawing...");
+                await pokerDrawCard(await aiSolveDraw(currentPlayer.cards), currentPlayer);
             }
 
-            drawed++;
+            currentPlayerIndex++;
+            if (currentPlayerIndex === playersIn.length) {
+                currentPlayerIndex = 0;
+            }
+
             if (drawed === playersIn.length) {
                 round++;
-                await clearCheckCall();
             }
         } else {
             await setMaxBet();
 
             if (currentPlayer.name === "poker-player") {
                 playerBetTurn = true;
-                pokerShowMoneyTurnButtons();
+                await pokerShowMoneyTurnButtons();
                 break;
             } else {
                 await pokerAiMoneyTurn(currentPlayer);
@@ -278,6 +283,14 @@ async function pokerTurn() {
                 }
             }
         }
+    }
+}
+
+async function pokerSolveWinner(){
+    let winner = pokerPlayers[playersIn[0]];
+    setOverlayText(winner, "Winner\n" + solve(winner.cards));
+    for(let i = 0; i < playersIn.length; i++){
+
     }
 }
 
@@ -324,7 +337,7 @@ async function pokerAiMoneyTurn(cpu) {
 async function pokerPlayerPay(player, amount) {
     if (player.name === "poker-player") {
         await pokerPlayerLoseMoney(amount);
-        document.getElementById("player-money").innerHTML = await getPlayerMoney();
+        document.getElementById("player-money").innerHTML = "Money: " + await getPlayerMoney();
     } else {
         player.money -= parseInt(amount);
         document.getElementById(player.name + "-bet").innerHTML = amount;
@@ -346,8 +359,9 @@ async function pokerSetPlayerOrder() {
     pokerPlayers.sort((a, b) => a.order - b.order);
 }
 
-function pokerShowMoneyTurnButtons() {
-    pokerSetButtonActions();
+async function pokerShowMoneyTurnButtons() {
+    document.getElementById("poker-bet-amount").innerHTML = "Bet amount: " + currentBet;
+    await pokerSetButtonActions();
     if(currentBet === 0){
         document.getElementById("CHECK-button").style.display = "block";
     } else {
@@ -357,8 +371,8 @@ function pokerShowMoneyTurnButtons() {
     document.getElementById("fold-button").style.display = "block";
 }
 
-function pokerShowDrawButtons() {
-    pokerSetButtonActions();
+async function pokerShowDrawButtons() {
+    await pokerSetButtonActions();
     document.getElementById("draw-button").style.display = "block";
     document.getElementById("stay-button").style.display = "block";
 }
@@ -372,12 +386,17 @@ function pokerHideAllButtons() {
     document.getElementById("raise-button").style.display = "none";
     document.getElementById("all-in-button").style.display = "none";
     document.getElementById("fold-button").style.display = "none";
+    document.getElementById("cancel-button").style.display = "none";
 
     document.getElementById("draw-button").style.display = "none";
     document.getElementById("stay-button").style.display = "none";
 }
 
-function pokerSetButtonActions() {
+async function pokerSetButtonActions() {
+    let tempBet = currentBet + 1;
+    if(currentBet < minBet){
+        tempBet = minBet + 1;
+    }
     const playerIndex = () => {
         for (let i = 0; i < playersIn.length; i++){
             if(pokerPlayers[playersIn[i]].name === "poker-player"){
@@ -386,8 +405,9 @@ function pokerSetButtonActions() {
         }
     };
     const player = pokerPlayers[playersIn[playerIndex()]];
+    await setMaxBet();
 
-    document.getElementById("CHECK-button").addEventListener("click", () => {
+    document.getElementById("CHECK-button").addEventListener("click", async () => {
         playerBetTurn = false;
         player.checkCall = true;
         currentPlayerIndex++;
@@ -395,57 +415,114 @@ function pokerSetButtonActions() {
             currentPlayerIndex = 0;
         }
         pokerHideAllButtons();
-        pokerTurn().catch(error => console.log(error));
+        await pokerTurn();
     });
-    document.getElementById("call-button").addEventListener("click", () => {
+
+    document.getElementById("call-button").addEventListener("click", async () => {
         playerBetTurn = false;
         player.checkCall = true;
         currentPlayerIndex++;
         if (currentPlayerIndex === playersIn.length) {
             currentPlayerIndex = 0;
         }
-        pokerPlayerPay(player, currentBet).catch(error => console.log(error));
-        pokerTurn().catch(error => console.log(error));
+        pokerHideAllButtons();
+        await pokerPlayerPay(player, currentBet);
+        await pokerTurn();
     });
-    document.getElementById("bet-button").addEventListener("click", () => {
+
+    document.getElementById("bet-button").addEventListener("click", async () => {
         playerBetTurn = false;
         player.checkCall = true;
+        currentPlayerIndex++;
+        if (currentPlayerIndex === playersIn.length) {
+            currentPlayerIndex = 0;
+        }
+        await pokerPlayerPay(player, tempBet);
 
         pokerHideAllButtons();
-        pokerTurn().catch(error => console.log(error));
+        await pokerTurn();
     });
-    document.getElementById("raise-button").addEventListener("click", () => {
-        document.getElementById("minus-button").style.display = "block";
+
+    document.getElementById("raise-button").addEventListener("click", async () => {
+        if(currentBet === 0){
+            document.getElementById("CHECK-button").style.display = "none";
+        } else {
+            document.getElementById("call-button").style.display = "none";
+        }
+        document.getElementById("raise-button").style.display = "none";
+        document.getElementById("fold-button").style.display = "none";
+
         document.getElementById("plus-button").style.display = "block";
+        document.getElementById("cancel-button").style.display = "block";
+        document.getElementById("bet-button").style.display = "block";
+        document.getElementById("poker-bet-amount").innerHTML = "Bet amount: " + tempBet;
     });
-    document.getElementById("all-in-button").addEventListener("click", () => {
+
+    document.getElementById("all-in-button").addEventListener("click", async () => {
         playerBetTurn = false;
         player.checkCall = true;
+        currentPlayerIndex++;
+        if (currentPlayerIndex === playersIn.length) {
+            currentPlayerIndex = 0;
+        }
         pokerHideAllButtons();
+        await pokerPlayerPay(player, maxBet);
 
-        pokerTurn().catch(error => console.log(error));
+        await pokerTurn();
     });
-    document.getElementById("fold-button").addEventListener("click", () => {
+
+    document.getElementById("fold-button").addEventListener("click", async () => {
         playerBetTurn = false;
         player.fold = true;
         playersIn.splice(playersIn.indexOf(playersIn[playerIndex()]), 1);
         pokerHideAllButtons();
         setOverlayText(player, "FOLD");
-        pokerTurn().catch(error => console.log(error));
+        await pokerTurn();
     });
-    document.getElementById("draw-button").addEventListener("click", () => {
-        pokerHideAllButtons();
+
+    document.getElementById("draw-button").addEventListener("click", async () => {
         //TODO draw button
     });
-    document.getElementById("stay-button").addEventListener("click", () => {
+
+    document.getElementById("stay-button").addEventListener("click", async () => {
         pokerHideAllButtons();
-        //TODO stay button
+        playerDrawTurn = false;
+        drawed++;
+        if (drawed === playersIn.length) {
+            round++;
+        }
+        currentPlayerIndex++;
+        if (currentPlayerIndex === playersIn.length) {
+            currentPlayerIndex = 0;
+        }
+        await pokerTurn();
     });
+
     document.getElementById("minus-button").addEventListener("click", () => {
-        //TODO minus button
+        tempBet--;
+        document.getElementById("poker-bet-amount").innerHTML = "Bet amount: " + tempBet;
+        if(tempBet === currentBet + 1 || tempBet <= minBet + 1){
+            document.getElementById("minus-button").style.display = "none";
+        }
     });
+
     document.getElementById("plus-button").addEventListener("click", () => {
-        //TODO plus button
+        tempBet++;
+        document.getElementById("poker-bet-amount").innerHTML = "Bet amount: " + tempBet;
+        if(tempBet === maxBet){
+            document.getElementById("plus-button").style.display = "none";
+        }
+        document.getElementById("minus-button").style.display = "block";
+    });
+
+    document.getElementById("cancel-button").addEventListener("click", () => {
+        document.getElementById("minus-button").style.display = "none";
+        document.getElementById("plus-button").style.display = "none";
+        document.getElementById("cancel-button").style.display = "none";
+        document.getElementById("bet-button").style.display = "none";
+        tempBet = currentBet;
+        document.getElementById("poker-bet-amount").innerHTML = "Bet amount: " + currentBet;
+        pokerShowMoneyTurnButtons();
     });
 }
 

@@ -133,6 +133,13 @@
     border-radius: 8px;
 }
 
+#poker-bet-amount {
+    height: 75%;
+    font-size: 1em;
+    font-family: Rockwell sans-serif;
+    width: 100%;
+}
+
 ::placeholder {
     color: black;
     opacity: 0.3;
