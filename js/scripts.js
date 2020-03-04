@@ -45,8 +45,8 @@ function openBlackjack() {
         return;
     }
 
-    //ORIGINAL let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/blackjack.txt";
-    let file = "txt/blackjack.txt";
+    let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/blackjack.txt";
+    //let file = "txt/blackjack.txt";
 
     fetch(file, {mode: "no-cors"})
         .then((response) => response.text())

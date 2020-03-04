@@ -103,7 +103,6 @@ function updateButtons() {
 function playBlackjack() {
     betAmount = document.querySelector("#bet-amount").value
     decrementMoney(betAmount)
-    updatePlayerMoney()
     new Promise(resolve => {
         //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT
         //NORMAL let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/"
@@ -139,6 +138,7 @@ function playBlackjack() {
         showButton("#hit-button")
         showButton("#stay-button")
         showButton("#double-button")
+        updatePlayerMoney()
 
     }).then(() => {
         if (mHouse.cards[1].value === "ACE") {
