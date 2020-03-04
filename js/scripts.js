@@ -48,7 +48,7 @@ function openBlackjack() {
     let file = "https://raw.githubusercontent.com/yostiq/card-project/master/txt/blackjack.txt";
     //let file = "txt/blackjack.txt";
 
-    fetch(file, {mode: "no-cors"})
+    fetch(file)
         .then((response) => response.text())
         .then((data) => document.getElementById("gameBackground").innerHTML = data)
         .then(() => {
