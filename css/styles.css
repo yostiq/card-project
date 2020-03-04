@@ -35,11 +35,26 @@ h2 {
     #logoName {
         display: none !important;
     }
+
     #header img {
-        width: 50% !important;
+        width: 40% !important;
     }
+
     #creators {
         display: none !important;
+    }
+}
+
+@media screen and (max-width: 1180px){
+    #ruleButtons {
+        flex-direction: column !important;
+        background-color: #FFE0B5 !important;
+        border-radius: 8px 8px  0 0;
+    }
+
+    #openHoldemRules, #openBjRules, #openPokerRules {
+        background-color: #FFE0B5 !important;
+        color: black !important;
     }
 }
 
