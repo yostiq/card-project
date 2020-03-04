@@ -27,6 +27,17 @@ h2 {
     color: #cd5334;
 }
 
+.spin {
+    animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
 #header img {
     width: 15%;
 }
@@ -45,11 +56,11 @@ h2 {
     }
 }
 
-@media screen and (max-width: 1180px){
+@media screen and (max-width: 1180px) {
     #ruleButtons {
         flex-direction: column !important;
         background-color: #FFE0B5 !important;
-        border-radius: 8px 8px  0 0;
+        border-radius: 8px 8px 0 0;
     }
 
     #openHoldemRules, #openBjRules, #openPokerRules {
@@ -105,7 +116,7 @@ h2 {
     padding-right: 1em;
 }
 
-#mainLinks a{
+#mainLinks a {
     line-height: 3em;
     padding: 0 0.75em;
     color: white;
@@ -355,7 +366,7 @@ input[type=text], input[type=password] {
     text-align: center;
 }
 
-#ruleButtons div:hover{
+#ruleButtons div:hover {
     cursor: pointer;
 }
 
