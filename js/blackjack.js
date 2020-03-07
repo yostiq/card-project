@@ -1,5 +1,5 @@
 let mCards = []
-let betAmount = 0
+let mBetAmount = 0
 let mInsured = false
 let mPlayer = {
     name: "player",
@@ -34,14 +34,31 @@ let mHouse = {
 }
 
 function bjPlayButton() {
-    playBlackjack()
-    document.getElementById("play-button").setAttribute("class", "hidden")
+    new Promise(resolve => {
+        updatePlayerMoney()
+        resolve()
+    }).then(() => {
+        mBetAmount = document.querySelector("#bet-amount").value
+        if (mBetAmount == "") {
+            mBetAmount = 0
+        }
+        if (mBetAmount < 0) {
+            alert("Bet amount cannot be negative")
+            return
+        } else if (mBetAmount > mPlayer.money) {
+            console.log(mPlayer.money)
+            alert("You don't have that much money")
+            return
+        }
+        playBlackjack()
+        document.getElementById("play-button").setAttribute("class", "hidden")
+        document.getElementById("reset-button").setAttribute("class", "hidden")
+    })
 }
 
 function bjResetButton() {
     resetBlackjack()
-    playBlackjack()
-    document.getElementById("reset-button").setAttribute("class", "hidden")
+    bjPlayButton()
 }
 
 function updatePlayerMoney() {
@@ -52,43 +69,55 @@ function updatePlayerMoney() {
         }).catch((error) => console.log(error))
 }
 
-function victory() {
-    incrementMoney(betAmount * 2)
+function victory(doubled) {
+    if (doubled) {
+        alert("You won " + (mBetAmount * 2) + " euros")
+    } else {
+        alert("You won " + mBetAmount + " euros")
+    }
+    incrementMoney(mBetAmount * 2)
     updatePlayerMoney()
     updateButtons()
-    console.log("won")
 }
 
-function tie() {
-    incrementMoney(betAmount)
+function tie(doubled) {
+    if (doubled) {
+        alert("You lost " + mBetAmount + " euros")
+    } else {
+        alert("You tied")
+    }
+    incrementMoney(mBetAmount)
     updateButtons()
-    console.log("tied")
 }
 
-function lost() {
+function lost(doubled) {
+    if (doubled) {
+        alert("You lost " + (mBetAmount * 2) + " euros")
+    } else {
+        alert("You lost " + mBetAmount + " euros")
+    }
     updateButtons()
-    console.log("lost")
 }
 
 function victorySplit() {
-    incrementMoney(betAmount * 2)
+    alert("You won your split for " + mBetAmount + " euros")
+    incrementMoney(mBetAmount * 2)
     updatePlayerMoney()
     hideButton("#hit-button-split")
     hideButton("#stay-button-split")
-    console.log("won split")
 }
 
 function tieSplit() {
-    incrementMoney(betAmount)
+    alert("You tied your split")
+    incrementMoney(mBetAmount)
     hideButton("#hit-button-split")
     hideButton("#stay-button-split")
-    console.log("tied split")
 }
 
 function lostSplit() {
+    alert("You lost your split for " + mBetAmount + " euros")
     hideButton("#hit-button-split")
     hideButton("#stay-button-split")
-    console.log("lost split")
 }
 
 function updateButtons() {
@@ -101,8 +130,7 @@ function updateButtons() {
 }
 
 function playBlackjack() {
-    betAmount = document.querySelector("#bet-amount").value
-    decrementMoney(betAmount)
+    decrementMoney(mBetAmount)
     new Promise(resolve => {
         //New deck let url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=" + DECKAMOUNT
         //NORMAL let url = "https://deckofcardsapi.com/api/deck/dkajikxjivr7/shuffle/"
@@ -261,15 +289,11 @@ function isAceInHand(player) {
 
 function resetBlackjack() {
     mCards = []
-    mPlayer = {
-        name: "player",
-        cards: [],
-        points: {
-            ace1: 0,
-            ace11: 0,
-            final: 0
-        }
-    }
+    mPlayer.cards = []
+    mPlayer.points.ace1 = 0
+    mPlayer.points.ace11 = 0
+    mPlayer.points.final = 0
+
     mPlayerSplit = {
         name: "playerSplit",
         cards: [],
@@ -298,6 +322,9 @@ function resetBlackjack() {
 }
 
 function hit() {
+    if (mPlayer.cards.length > 1) {
+        hideButton("#double-button")
+    }
     let promise = new Promise(resolve => {
         addToHand(mPlayer, 1)
         updateTableCards(mPlayer, false)
@@ -307,7 +334,7 @@ function hit() {
 
     promise.then(() => {
         if (mPlayer.points.ace1 > 21) {
-            lost()
+            lost(false)
         }
     })
 }
@@ -334,7 +361,7 @@ function stay(doubled) {
 
     if (mInsured && mHouse.cards[0].value === "10") {
         console.log("INSURANCE WON")
-        incrementMoney(betAmount * 1.5)
+        incrementMoney(mBetAmount * 1.5)
         mInsured = false
         window.alert()
     }
@@ -358,19 +385,15 @@ function stay(doubled) {
     }
 
     if (mPlayer.points.final > mHouse.points.final) {
-        victory()
-        if (doubled) {
-            victory()
-        }
+        if (doubled) victory(true)
+        else victory(false)
     } else if (mHouse.points.final > 21) {
-        victory()
-        if (doubled) {
-            victory()
-        }
+        if (doubled) victory(true)
+        else victory(false)
     } else if (mPlayer.points.final === mHouse.points.final) {
-        tie()
+        tie(doubled)
     } else {
-        lost()
+        lost(doubled)
     }
     showButton("#reset-button")
     updatePlayerMoney()
@@ -413,7 +436,7 @@ function staySplit() {
 }
 
 function double() {
-    decrementMoney(betAmount)
+    decrementMoney(mBetAmount)
     let promise = new Promise(resolve => {
         addToHand(mPlayer, 1)
         updateTableCards(mPlayer, false)
@@ -423,7 +446,7 @@ function double() {
 
     promise.then(() => {
         if (mPlayer.points.ace1 > 21) {
-            lost()
+            lost(true)
         } else {
             stay(true)
         }
@@ -431,13 +454,13 @@ function double() {
 }
 
 function insurance() {
-    decrementMoney(betAmount / 2)
+    decrementMoney(mBetAmount / 2)
     mInsured = true
     hideButton("#insurance-button")
 }
 
 function split() {
-    decrementMoney(betAmount)
+    decrementMoney(mBetAmount)
     hideButton("#split-button")
     showButton("#hit-button-split")
     showButton("#stay-button-split")
